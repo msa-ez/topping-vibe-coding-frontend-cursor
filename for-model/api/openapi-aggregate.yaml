@@ -77,6 +77,7 @@ paths:
     summary: Specific operation on {{namePlural}}
     get:
       parameters:
+      {{#../source.examples}}
       - examples:
           {{map @root.contexts.examples aggregateRoot.keyFieldDescriptor.className}}:
             value: {{map @root.contexts.examples aggregateRoot.keyFieldDescriptor.className}}
@@ -86,6 +87,7 @@ paths:
           type: {{map @root.contexts.mappings aggregateRoot.keyFieldDescriptor.className}}
         in: path
         required: true
+      {{/../source.examples}}
       responses:
         "200":
           content:
@@ -120,6 +122,7 @@ paths:
             {{/../source.examples}}
         required: true
       parameters:
+      {{#../source.examples}}
       - examples:
           1:
             value: 1
@@ -129,7 +132,8 @@ paths:
           type: {{map @root.contexts.mappings aggregateRoot.keyFieldDescriptor.className}}
         in: path
         required: true
-      responses:
+      {{/../source.examples}}
+        responses:
         "200":
           content:
             application/json:
