@@ -1,6 +1,8 @@
 ---
 alwaysApply: false
 ---
+UI에 대한 흐름 및 요구사항은 `@frontend-ui-requirments`를 참고해야합니다.
+
 ## Command
 
 1. 참조 메타데이터
