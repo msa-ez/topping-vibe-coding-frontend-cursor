@@ -29,6 +29,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/{{namePascalCase}}'
+              {{#../source.examples}}
               examples:
                 {{namePlural}}_json:
                   value:
@@ -36,6 +37,7 @@ paths:
                   {{#aggregateRoot.fieldDescriptors}}
                     {{name}}: {{map @root.contexts.examples className}}
                   {{/aggregateRoot.fieldDescriptors}}
+              {{/../source.examples}}
           description: Get list of {{namePlural}}
       operationId: Get{{namePascalCase}}
       summary: Get list of {{namePlural}}
@@ -45,12 +47,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/{{namePascalCase}}'
+            {{#../source.examples}}
             examples:
               1:
                 value:
                 {{#aggregateRoot.fieldDescriptors}}
                   {{name}}: {{map @root.contexts.examples className}}
                 {{/aggregateRoot.fieldDescriptors}}
+            {{/../source.examples}}
         required: true
       responses:
         "200":
@@ -58,12 +62,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/{{namePascalCase}}'
+              {{#../source.examples}}
               examples:
                 1:
                   value:
                   {{#aggregateRoot.fieldDescriptors}}
                     {{name}}: {{map @root.contexts.examples className}}
                   {{/aggregateRoot.fieldDescriptors}}
+              {{/../source.examples}}
           description: Changed {{namePascalCase}}
       operationId: Post {{namePascalCase}}
       summary: Post {{namePascalCase}}        
@@ -86,12 +92,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/{{namePascalCase}}'
+              {{#../source.examples}}
               examples:
                 1:
                   value:
                   {{#aggregateRoot.fieldDescriptors}}
                     {{name}}: {{map @root.contexts.examples className}}
                   {{/aggregateRoot.fieldDescriptors}}
+              {{/../source.examples}}
           description: {{namePlural}} with specified id
       operationId: Get{{namePascalCase}}ById
       summary: Get {{namePascalCase}} by id
@@ -102,12 +110,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/{{namePascalCase}}'
+            {{#../source.examples}}
             examples:
               1:
                 value:
                 {{#aggregateRoot.fieldDescriptors}}
                   {{name}}: {{map @root.contexts.examples className}}
                 {{/aggregateRoot.fieldDescriptors}}
+            {{/../source.examples}}
         required: true
       parameters:
       - examples:
@@ -125,12 +135,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/{{namePascalCase}}'
+              {{#../source.examples}}
               examples:
                 1:
                   value:
                   {{#aggregateRoot.fieldDescriptors}}
                     {{name}}: {{map @root.contexts.examples className}}
                   {{/aggregateRoot.fieldDescriptors}}
+              {{/../source.examples}}
           description: Changed {{namePascalCase}}
       operationId: Patch{{namePascalCase}}
       summary: Patch existing {{namePascalCase}}

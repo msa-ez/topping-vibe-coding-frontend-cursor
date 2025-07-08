@@ -37,9 +37,9 @@ paths:
 
 <function>
  
-    let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") && this.target.dataProjection==("query-for-aggregate")))
-    let isPostInvcation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
-    let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
+    let isGetInvocation = ((this.target._type.endsWith("Command") || this.target._type.endsWith("Policy")) && (this.source._type.endsWith("View") && this.source.dataProjection==("query-for-aggregate")))
+    let isPostInvcation = ((this.target._type.endsWith("Event") || this.target._type.endsWith("Policy")) && this.source._type.endsWith("Command"))
+    let isExternalInvocation = (this.target.boundedContext.name != this.source.boundedContext.name)
 
     this.contexts.except = !(isExternalInvocation && isGetInvocation)
 
