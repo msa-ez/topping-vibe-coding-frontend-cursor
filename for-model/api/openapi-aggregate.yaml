@@ -153,10 +153,34 @@ paths:
 {{/aggregates}}
 {{/if}}
 {{/boundedContexts}}
-
+{{#boundedContexts}}
+{{#if aggregates}}
+{{#aggregates}}
+components:
+  schemas:
+    {{namePascalCase}}:
+      title: Root Type for {{namePascalCase}}
+      description: The root of the {{namePascalCase}} type's schema.
+      type: object
+      properties:
+      {{#aggregateRoot.fieldDescriptors}}
+        {{name}}:
+          description: {{name}} of this {{../namePascalCase}}
+          type: {{map @root.contexts.mappings className}}
+      {{/aggregateRoot.fieldDescriptors}}
+      example:
+      {{#aggregateRoot.fieldDescriptors}}
+        {{name}}: {{map @root.contexts.examples className}}
+      {{/aggregateRoot.fieldDescriptors}}
+tags:
+- name: {{namePascalCase}}
+  description: {{namePascalCase}} resource
+{{/aggregates}}
+{{/if}}
+{{/boundedContexts}}
 
 <function>
-
+ 
     this.contexts.mappings = [
       {
         "if":['Double', 'double', 'BigDecimal', 'float'],
