@@ -1,1 +1,0 @@
-# topping-vibe-coding
