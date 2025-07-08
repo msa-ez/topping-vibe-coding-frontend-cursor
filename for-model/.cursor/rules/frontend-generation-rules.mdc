@@ -8,7 +8,7 @@ BoundedContext별 PRD에 따른 frontend 구성 시, 반드시 다음 순서를 
 
 1. Frontend 폴더 생성: 모든 frontend 관련 파일 생성 전에 먼저 `frontend` 폴더를 생성해야 합니다.
 2. BC별 통합 구조: 모든 BoundedContext({{#boundedContexts}}{{name}}{{^@last}}, {{/@last}}{{/boundedContexts}})의 frontend 파일들은 하나의 `frontend` 폴더 하위에 구성되어야 합니다.
-3. 구조 준수: `@package-structure`에 정의된 통합 frontend 구조를 반드시 따라야 합니다.
+3. 구조 준수: `@frontend-package-structure`에 정의된 통합 frontend 구조를 반드시 따라야 합니다.
 
 프로젝트 생성 순서
 프로젝트는 프롬프트에 따라 다음 순서로 반드시 생성 및 진행 되어야 합니다:
@@ -38,7 +38,7 @@ Frontend 폴더 생성 -> 프로젝트 구조 생성 -> 컴포넌트 및 Composa
 3. 패키지 구조는 반드시 package-structure.mdc를 기반으로 생성되어야 합니다.
 4. 프로젝트 구성을 위한 기술 요구사항, 프레임워크 및 아키텍처는 반드시 `@technical-stack`를 기반으로 생성되어야 합니다.
 5. 모든 파일은 반드시 메타데이터를 기반으로 생성되어야 하며, 메타데이터에 포함되지 않은 데이터를 기반으로 생성되어서는 안 됩니다.
-6. 파일 생성 시 `@eventstorming-sticker-based-rules`의 요구사항을 따라야 합니다.
+6. 파일 생성 시 `@frontend-eventstorming-sticker-based-rules`의 요구사항을 따라야 합니다.
 
 ## BC별 Frontend 통합 구성 원칙
 - **단일 Frontend 프로젝트**: 모든 BC가 하나의 frontend 프로젝트로 통합 관리됩니다.
