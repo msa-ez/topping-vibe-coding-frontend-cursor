@@ -3,7 +3,8 @@ fileName: UIRequirements.txt
 except: {{#checkFE this}}{{/checkFE}}
 path: for-model/ui
 ---
-아래의 UI 요구사항을 기반으로 Frontend의 UI를 구성해주세요:
+
+아래의 UI 요구사항을 기반으로 Frontend의 UI를 구성해주세요.
 
 {{#boundedContexts}}{{description}}{{/boundedContexts}}
 
