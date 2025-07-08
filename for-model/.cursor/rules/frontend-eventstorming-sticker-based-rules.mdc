@@ -4,6 +4,9 @@ alwaysApply: false
 UI에 대한 흐름 및 요구사항은 `@frontend-ui-requirments`를 참고해야합니다.
 
 ## Command
+0. 필수 참고사항
+반드시 api/openapi.yaml 파일을 참고하여 axios호출로 진행 및 UI 구성을 해야합니다.
+
 
 1. 참조 메타데이터
 Command는 'commands' 메타데이터를 사용하며, UI에서 버튼 형태로 구현됩니다. 각 Command는 사용자 액션을 트리거하는 버튼 컴포넌트로 생성됩니다.
@@ -30,8 +33,6 @@ Backend JPA Repository 기반 기본 CUD 버튼 생성:
 - Create Button: 새로운 데이터 생성을 위한 버튼 (POST /{aggregate.namePlural})
 - Update Button: 기존 데이터 수정을 위한 버튼 (PUT /{aggregate.namePlural}/{id})
 - Delete Button: 데이터 삭제를 위한 버튼 (DELETE /{aggregate.namePlural}/{id})
-
-api.openapi.yaml 파일을 참고하여 axios호출로 진행 및 UI 구성
 
 Command 메타데이터 기반 추가 버튼 생성:
 - isRestRepository 데이터를 확인하여 버튼 생성 여부 결정
