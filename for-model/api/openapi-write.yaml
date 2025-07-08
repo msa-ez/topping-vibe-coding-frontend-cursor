@@ -1,5 +1,6 @@
 forEach: Relation
 fileName: openapi.yaml
+except: {{contexts.except}}
 ifDuplicated: merge
 ---
 paths:
