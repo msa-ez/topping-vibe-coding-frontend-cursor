@@ -22,7 +22,7 @@ paths:
               {{#fieldDescriptors}}
                 {{name}}:
                   description: {{name}} of this {{../namePascalCase}}
-                  type: {{map @root.contexts.mappings className}}
+                  type: {{#changeType className}}{{/changeType}}
               {{/fieldDescriptors}}
             {{#if examples}}
             examples:
@@ -39,7 +39,7 @@ paths:
       - name: id
         description: {{namePascalCase}} name
         schema:
-          type: {{map @root.contexts.mappings aggregate.aggregateRoot.keyFieldDescriptor.className}}
+          type: {{#changeType aggregate.aggregateRoot.keyFieldDescriptor.className}}{{/changeType}}
         in: path
         required: true
         examples:
@@ -74,7 +74,7 @@ paths:
                 1:
                   value:
                   {{#aggregate.aggregateRoot.fieldDescriptors}}
-                    {{name}}: {{map @root.contexts.examples className}}
+                    {{name}}: {{#changeType className}}{{/changeType}}
                   {{/aggregate.aggregateRoot.fieldDescriptors}}
               {{/examples}}
           description: {{namePascalCase}} Operation
@@ -97,42 +97,18 @@ paths:
       return '/' + command.apiPath;
     }
   })
-    
-  this.contexts.command = this.target
 
-  this.contexts.mappings = [
-    {
-      "if":['Double', 'double', 'BigDecimal', 'float'],
-      "then":'number'
-    },
-    {
-      "if":['Integer', 'integer', 'Long', 'long'],
-      "then": 'integer'
-    },
-    {
-      "if":['String'],
-      "then": 'string'
-    },
-    {
-      "default": 'string'
+  window.$HandleBars.registerHelper('changeType', function (type) {
+    if (type === 'Double' || type === 'double' || type === 'BigDecimal' || type === 'float') {
+      return 'number';
     }
-  ]
+    if (type === 'Integer' || type === 'integer' || type === 'Long' || type === 'long') {
+      return 'integer';
+    }
+    if (type === 'String') {
+      return 'string';
+    }
+    return 'string';
+  })
 
-  this.contexts.examples = [
-    {
-      "if":['Double', 'double', 'BigDecimal', 'float'],
-      "then":1.1
-    },
-    {
-      "if":['Integer', 'integer', 'Long', 'long'],
-      "then": 1
-    },
-    {
-      "if":['String'],
-      "then": 'A string'
-    },
-    {
-      "default": 'value'
-    }
-  ]
 </function>
