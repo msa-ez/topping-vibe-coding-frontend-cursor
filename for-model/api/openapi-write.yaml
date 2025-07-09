@@ -92,10 +92,6 @@ paths:
     
     this.contexts.command = this.target
 
-    if(!this.contexts.except){
-      this.contexts.jsonPathForId = "$." + this.contexts.command.aggregate.aggregateRoot.keyFieldDescriptor.name
-    }
-
     this.contexts.mappings = [
       {
         "if":['Double', 'double', 'BigDecimal', 'float'],
