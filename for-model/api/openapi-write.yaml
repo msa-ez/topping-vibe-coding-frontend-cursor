@@ -10,8 +10,8 @@ ifDuplicated: merge
 {{if isRestRepository}}
 {{else}}
 paths:
-  /{{aggregate.namePlural}}/{id}{{#if (controllerInfo.method == 'POST')}}{{controllerInfo.apiPath}}{{else}}/{{controllerInfo.apiPath}}{{/if}}:
-    summary: {{name}} operation on {{aggregate.namePlural}}
+  /{{#aggregate}}{{namePlural}}{{/aggregate}}/{id}{{#if (controllerInfo.method == 'POST')}}{{controllerInfo.apiPath}}{{else}}/{{controllerInfo.apiPath}}{{/if}}:
+    summary: {{name}} operation on {{#aggregate}}{{namePlural}}{{/aggregate}}
     {{controllerInfo.method}}:
       requestBody:
         content:
