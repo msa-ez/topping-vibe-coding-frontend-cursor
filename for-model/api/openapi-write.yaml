@@ -7,7 +7,7 @@ ifDuplicated: merge
 {{#aggregates}}
 {{#if commands}}
 {{#commands}}
-{{if isRestRepository}}
+{{#if isRestRepository}}
 {{else}}
 paths:
   /{{#aggregate}}{{namePlural}}{{/aggregate}}/{id}{{#checkMethod controllerInfo}}{{/checkMethod}}:
