@@ -1,5 +1,4 @@
 ---
-
 alwaysApply: false
 ---
 
@@ -192,8 +191,7 @@ SubMenu.vue
 
 메인페이지 카드 UI 구성:
 - 메타데이터 기반 BoundedContext명 동적 표시 (contextKey 활용)
-- 해당 컨텍스트 내 Aggregate 개수 동적 표시
+- 해당 컨텍스트 내 Aggregate 개수에 따른 서브메뉴 구성 및 라우팅 처리 필요
 - Aggregate 목록 미리보기 (aggregate.displayName 또는 aggregate.name 활용)
 - 클릭 시 첫 번째 Aggregate의 namePlural 기반 List 페이지로 이동
 - PRD 변경 시 자동으로 반영되는 범용적 구조
-- When parameters from views or ReadModels exist, write query statements referencing queryOption
