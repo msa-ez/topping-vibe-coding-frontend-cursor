@@ -1,6 +1,6 @@
 except: {{#checkFE this}}{{/checkFE}}
 ---
-Please implement Vue3 Frontend application code for an event storming model-based domain using Vue 3, TypeScript, and Pinia state management. The code must be implemented strictly based on the metadata provided below, following Component-Based Architecture patterns and MVVM design:
+Please implement Vue3 Frontend application code for an event storming model-based domain using Vue 3, TypeScript, and Pinia state management. The code must be implemented strictly based on the metadata provided below, following Component-Based Architecture patterns and MVVM design and @frontend-generation-rules:
 
 {{namePascalCase}} Metadata:
 {{{contexts.json}}}
