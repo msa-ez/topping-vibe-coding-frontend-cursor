@@ -10,7 +10,7 @@ ifDuplicated: merge
 {{if isRestRepository}}
 {{else}}
 paths:
-  /{{#aggregate}}{{namePlural}}{{/aggregate}}/{id}{{#if (controllerInfo.method 'POST')}}{{controllerInfo.apiPath}}{{else}}/{{controllerInfo.apiPath}}{{/if}}:
+  /{{#aggregate}}{{namePlural}}{{/aggregate}}/{id}{{#checkMethod controllerInfo}}{{/checkMethod}}:
     summary: {{name}} operation on {{#aggregate}}{{namePlural}}{{/aggregate}}
     {{controllerInfo.method}}:
       requestBody:
@@ -89,43 +89,50 @@ paths:
 {{/boundedContexts}}
 
 <function>
+
+  window.$HandleBars.registerHelper('checkMethod', function (command) {
+    if(command.method == 'POST'){
+      return command.apiPath;
+    }else{
+      return '/' + command.apiPath;
+    }
+  })
     
-    this.contexts.command = this.target
+  this.contexts.command = this.target
 
-    this.contexts.mappings = [
-      {
-        "if":['Double', 'double', 'BigDecimal', 'float'],
-        "then":'number'
-      },
-      {
-        "if":['Integer', 'integer', 'Long', 'long'],
-        "then": 'integer'
-      },
-      {
-        "if":['String'],
-        "then": 'string'
-      },
-      {
-        "default": 'string'
-      }
-    ]
+  this.contexts.mappings = [
+    {
+      "if":['Double', 'double', 'BigDecimal', 'float'],
+      "then":'number'
+    },
+    {
+      "if":['Integer', 'integer', 'Long', 'long'],
+      "then": 'integer'
+    },
+    {
+      "if":['String'],
+      "then": 'string'
+    },
+    {
+      "default": 'string'
+    }
+  ]
 
-    this.contexts.examples = [
-      {
-        "if":['Double', 'double', 'BigDecimal', 'float'],
-        "then":1.1
-      },
-      {
-        "if":['Integer', 'integer', 'Long', 'long'],
-        "then": 1
-      },
-      {
-        "if":['String'],
-        "then": 'A string'
-      },
-      {
-        "default": 'value'
-      }
-    ]
-
+  this.contexts.examples = [
+    {
+      "if":['Double', 'double', 'BigDecimal', 'float'],
+      "then":1.1
+    },
+    {
+      "if":['Integer', 'integer', 'Long', 'long'],
+      "then": 1
+    },
+    {
+      "if":['String'],
+      "then": 'A string'
+    },
+    {
+      "default": 'value'
+    }
+  ]
 </function>
