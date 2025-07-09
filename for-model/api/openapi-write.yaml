@@ -1,6 +1,7 @@
 forEach: Model
 fileName: openapi.yaml
 ifDuplicated: merge
+except: true
 ---
 {{#boundedContexts}}
 {{#if aggregates}}
