@@ -1,13 +1,19 @@
-forEach: Relation
+forEach: Model
 fileName: openapi.yaml
-except: true
+except: {{contexts.except}}
 ifDuplicated: merge
 ---
+{{#boundedContexts}}
+{{#if aggregates}}
+{{#aggregates}}
+{{#if commands}}
+{{#commands}}
+{{if isRestRepository}}
+{{else}}
 paths:
-{{#contexts.command}}
-  /{{aggregate.namePlural}}/{id}/{{controllerInfo.apiPath}}:
+  /{{aggregate.namePlural}}/{id}{{#if (controllerInfo.method == 'POST')}}{{controllerInfo.apiPath}}{{else}}/{{controllerInfo.apiPath}}{{/if}}:
     summary: {{name}} operation on {{aggregate.namePlural}}
-    {{url controllerInfo.method}}:
+    {{controllerInfo.method}}:
       requestBody:
         content:
           application/json:
@@ -19,6 +25,7 @@ paths:
                   description: {{name}} of this {{../namePascalCase}}
                   type: {{map @root.contexts.mappings className}}
               {{/fieldDescriptors}}
+            {{#if examples}}
             examples:
             {{#examples}}
               Example {{@index}}:   
@@ -37,18 +44,17 @@ paths:
         in: path
         required: true
         examples:
-        {{#examples}}
+        {{#if examples}}
+          {{#examples}}
           Example {{@index}}:   
-        {{#when}}
+            {{#when}}
             value:
-              {{#value}}
-              {{#jp @root.contexts.jsonPathForId}}
-                {{this}}
-              {{/jp}}
-              {{/value}}
-              
-        {{/when}}
-        {{/examples}}      
+              {{#each value}}
+              {{@key}}: {{this}}
+            {{/each}}
+          {{/when}}
+        {{/examples}}
+        {{/if}}
       responses:
         "200":
           content:
@@ -76,13 +82,18 @@ paths:
       operationId: {{namePascalCase}}
       summary: {{namePascalCase}}
       description: {{namePascalCase}}
-{{/contexts.command}}
+{{/if}}
+{{/commands}}
+{{/if}}
+{{/aggregates}}
+{{/if}}
+{{/boundedContexts}}
 
 <function>
  
     let isGetInvocation = ((this.source._type.endsWith("Command") || this.source._type.endsWith("Policy")) && (this.target._type.endsWith("View") || this.target._type.endsWith("Aggregate")))
     let isPostInvocation = ((this.source._type.endsWith("Event") || this.source._type.endsWith("Policy")) && this.target._type.endsWith("Command"))
-    let isExternalInvocation = (this.source.boundedContext.name != this.target.boundedContext.name)
+    let isExternalInvocation = ((this.source.boundedContext.name != this.target.boundedContext.name) || (this.source.boundedContext.name == this.target.boundedContext.name))
 
     this.contexts.except = !(isExternalInvocation && isPostInvocation)
     this.contexts.command = this.target
