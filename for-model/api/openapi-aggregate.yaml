@@ -1,4 +1,5 @@
 forEach: Model
+filePath: api
 fileName: openapi.yaml
 ifDuplicated: merge
 ---
