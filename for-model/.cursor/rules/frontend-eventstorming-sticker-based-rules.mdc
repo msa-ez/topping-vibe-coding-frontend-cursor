@@ -1,11 +1,13 @@
 ---
+
 alwaysApply: false
 ---
+
 UI에 대한 흐름 및 요구사항은 `@frontend-ui-requirments`를 참고해야합니다.
 
 ## Command
 0. 필수 참고사항
-반드시 api/openapi.yaml 파일을 참고하여 axios호출로 진행 및 UI 구성을 해야합니다.
+반드시 api/openapi.yaml 파일을 참고하여 axios호출로 진행 및 버튼 구성을 해야합니다.
 
 
 1. 참조 메타데이터
@@ -29,16 +31,7 @@ CommandComposable.ts
 - 폼 데이터 유효성 검사 (VeeValidate 활용)
 
 3. 버튼 생성 규칙
-Backend JPA Repository 기반 기본 CUD 버튼 생성:
-- Create Button: 새로운 데이터 생성을 위한 버튼 (POST /{aggregate.namePlural})
-- Update Button: 기존 데이터 수정을 위한 버튼 (PUT /{aggregate.namePlural}/{id})
-- Delete Button: 데이터 삭제를 위한 버튼 (DELETE /{aggregate.namePlural}/{id})
-
-Command 메타데이터 기반 추가 버튼 생성:
-- isRestRepository 데이터를 확인하여 버튼 생성 여부 결정
-- isRestRepository가 true가 아닌 경우에만 controllerInfo를 참조하여 추가 버튼 생성
-- controllerInfo의 endpoint와 method 정보를 활용하여 커스텀 버튼 생성
-- 커스텀 버튼 endpoint: /{aggregate.namePlural}/{controllerInfo.apiPath}
+Backend JPA Repository 기반으로 동작되며 반드시 api/openapi.yaml을 바탕으로 path와 method type을 파악하여 버튼생성을 해야한다.
 
 버튼 생성 로직:
 ```typescript
@@ -167,11 +160,11 @@ const BoundedContextCard = {
   props: ['contextName', 'contextPath', 'aggregates'],
   template: `
     <div class="context-card" @click="navigateToContext">
-      <h3>{{ contextName }}</h3>
-      <p>{{ aggregates.length }} Aggregates</p>
+      <h3></h3>
+      <p> Aggregates</p>
       <ul>
         <li v-for="aggregate in aggregates" :key="aggregate.name">
-          {{ aggregate.displayName }}
+          
         </li>
       </ul>
     </div>
@@ -195,42 +188,7 @@ SubMenu.vue
 - 메인페이지로 돌아가기 버튼
 
 3. 라우팅 구조
-메타데이터 기반 동적 라우팅 구성:
-
-```typescript
-// 메타데이터 기반 동적 라우터 설정
-const generateRoutes = (boundedContextsMetadata) => {
-  const routes = [
-    { path: '/', component: MainDashboard }
-  ];
-
-  // BoundedContext별 동적 라우트 생성
-  Object.keys(boundedContextsMetadata).forEach(contextKey => {
-    const contextPath = contextKey.toLowerCase();
-    const contextAggregates = boundedContextsMetadata[contextKey].aggregates || [];
-    
-    contextAggregates.forEach(aggregate => {
-      const aggregatePath = aggregate.namePlural.toLowerCase();
-      routes.push(
-        { path: \`/\${contextPath}/\${aggregatePath}\`, component: AggregateListView, 
-          props: { boundedContext: contextKey, aggregate: aggregate.name } },
-        { path: \`/\${contextPath}/\${aggregatePath}/:id\`, component: AggregateDetailView,
-          props: { boundedContext: contextKey, aggregate: aggregate.name } }
-      );
-    });
-  });
-
-  return routes;
-};
-
-// BoundedContext 카드 클릭 시 네비게이션
-const navigateToBoundedContext = (contextName: string, aggregates: any[]) => {
-  if (aggregates.length > 0) {
-    const firstAggregate = aggregates[0];
-    router.push(\`/\${contextName.toLowerCase()}/\${firstAggregate.namePlural.toLowerCase()}\`);
-  }
-};
-```
+메타데이터 기반 동적 라우팅 구성하되, 생성된 서비스별 Aggregate Vue파일을 참고하여 라우팅구성 진행을 해야하며, 루트라우팅은 App.vue로 지정한다.
 
 메인페이지 카드 UI 구성:
 - 메타데이터 기반 BoundedContext명 동적 표시 (contextKey 활용)

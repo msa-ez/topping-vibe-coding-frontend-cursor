@@ -1,19 +1,19 @@
 ---
-alwaysApply: false
+alwaysApply: true
 ---
 Vue3 Frontend 프로젝트를 다음 요구사항에 따라 생성하세요:
 
 ## Frontend 프로젝트 생성 전제조건
-BoundedContext별 PRD에 따른 frontend 구성 시, 반드시 다음 순서를 따라야 합니다:
+BoundedContext별 PRD에 따른 frontend 구성 시, 반드시 다음의 요구사항을 따라야 합니다:
 
 1. Frontend 폴더 생성: 모든 frontend 관련 파일 생성 전에 먼저 `frontend` 폴더를 생성해야 합니다.
-2. BC별 통합 구조: 모든 BoundedContext({{#boundedContexts}}{{name}}{{^@last}}, {{/@last}}{{/boundedContexts}})의 frontend 파일들은 하나의 `frontend` 폴더 하위에 구성되어야 합니다.
+2. BC별 통합 구조: 모든 BoundedContext(order, delivery, product, ui)의 frontend 파일들은 하나의 `frontend` 폴더 하위에 구성되어야 합니다.
 3. 구조 준수: `@frontend-package-structure`에 정의된 통합 frontend 구조를 반드시 따라야 합니다.
 
 프로젝트 생성 순서
 프로젝트는 프롬프트에 따라 다음 순서로 반드시 생성 및 진행 되어야 합니다:
 
-Frontend 폴더 생성 -> 프로젝트 구조 생성 -> 컴포넌트 및 Composables 파일 생성 -> package.json 및 설정 파일 생성 -> main.ts 및 App.vue 생성 -> node_module 설치 및 실행 -> 오류 수정
+Frontend 폴더 생성 -> 프로젝트 구조 생성 -> 컴포넌트 및 Composables 파일 생성 -> package.json 및 설정 파일 생성 -> main.ts 및 App.vue 생성 -> 오류 수정 -> node_module 설치 및 실행 
 
 파일 생성 순서
 한 번에 모든 것을 요청하지 말고, 아래 요구사항에 따라 순차적으로 코드를 생성해 주세요:
@@ -33,15 +33,15 @@ Frontend 폴더 생성 -> 프로젝트 구조 생성 -> 컴포넌트 및 Composa
 모든 파일은 오류를 수정하기 전에 요구사항에 따라 생성되어야 합니다. 파일 생성 중 오류 수정에 빠져 무한 루프에 빠지지 마세요.
 
 프로젝트 생성 요구사항
-1. Frontend 폴더 우선 생성: BC별 PRD 기반 frontend 구성 시, 반드시 먼저 `frontend` 폴더를 생성해야 합니다.
-2. 프로젝트 생성 시 Root 디렉토리의 기존 파일들을 참조하지 마세요. 파일들은 메타데이터에 정의된 폴더 구조를 기반으로만 생성되어야 합니다.
-3. 패키지 구조는 반드시 package-structure.mdc를 기반으로 생성되어야 합니다.
+1. 프로젝트 생성 시 Root 디렉토리의 기존 파일들을 참조하지 마세요. 파일들은 메타데이터에 정의된 폴더 구조를 기반으로만 생성되어야 합니다.
+3. 패키지 구조는 반드시 `@package-structure.mdc`를 기반으로 생성되어야 합니다.
 4. 프로젝트 구성을 위한 기술 요구사항, 프레임워크 및 아키텍처는 반드시 `@technical-stack`를 기반으로 생성되어야 합니다.
 5. 모든 파일은 반드시 메타데이터를 기반으로 생성되어야 하며, 메타데이터에 포함되지 않은 데이터를 기반으로 생성되어서는 안 됩니다.
 6. 파일 생성 시 `@frontend-eventstorming-sticker-based-rules`의 요구사항을 따라야 합니다.
+7. 모든 파일 생성이 완료된 후, 구성된 파일에 발생하는 오류를 수정한 후, node_module 설치 및 실행을 진행해야합니다.
 
 ## BC별 Frontend 통합 구성 원칙
-- **단일 Frontend 프로젝트**: 모든 BC가 하나의 frontend 프로젝트로 통합 관리됩니다.
-- **BC별 모듈화**: 각 BC의 컴포넌트, 서비스, 스토어는 BC별 폴더에서 격리 관리됩니다.
-- **공통 자원 공유**: 공통 컴포넌트, 유틸리티, 스타일은 common 폴더에서 공유됩니다.
-- **독립적 라우팅**: 각 BC는 독립적인 라우트를 가지되, 메인 라우터에서 통합됩니다.Vue3 Frontend 프로젝트를 다음 요구사항에 따라 생성하세요:
+- 단일 Frontend 프로젝트: 모든 BC가 하나의 frontend 프로젝트로 통합 관리됩니다.
+- BC별 모듈화: 각 BC의 컴포넌트, 서비스, 스토어는 BC별 폴더에서 격리 관리됩니다.
+- 공통 자원 공유: 공통 컴포넌트, 유틸리티, 스타일은 common 폴더에서 공유됩니다.
+- 독립적 라우팅: 각 BC는 독립적인 라우트를 가지되, 메인 라우터에서 통합됩니다.Vue3 Frontend 프로젝트를 다음 요구사항에 따라 생성하세요:
