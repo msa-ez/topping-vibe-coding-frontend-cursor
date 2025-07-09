@@ -28,12 +28,12 @@ paths:
             examples:
             {{#examples}}
               Example {{@index}}:   
-            {{#when}}
+              {{#when}}
                 value:
                 {{#each value}}
                   {{@key}}: {{this}}
                 {{/each}}
-            {{/when}}
+              {{/when}}
             {{/examples}}      
             {{/if}}
       parameters:
@@ -73,13 +73,6 @@ paths:
               {{/then}}
               {{/examples}}
               {{/if}}
-              {{^examples}}
-                1:
-                  value:
-                  {{#aggregate.aggregateRoot.fieldDescriptors}}
-                    {{name}}: {{#changeType className}}{{/changeType}}
-                  {{/aggregate.aggregateRoot.fieldDescriptors}}
-              {{/examples}}
           description: {{namePascalCase}} Operation
       operationId: {{namePascalCase}}
       summary: {{namePascalCase}}
