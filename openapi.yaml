@@ -1,6 +1,7 @@
 forEach: BoundedContext
 fileName: openapi.yaml
-path: {{nameCamelCase}}/
+path: {{nameCamelCase}}
+except:{{#checkFE name}}{{/checkFE}}
 ifDuplicated: merge
 ---
 
@@ -257,6 +258,14 @@ tags:
       return command.apiPath;
     }else{
       return '/' + command.apiPath;
+    }
+  })
+
+  window.$HandleBars.registerHelper('checkFE', function (name) {
+    if(name == 'ui' || name == 'frontend' || name == 'UI' || name == 'Frontend'){
+      return true;
+    }else{
+      return false;
     }
   })
 
