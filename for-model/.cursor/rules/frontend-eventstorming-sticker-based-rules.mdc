@@ -6,7 +6,7 @@ UI에 대한 흐름 및 요구사항은 `@frontend-ui-requirments`를 참고해�
 
 ## Command
 0. 필수 참고사항
-반드시 api/openapi.yaml 파일을 참고하여 axios호출로 진행 및 버튼 구성을 해야합니다.
+반드시 각 서비스별 openapi.yaml 파일을 참고하여 axios호출로 진행 및 버튼 구성을 해야합니다.
 
 
 1. 참조 메타데이터
