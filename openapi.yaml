@@ -1,6 +1,6 @@
 forEach: BoundedContext
 fileName: openapi.yaml
-filePath: {{nameCamelCase}}/
+path: {{nameCamelCase}}/
 ifDuplicated: merge
 ---
 
