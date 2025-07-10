@@ -1,4 +1,4 @@
-forEach: Model
+forEach: BoundedContext
 fileName: openapi.yaml
 ifDuplicated: merge
 ---
@@ -16,7 +16,6 @@ info:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 paths:
-{{#boundedContexts}}
 {{#if aggregates}}
 {{#aggregates}}
   /{{namePlural}}:
@@ -150,42 +149,10 @@ paths:
         type: {{map @root.contexts.mappings aggregateRoot.keyFieldDescriptor.className}}
       in: path
       required: true
-{{/aggregates}}
-{{/if}}
-{{/boundedContexts}}
-{{#boundedContexts}}
-{{#if aggregates}}
-{{#aggregates}}
-components:
-  schemas:
-    {{namePascalCase}}:
-      title: Root Type for {{namePascalCase}}
-      description: The root of the {{namePascalCase}} type's schema.
-      type: object
-      properties:
-      {{#aggregateRoot.fieldDescriptors}}
-        {{name}}:
-          description: {{name}} of this {{../namePascalCase}}
-          type: {{map @root.contexts.mappings className}}
-      {{/aggregateRoot.fieldDescriptors}}
-      example:
-      {{#aggregateRoot.fieldDescriptors}}
-        {{name}}: {{map @root.contexts.examples className}}
-      {{/aggregateRoot.fieldDescriptors}}
-tags:
-- name: {{namePascalCase}}
-  description: {{namePascalCase}} resource
-{{/aggregates}}
-{{/if}}
-{{/boundedContexts}}
-{{#boundedContexts}}
-{{#if aggregates}}
-{{#aggregates}}
-{{#if commands}}
-{{#commands}}
-{{#if isRestRepository}}
-{{else}}
-paths:
+    {{#if commands}}
+    {{#commands}}
+    {{#if isRestRepository}}
+    {{else}}
   /{{#aggregate}}{{namePlural}}{{/aggregate}}/{id}{{#checkMethod controllerInfo}}{{/checkMethod}}:
     summary: {{name}} operation on {{#aggregate}}{{namePlural}}{{/aggregate}}
     {{controllerInfo.method}}:
@@ -253,12 +220,34 @@ paths:
       operationId: {{namePascalCase}}
       summary: {{namePascalCase}}
       description: {{namePascalCase}}
-{{/if}}
-{{/commands}}
-{{/if}}
+      {{/if}}
+      {{/commands}}
+      {{/if}}
 {{/aggregates}}
 {{/if}}
-{{/boundedContexts}}
+{{#if aggregates}}
+{{#aggregates}}
+components:
+  schemas:
+    {{namePascalCase}}:
+      title: Root Type for {{namePascalCase}}
+      description: The root of the {{namePascalCase}} type's schema.
+      type: object
+      properties:
+      {{#aggregateRoot.fieldDescriptors}}
+        {{name}}:
+          description: {{name}} of this {{../namePascalCase}}
+          type: {{map @root.contexts.mappings className}}
+      {{/aggregateRoot.fieldDescriptors}}
+      example:
+      {{#aggregateRoot.fieldDescriptors}}
+        {{name}}: {{map @root.contexts.examples className}}
+      {{/aggregateRoot.fieldDescriptors}}
+tags:
+- name: {{namePascalCase}}
+  description: {{namePascalCase}} resource
+{{/aggregates}}
+{{/if}}
 
 <function>
 

@@ -1,4 +1,6 @@
-
+---
+alwaysApply: false
+---
 Vue3 Frontend 코드를 생성할 때는 아래의 프레임워크, 기술, 라이브러리 및 아키텍처 패턴, 설계 방법론을 엄격히 준수해 주세요.
 
 Core Framework (최소 필수)
