@@ -94,7 +94,7 @@ function customStringify(obj, cache = new Set(), parentType = null, parentKey = 
 this.contexts.json = customStringify(this);
 
 window.$HandleBars.registerHelper('checkFE', function (bc) {
-    if(bc.name == 'ui'){
+    if(bc.name == 'ui' || bc.name == 'frontend' || bc.name == 'UI' || bc.name == 'Frontend' ){
         return true;
     }else{
         return false;
