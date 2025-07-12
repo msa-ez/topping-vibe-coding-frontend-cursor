@@ -1,5 +1,6 @@
 forEach: BoundedContext
 fileName: openapi.yaml
+path: {{name}}
 except: {{#checkFE name}}{{/checkFE}}
 ---
 
