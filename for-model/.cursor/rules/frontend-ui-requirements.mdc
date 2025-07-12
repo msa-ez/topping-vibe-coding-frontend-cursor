@@ -3,17 +3,9 @@ alwaysApply: false
 ---
 아래의 UI 요구사항을 기반으로 Frontend의 UI를 구성해주세요.
 
-{{#checkFE boundedContexts}}
+{{#if boundedContexts}}
+{{#if aggregates}}
+{{else}}
 {{#boundedContexts}}{{description}}{{/boundedContexts}}
-{{/checkFE}}
-
-<function>
-window.$HandleBars.registerHelper('checkFE', function (bc) {
-    if(bc.name == 'ui' || bc.name == 'frontend' || bc.name == 'UI' || bc.name == 'Frontend' ){
-        return options.fn(this);
-    }else{
-        return options.inverse(this);
-    }
-
-})
-</function>
+{{/if}}
+{{/if}}
