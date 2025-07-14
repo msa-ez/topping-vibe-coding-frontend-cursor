@@ -1,0 +1,823 @@
+---
+title: Frontend Design System
+description: Vue 3 + Vuetify 기반의 통합 디자인 시스템입니다. 색상, 타이포그래피, 컴포넌트 스타일, 애니메이션 등 일관된 UI/UX를 위한 포괄적인 가이드라인을 제공합니다.
+---
+
+# Frontend Design System
+
+Vue 3 + Vuetify 기반의 깔끔하고 모던한 디자인 시스템입니다. 일관된 사용자 경험과 유지보수 가능한 코드를 위한 가이드라인을 제공합니다.
+
+## 🎨 색상 팔레트 (Color Palette)
+
+### Primary Colors
+```javascript
+// Light Theme
+primary: '#3B82F6',      // 모던한 블루 (주요 액션, 브랜드)
+secondary: '#64748B',    // 슬레이트 그레이 (보조 요소)
+accent: '#06B6D4',       // 시안 (강조 요소)
+
+// Dark Theme  
+primary: '#60A5FA',      // 라이트 블루
+secondary: '#94A3B8',    // 라이트 슬레이트
+accent: '#22D3EE',       // 라이트 시안
+```
+
+### Semantic Colors
+```javascript
+// Light Theme
+success: '#10B981',      // 에메랄드 (성공, 완료)
+warning: '#F59E0B',      // 앰버 (경고, 주의)
+error: '#EF4444',        // 레드 (오류, 삭제)
+info: '#3B82F6',         // 블루 (정보, 알림)
+
+// Dark Theme
+success: '#34D399',      // 라이트 에메랄드
+warning: '#FBBF24',      // 라이트 앰버  
+error: '#F87171',        // 라이트 레드
+info: '#60A5FA',         // 라이트 블루
+```
+
+### Surface Colors
+```javascript
+// Light Theme
+background: '#F8FAFC',   // 라이트 그레이 (전체 배경)
+surface: '#FFFFFF',      // 화이트 (카드, 모달 배경)
+
+// Dark Theme
+background: '#0F172A',   // 다크 네이비 (전체 배경)
+surface: '#1E293B',      // 다크 슬레이트 (카드, 모달 배경)
+```
+
+### 색상 사용 원칙
+- **Primary**: 주요 액션 버튼, 브랜드 요소, 활성 상태
+- **Secondary**: 보조 버튼, 비활성 상태, 설명 텍스트
+- **Accent**: 특별한 강조, 호버 상태, 포인트 컬러
+- **Semantic**: 상태별 피드백 (성공/경고/오류/정보)
+
+## 📝 타이포그래피 (Typography)
+
+### 폰트 크기 체계
+```scss
+// Display Titles (메인 타이틀)
+.display-title {
+  font-size: 2.5rem;        // 40px
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+// Section Headings (섹션 제목)
+.section-heading {
+  font-size: 1.25rem;       // 20px
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+// Card Titles (카드 제목)
+.card-title {
+  font-size: 1.125rem;      // 18px
+  font-weight: 600;
+}
+
+// Body Text (본문)
+.body-text {
+  font-size: 1rem;          // 16px
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+// Caption Text (설명글)
+.caption-text {
+  font-size: 0.875rem;      // 14px
+  opacity: 0.7;
+}
+```
+
+### 텍스트 컬러 사용
+```scss
+// 주요 텍스트
+color: rgb(var(--v-theme-on-background));
+
+// 보조 텍스트  
+color: rgb(var(--v-theme-on-background));
+opacity: 0.7;
+
+// 캡션/설명
+.text-medium-emphasis {
+  opacity: 0.6;
+}
+```
+
+## 🏗️ 레이아웃 & 간격 (Layout & Spacing)
+
+### 컨테이너 시스템
+```scss
+// 메인 컨테이너
+.main-container {
+  max-width: 1200px;
+  padding: 1.5rem;         // 24px
+  margin: 0 auto;
+}
+
+// 카드 패딩
+.card-padding {
+  padding: 1.5rem;         // 24px
+}
+
+// 섹션 간격
+.section-spacing {
+  margin-bottom: 2rem;     // 32px
+}
+```
+
+### 그리드 시스템
+```html
+<!-- 통계 카드 그리드 -->
+<v-row class="mb-8">
+  <v-col cols="12" sm="6" md="3">
+    <!-- 4개 컬럼 그리드 -->
+  </v-col>
+</v-row>
+
+<!-- 서비스 카드 그리드 -->
+<v-row class="mb-8">
+  <v-col cols="12" md="4">
+    <!-- 3개 컬럼 그리드 -->
+  </v-col>
+</v-row>
+```
+
+## 🎴 컴포넌트 스타일 가이드
+
+### 카드 (Card) 스타일
+```scss
+.modern-card {
+  background: rgb(var(--v-theme-surface));
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  }
+}
+```
+
+### 버튼 (Button) 스타일
+```html
+<!-- Primary Button -->
+<v-btn color="primary" variant="flat" size="large">
+  <v-icon start>mdi-plus</v-icon>
+  Primary Action
+</v-btn>
+
+<!-- Secondary Button -->
+<v-btn color="secondary" variant="outlined" size="large">
+  Secondary Action  
+</v-btn>
+
+<!-- Text Button -->
+<v-btn variant="text" color="primary">
+  Text Action
+</v-btn>
+```
+
+### 아이콘 아바타
+```html
+<v-avatar :color="avatarColor" size="48">
+  <v-icon :icon="iconName" color="white" />
+</v-avatar>
+```
+
+### 상태 칩 (Status Chips)
+```html
+<!-- 성공 상태 -->
+<v-chip color="success" variant="flat" size="small">
+  운영 중
+</v-chip>
+
+<!-- 경고 상태 -->
+<v-chip color="warning" variant="flat" size="small">  
+  대기 중
+</v-chip>
+
+<!-- 오류 상태 -->
+<v-chip color="error" variant="flat" size="small">
+  중단됨
+</v-chip>
+```
+
+## 📊 데이터 테이블 스타일
+
+### 테이블 컨테이너
+```scss
+.data-table-card {
+  background: rgb(var(--v-theme-surface));
+  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+  border-radius: 12px;
+}
+
+.custom-data-table :deep(.v-data-table-header) {
+  background: rgba(var(--v-theme-primary), 0.04);
+}
+
+.custom-data-table :deep(.v-data-table__tr:hover) {
+  background: rgba(var(--v-theme-primary), 0.04);
+}
+```
+
+### 액션 버튼
+```html
+<div class="action-buttons">
+  <v-btn icon="mdi-pencil" size="small" variant="text" color="primary" />
+  <v-btn icon="mdi-delete" size="small" variant="text" color="error" />
+</div>
+```
+
+## 🎭 애니메이션 & 인터랙션
+
+### 호버 효과
+```scss
+// 카드 호버
+.hover-card {
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  }
+}
+
+// 버튼 호버  
+.hover-button {
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+```
+
+### 로딩 상태
+```html
+<!-- 스켈레톤 로더 -->
+<v-skeleton-loader type="table-tbody" />
+
+<!-- 스피너 -->
+<v-progress-circular indeterminate color="primary" />
+```
+
+## 🌙 다크 모드 지원
+
+### 테마 전환
+```javascript
+import { useTheme } from 'vuetify'
+
+const theme = useTheme()
+
+const toggleTheme = () => {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
+```
+
+### CSS 변수 활용
+```scss
+// 테마에 따라 자동으로 변경되는 색상
+background: rgb(var(--v-theme-background));
+color: rgb(var(--v-theme-on-background));
+border-color: rgba(var(--v-theme-on-surface), 0.08);
+```
+
+## 📱 반응형 디자인
+
+### 브레이크포인트
+```scss
+// Mobile First
+@media (max-width: 600px) {
+  .responsive-text {
+    font-size: 1.5rem;
+  }
+  
+  .responsive-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Tablet
+@media (min-width: 960px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// Desktop
+@media (min-width: 1280px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+```
+
+### Vuetify 그리드 활용
+```html
+<!-- 반응형 컬럼 -->
+<v-col cols="12" sm="6" md="4" lg="3">
+  <!-- 내용 -->
+</v-col>
+```
+
+## 🔄 네비게이션 시스템
+
+### 사이드바 스타일
+```scss
+.app-drawer {
+  background: rgb(var(--v-theme-surface));
+  border-right: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+}
+
+.drawer-header {
+  background: rgba(var(--v-theme-primary), 0.04);
+}
+
+.nav-item {
+  margin-bottom: 4px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(var(--v-theme-primary), 0.08);
+  }
+  
+  &.v-list-item--active {
+    background: rgba(var(--v-theme-primary), 0.12);
+    color: rgb(var(--v-theme-primary));
+  }
+}
+```
+
+### 앱바 스타일
+```scss
+.app-bar {
+  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
+  backdrop-filter: blur(8px);
+}
+```
+
+## ♿ 접근성 가이드라인
+
+### 색상 대비
+- 텍스트와 배경 간 최소 4.5:1 대비율 유지
+- 중요한 정보는 색상 외에 아이콘/텍스트로도 표현
+
+### 키보드 내비게이션
+- 모든 인터랙티브 요소에 탭 순서 적용
+- 포커스 표시기 제공
+
+### 스크린 리더 지원  
+```html
+<!-- aria-label 활용 -->
+<v-btn aria-label="메뉴 열기" icon="mdi-menu" />
+
+<!-- 대체 텍스트 제공 -->
+<v-icon aria-hidden="true">mdi-check</v-icon>
+<span class="sr-only">완료됨</span>
+```
+
+## 🚀 사용 예시
+
+### 새로운 페이지 생성 시
+```vue
+<template>
+  <div class="page-wrapper">
+    <v-container fluid class="pa-6">
+      <!-- 페이지 헤더 -->
+      <v-row class="mb-8">
+        <v-col>
+          <div class="header-section">
+            <h1 class="display-title">페이지 제목</h1>
+            <p class="subtitle">페이지 설명</p>
+          </div>
+        </v-col>
+      </v-row>
+      
+      <!-- 메인 콘텐츠 -->
+      <v-row>
+        <v-col cols="12">
+          <v-card class="modern-card">
+            <!-- 카드 내용 -->
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
+</template>
+
+<style scoped>
+.page-wrapper {
+  min-height: 100vh;
+  background: rgb(var(--v-theme-background));
+}
+</style>
+```
+
+### 새로운 카드 컴포넌트 생성 시
+```vue
+<v-card class="modern-card" elevation="0" variant="flat">
+  <v-card-text class="pa-6">
+    <!-- 카드 헤더 -->
+    <div class="d-flex align-center mb-4">
+      <v-avatar color="primary" size="48" class="mr-4">
+        <v-icon icon="mdi-icon" color="white" />
+      </v-avatar>
+      <div>
+        <h3 class="text-h6 font-weight-bold">카드 제목</h3>
+        <p class="text-body-2 text-medium-emphasis">카드 설명</p>
+      </div>
+    </div>
+    
+    <!-- 카드 내용 -->
+    <p class="text-body-2 mb-4">카드 내용</p>
+    
+    <!-- 카드 액션 -->
+    <div class="d-flex align-center justify-space-between">
+      <v-chip color="success" variant="flat" size="small">
+        상태
+      </v-chip>
+      <v-icon color="primary" size="20">mdi-arrow-right</v-icon>
+    </div>
+  </v-card-text>
+</v-card>
+```
+
+## 📋 체크리스트
+
+새로운 컴포넌트나 페이지 생성 시 다음 사항들을 확인하세요:
+
+### 🎨 디자인
+- [ ] 정의된 색상 팔레트 사용
+- [ ] 일관된 타이포그래피 적용  
+- [ ] 적절한 간격과 패딩 사용
+- [ ] 카드 스타일 가이드라인 준수
+
+### 🔧 기능성
+- [ ] 다크 모드 지원
+- [ ] 반응형 디자인 적용
+- [ ] 호버/포커스 상태 정의
+- [ ] 로딩 상태 처리
+
+### ♿ 접근성
+- [ ] 적절한 색상 대비
+- [ ] 키보드 네비게이션 지원
+- [ ] 스크린 리더 호환성
+- [ ] 의미 있는 aria-label 제공
+
+## 🎨 모던 레이아웃 패턴
+
+### Bento Box Layout
+```vue
+<template>
+  <v-container fluid>
+    <div class="bento-grid">
+      <!-- 큰 카드 (2x2) -->
+      <v-card class="bento-item bento-large">
+        <v-img 
+          src="/hero-image.jpg" 
+          height="100%"
+          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+        >
+          <v-card-title class="white--text">
+            오늘의 추천 메뉴
+          </v-card-title>
+        </v-img>
+      </v-card>
+      
+      <!-- 중간 카드들 -->
+      <v-card class="bento-item bento-medium">
+        <v-card-text>
+          <div class="text-h3 font-weight-bold primary--text">24</div>
+          <div class="text-subtitle-1">진행중인 주문</div>
+        </v-card-text>
+      </v-card>
+      
+      <!-- 작은 카드들 -->
+      <v-card 
+        v-for="stat in quickStats" 
+        :key="stat.id"
+        class="bento-item bento-small"
+      >
+        <v-card-text>
+          <v-icon :color="stat.color">{{ stat.icon }}</v-icon>
+          <div class="text-h6">{{ stat.value }}</div>
+          <div class="text-caption">{{ stat.label }}</div>
+        </v-card-text>
+      </v-card>
+    </div>
+  </v-container>
+</template>
+
+<style scoped>
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  grid-auto-rows: 120px;
+}
+
+.bento-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.bento-medium {
+  grid-column: span 2;
+}
+
+.bento-small {
+  grid-column: span 1;
+}
+
+@media (max-width: 960px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+```
+
+### Glassmorphism Card
+```vue
+<template>
+  <v-card class="glass-card">
+    <v-card-title>
+      <v-icon left>mdi-shimmer</v-icon>
+      프리미엄 멤버십
+    </v-card-title>
+    <v-card-text>
+      <div class="glass-content">
+        <v-icon size="64" color="primary">mdi-crown</v-icon>
+        <h3>VIP 혜택</h3>
+        <ul>
+          <li>무료 배송</li>
+          <li>10% 추가 할인</li>
+          <li>우선 예약</li>
+        </ul>
+      </div>
+    </v-card-text>
+  </v-card>
+</template>
+
+<style scoped>
+.glass-card {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-content {
+  text-align: center;
+  padding: 20px;
+}
+</style>
+```
+
+### Neumorphism Components
+```vue
+<template>
+  <div class="neumorphic-container">
+    <div class="neumorphic-card">
+      <v-icon size="48" color="primary">mdi-package-variant</v-icon>
+      <h3>총 상품</h3>
+      <p class="text-h4">1,234</p>
+    </div>
+    
+    <button class="neumorphic-button">
+      <v-icon left>mdi-plus</v-icon>
+      추가하기
+    </button>
+  </div>
+</template>
+
+<style scoped>
+.neumorphic-container {
+  background: #e0e5ec;
+  padding: 40px;
+  border-radius: 20px;
+}
+
+.neumorphic-card {
+  background: #e0e5ec;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 
+    9px 9px 16px #a3b1c6, 
+    -9px -9px 16px #ffffff;
+  text-align: center;
+}
+
+.neumorphic-button {
+  background: #e0e5ec;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  box-shadow: 
+    6px 6px 12px #a3b1c6, 
+    -6px -6px 12px #ffffff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.neumorphic-button:active {
+  box-shadow: 
+    inset 6px 6px 12px #a3b1c6, 
+    inset -6px -6px 12px #ffffff;
+}
+</style>
+```
+
+## 🎯 아이콘 시스템
+
+### 도메인별 아이콘 세트
+```javascript
+// config/icons.config.js
+export const domainIcons = {
+  // 음식 배달
+  restaurant: 'mdi-silverware-fork-knife',
+  delivery: 'mdi-moped',
+  order: 'mdi-receipt',
+  
+  // 이커머스
+  cart: 'mdi-cart',
+  product: 'mdi-package-variant',
+  payment: 'mdi-credit-card',
+  
+  // 분석
+  analytics: 'mdi-chart-line',
+  report: 'mdi-file-chart',
+  dashboard: 'mdi-view-dashboard',
+  
+  // 사용자
+  customer: 'mdi-account',
+  admin: 'mdi-shield-account',
+  support: 'mdi-headset'
+}
+```
+
+### 애니메이션 아이콘
+```vue
+<template>
+  <!-- CSS 애니메이션 -->
+  <v-icon 
+    class="animated-icon"
+    :class="{ 'pulse': hasNewOrder }"
+  >
+    mdi-bell
+  </v-icon>
+  
+  <!-- 회전 애니메이션 -->
+  <v-icon 
+    class="rotating-icon"
+    v-if="loading"
+  >
+    mdi-loading
+  </v-icon>
+</template>
+
+<style>
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.animated-icon.pulse {
+  animation: pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rotating-icon {
+  animation: rotate 1s linear infinite;
+}
+</style>
+```
+
+## 🎭 고급 UX 패턴
+
+### 스켈레톤 로더
+```vue
+<template>
+  <v-container>
+    <!-- 로딩 중 -->
+    <template v-if="loading">
+      <v-skeleton-loader
+        v-for="i in 3"
+        :key="i"
+        type="card"
+        class="mb-4"
+      />
+    </template>
+    
+    <!-- 실제 콘텐츠 -->
+    <template v-else>
+      <ProductCard 
+        v-for="product in products" 
+        :key="product.id"
+        :product="product"
+      />
+    </template>
+  </v-container>
+</template>
+```
+
+### 인터섹션 옵저버 (무한 스크롤)
+```vue
+<template>
+  <v-container>
+    <v-row>
+      <v-col 
+        v-for="item in items" 
+        :key="item.id"
+        cols="12" md="4"
+      >
+        <ItemCard :item="item" />
+      </v-col>
+    </v-row>
+    
+    <!-- 무한 스크롤 트리거 -->
+    <div ref="trigger" class="trigger-element" />
+  </v-container>
+</template>
+
+<script setup>
+import { useIntersectionObserver } from '@vueuse/core'
+
+const trigger = ref(null)
+const { stop } = useIntersectionObserver(
+  trigger,
+  ([{ isIntersecting }]) => {
+    if (isIntersecting && !loading.value) {
+      loadMore()
+    }
+  }
+)
+</script>
+```
+
+### 트랜지션 효과
+```vue
+<template>
+  <!-- 리스트 트랜지션 -->
+  <transition-group name="list" tag="div" class="row">
+    <v-col 
+      v-for="item in filteredItems" 
+      :key="item.id"
+      cols="12" md="3"
+    >
+      <v-card>{{ item.name }}</v-card>
+    </v-col>
+  </transition-group>
+  
+  <!-- 페이지 트랜지션 -->
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in">
+      <component :is="Component" />
+    </transition>
+  </router-view>
+</template>
+
+<style>
+/* 리스트 애니메이션 */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+/* 페이드 애니메이션 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
+```
+
+이 디자인 시스템을 따르면 일관되고 전문적인 사용자 인터페이스를 구축할 수 있습니다.
