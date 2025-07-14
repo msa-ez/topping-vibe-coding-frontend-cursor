@@ -1,4 +1,5 @@
 ---
+description: Vue 3 + Vite 프로젝트의 표준 폴더 구조를 정의합니다. 확장 가능하고 유지보수가 용이한 프로젝트 구조를 제공합니다.
 alwaysApply: false
 ---
 Vue3 Frontend 프로젝트 구조 요구사항
@@ -15,7 +16,7 @@ BoundedContext별 PRD에 따른 frontend는 하나의 frontend 폴더 하위에 
         /Modal.vue         # 모달 컴포넌트
         /DataTable.vue     # 데이터 테이블 컴포넌트
         /Layout.vue        # 공통 레이아웃 컴포넌트
-      /[BoundedContext]    # BC별 컴포넌트 그룹 (author, platform, point, subscriber 등)
+      /[BoundedContext]    # BC별 컴포넌트 그룹 (ex. order, delivery, product..)
         /[aggregate]       # BC 내 Aggregate별 컴포넌트
           /AggregateList.vue # Aggregate 데이터를 표시하는 List 컴포넌트
           /AggregateDetail.vue # Aggregate 상세 정보 컴포넌트
@@ -83,9 +84,6 @@ BoundedContext별 PRD에 따른 frontend는 하나의 frontend 폴더 하위에 
       /composables         # Composables 단위 테스트
       /stores              # 스토어 단위 테스트
       /utils               # 유틸리티 함수 테스트
-    /integration          # 통합 테스트
-    /e2e                  # E2E 테스트
-    vitest.config.ts      # Vitest 설정
     playwright.config.ts  # Playwright E2E 테스트 설정
   /public
     index.html            # HTML 진입점
