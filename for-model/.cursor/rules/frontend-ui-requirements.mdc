@@ -7,7 +7,17 @@ alwaysApply: false
 {{#boundedContexts}}
 {{#if aggregates}}
 {{else}}
-{{description}}
+{{#editDesc description}}{{/editDesc}}
 {{/if}}
 {{/boundedContexts}}
 {{/if}}
+
+<function>
+window.$HandleBars.registerHelper('editDesc', function (desc) {
+    // 모든 따옴표(", ')를 제거하는 함수
+    if (typeof desc === 'string') {
+        return desc.replace(/['"]/g, '');
+    }
+    return desc;
+})
+</function>
