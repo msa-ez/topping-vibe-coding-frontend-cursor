@@ -91,10 +91,27 @@ const showSnackbar = () => {
 {{#attached 'Command'this}}
 {{name}}
 ```
-{{../runTimeTemplateHtml}}
+{{#changeData ../runTimeTemplateHtml}}{{/changeData}}
 ```
 {{/attached}}
 
 {{/attached}}
 {{/boundedContexts}}
 {{/if}}
+
+<function>
+window.$HandleBars.registerHelper('changeData', function (desc) {
+    // HTML 엔티티를 실제 HTML 문자로 디코딩
+    if (typeof desc === 'string') {
+        return desc
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&#x3D;/g, '=')
+            .replace(/&amp;/g, '&')
+            .replace(/&#39;/g, "'")
+            .replace(/&nbsp;/g, ' ');
+    }
+    return desc;
+})
+</function>
