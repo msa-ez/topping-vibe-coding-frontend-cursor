@@ -1,35 +1,35 @@
 ---
-description: EventStorming 스티커 기반으로 UI 컴포넌트를 생성하는 규칙을 정의합니다. MSA 백엔드와의 연동과 Vuetify UI 프레임워크 활용 방안을 포함합니다.
+description: Defines rules for generating UI components based on EventStorming stickers. Includes integration with MSA backend and Vuetify UI framework utilization.
 alwaysApply: false
 ---
 
 ## Command
-0. 필수 참고사항
-반드시 api/openapi.yaml 또는 각 service 폴더 내에 openapi.yaml 파일을 참고하여 axios호출로 진행 및 버튼 구성을 해야합니다.
+0. Essential Reference Note
+You must proceed with axios calls and button configuration by referring to api/openapi.yaml or openapi.yaml files within each service folder.
 
 
-1. 참조 메타데이터
-Command는 'commands' 메타데이터를 사용하며, UI에서 버튼 형태로 구현됩니다. 각 Command는 사용자 액션을 트리거하는 버튼 컴포넌트로 생성됩니다.
+1. Reference Metadata
+Command uses 'commands' metadata and is implemented as button forms in the UI. Each Command is generated as a button component that triggers user actions.
 
-2. 생성되는 파일
+2. Generated Files
 CommandButton.vue
-파일명: Command 스티커 이름 + Button.vue
-구조:
-- 버튼 UI 컴포넌트
-- 클릭 이벤트 핸들러
-- API 호출 로직 (Composables 활용)
-- 로딩 상태 및 에러 처리
-- 버튼 스타일링 (Vuetify/Element Plus 기반)
+File name: Command sticker name + Button.vue
+Structure:
+- Button UI component
+- Click event handler
+- API call logic (utilizing Composables)
+- Loading state and error handling
+- Button styling (based on Vuetify/Element Plus)
 
 CommandComposable.ts
-파일명: Command 스티커 이름 + Command.composable.ts
-구조:
-- API 호출 함수
-- 상태 관리 (로딩, 에러, 성공)
-- 폼 데이터 유효성 검사 (VeeValidate 활용)
+File name: Command sticker name + Command.composable.ts
+Structure:
+- API call functions
+- State management (loading, error, success)
+- Form data validation (utilizing VeeValidate)
 
-3. 버튼 생성 규칙
-백엔드 REST API에 맞춰 Vuetify 버튼 컴포넌트로 구현합니다.
+3. Button Generation Rules
+Implement as Vuetify button components to match backend REST API.
 
 **Vuetify 버튼 컴포넌트 활용:**
 ```vue
@@ -58,61 +58,61 @@ const props = defineProps({
 const { execute, loading, error } = useCommandComposable()
 
 const buttonConfig = computed(() => ({
-  create: { color: 'primary', icon: 'mdi-plus', label: '생성', variant: 'elevated' },
-  update: { color: 'info', icon: 'mdi-pencil', label: '수정', variant: 'tonal' },
-  delete: { color: 'error', icon: 'mdi-delete', label: '삭제', variant: 'outlined' }
+  create: { color: 'primary', icon: 'mdi-plus', label: 'Create', variant: 'elevated' },
+  update: { color: 'info', icon: 'mdi-pencil', label: 'Update', variant: 'tonal' },
+  delete: { color: 'error', icon: 'mdi-delete', label: 'Delete', variant: 'outlined' }
 }[props.commandType] || {}))
 </script>
 ```
 
-버튼 생성 로직:
+Button Generation Logic:
 ```typescript
-// 기본 CUD 버튼은 항상 생성
+// Default CUD buttons are always generated
 const defaultButtons = ['Create', 'Update', 'Delete'];
 
-// Command 메타데이터 확인
+// Check Command metadata
 commands.forEach(command => {
   if (command.isRestRepository !== true) {
-    // controllerInfo를 활용한 커스텀 버튼 생성
+    // Create custom button using controllerInfo
     const customButton = {
       name: command.name,
       endpoint: `/${aggregate.namePlural}/${command.controllerInfo.apiPath}`,
       method: command.controllerInfo.method,
       description: command.description
     };
-    // 커스텀 버튼 컴포넌트 생성
+    // Generate custom button component
   }
 });
 ```
 
-생성되는 버튼 컴포넌트 구조:
-- 기본 CUD 버튼: 표준 REST API 엔드포인트 사용 (/{aggregate.namePlural})
-- 커스텀 버튼: aggregate.namePlural과 controllerInfo.apiPath를 조합한 엔드포인트 사용 (/{aggregate.namePlural}/{controllerInfo.apiPath})
-- 각 버튼별 독립적인 로딩 상태 및 에러 처리
-- 버튼 활성화/비활성화 조건 설정
+Generated Button Component Structure:
+- Default CUD buttons: Use standard REST API endpoints (/{aggregate.namePlural})
+- Custom buttons: Use endpoints combining aggregate.namePlural and controllerInfo.apiPath (/{aggregate.namePlural}/{controllerInfo.apiPath})
+- Independent loading state and error handling for each button
+- Button enable/disable condition settings
 
-4. Create/Update 버튼 다이얼로그 처리
-Create(C)와 Update(U) 버튼 클릭 시 다이얼로그 모달 생성:
+4. Create/Update Button Dialog Handling
+Generate dialog modal when Create(C) and Update(U) buttons are clicked:
 
-다이얼로그 내부 필드 구성 규칙:
-- 기본 CU 버튼의 경우: Aggregate의 속성값들(fieldDescriptors)을 다이얼로그 내부 field로 구성
-- isRestRepository가 true가 아닌 Command의 경우: Command 내부 fieldDescriptors에 정의된 속성을 다이얼로그 내부 field로 구성
+Dialog Internal Field Configuration Rules:
+- For default CU buttons: Configure Aggregate's properties (fieldDescriptors) as dialog internal fields
+- For Commands where isRestRepository is not true: Configure properties defined in Command's internal fieldDescriptors as dialog internal fields
 
-다이얼로그 생성 로직:
+Dialog Generation Logic:
 ```typescript
-// Create/Update 버튼 클릭 시 다이얼로그 생성
+// Generate dialog when Create/Update button is clicked
 const openDialog = (buttonType: 'create' | 'update', command?: Command) => {
   let dialogFields = [];
   
   if (command && command.isRestRepository !== true) {
-    // Command의 fieldDescriptors 사용
+    // Use Command's fieldDescriptors
     dialogFields = command.fieldDescriptors || [];
   } else {
-    // Aggregate의 fieldDescriptors 사용 (기본 CU)
+    // Use Aggregate's fieldDescriptors (default CU)
     dialogFields = aggregate.fieldDescriptors || [];
   }
   
-  // 다이얼로그 모달 생성 및 필드 렌더링
+  // Generate dialog modal and render fields
   createFormDialog({
     title: buttonType === 'create' ? `Create ${aggregate.name}` : `Update ${aggregate.name}`,
     fields: dialogFields,
@@ -121,54 +121,54 @@ const openDialog = (buttonType: 'create' | 'update', command?: Command) => {
 };
 ```
 
-다이얼로그 컴포넌트 구조:
-- Modal/Dialog 컴포넌트 (Vuetify/Element Plus 기반)
-- 동적 폼 필드 생성 (fieldDescriptors 기반)
-- VeeValidate를 활용한 폼 유효성 검사
-- 제출/취소 버튼
-- 로딩 상태 및 에러 메시지 표시
+Dialog Component Structure:
+- Modal/Dialog component (based on Vuetify/Element Plus)
+- Dynamic form field generation (based on fieldDescriptors)
+- Form validation using VeeValidate
+- Submit/Cancel buttons
+- Loading state and error message display
 
 
 ## Aggregate
 
-1. 참조 메타데이터
-Aggregate는 'aggregates' 메타데이터를 기반으로 List 형태의 컴포넌트로 생성됩니다. fieldDescriptors를 활용하여 속성들을 표시하며, 관계형 데이터 (Enumeration, ValueObject, Entity)를 테이블이나 카드 형태로 구성합니다.
+1. Reference Metadata
+Aggregate is generated as List-type components based on 'aggregates' metadata. It displays properties using fieldDescriptors and configures relational data (Enumeration, ValueObject, Entity) as tables or cards.
 
-2. 생성되는 파일
+2. Generated Files
 AggregateList.vue
-파일명: Aggregate이름 + List.vue
-구조:
-- 데이터 테이블/카드 리스트 컴포넌트
-- fieldDescriptors 기반 컬럼/필드 구성
-- 검색, 필터링, 정렬 기능
-- 페이지네이션
-- CRUD 액션 버튼들
-- 상세보기 모달/라우터 연동
+File name: Aggregate name + List.vue
+Structure:
+- Data table/card list component
+- Column/field configuration based on fieldDescriptors
+- Search, filtering, sorting functionality
+- Pagination
+- CRUD action buttons
+- Detail view modal/router integration
 
 AggregateStore.ts
-파일명: Aggregate이름 + Store.ts
-구조:
-- Pinia 스토어 정의
-- Aggregate 데이터 상태 관리
-- API 호출 액션들
-- 게터 함수들
+File name: Aggregate name + Store.ts
+Structure:
+- Pinia store definition
+- Aggregate data state management
+- API call actions
+- Getter functions
 
-## BoundedContext 및 메인페이지 구성
+## BoundedContext and Main Page Configuration
 
-1. 메인페이지 구성 - Vuetify 컴포넌트 활용
+1. Main Page Configuration - Utilizing Vuetify Components
 
 **MainDashboard.vue - Vuetify Grid 및 Card 활용**
 ```vue
 <template>
   <v-container fluid>
-    <!-- 헤더 영역 -->
+    <!-- Header area -->
     <v-row>
       <v-col>
-        <h1 class="text-h3 mb-4">{{ systemName }} 대시보드</h1>
+        <h1 class="text-h3 mb-4">{{ systemName }} Dashboard</h1>
       </v-col>
     </v-row>
     
-    <!-- 통계 카드 -->
+    <!-- Statistics cards -->
     <v-row>
       <v-col v-for="stat in statistics" :key="stat.title" cols="12" sm="6" md="3">
         <v-card>
@@ -187,10 +187,10 @@ AggregateStore.ts
       </v-col>
     </v-row>
     
-    <!-- BoundedContext 카드 -->
+    <!-- BoundedContext cards -->
     <v-row class="mt-4">
       <v-col>
-        <h2 class="text-h4 mb-4">서비스 영역</h2>
+        <h2 class="text-h4 mb-4">Service Areas</h2>
       </v-col>
     </v-row>
     
@@ -243,17 +243,17 @@ AggregateStore.ts
               color="primary"
               append-icon="mdi-arrow-right"
             >
-              이동
+              Go to
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
     
-    <!-- 최근 활동 -->
+    <!-- Recent activities -->
     <v-row class="mt-4">
       <v-col>
-        <h2 class="text-h4 mb-4">최근 활동</h2>
+        <h2 class="text-h4 mb-4">Recent Activities</h2>
         <v-card>
           <v-list lines="two">
             <v-list-item
@@ -285,24 +285,24 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// 메타데이터 기반 BoundedContext 생성
+// Generate BoundedContext based on metadata
 const boundedContexts = computed(() => 
   generateBoundedContextsFromMetadata(metaData.boundedContexts)
 )
 
-// 통계 데이터
+// Statistics data
 const statistics = ref([
-  { title: '총 주문', value: '1,234', icon: 'mdi-cart', color: 'primary' },
-  { title: '오늘 매출', value: '₩3,456K', icon: 'mdi-currency-usd', color: 'success' },
-  { title: '활성 사용자', value: '567', icon: 'mdi-account-group', color: 'info' },
-  { title: '대기 처리', value: '89', icon: 'mdi-clock-alert', color: 'warning' }
+  { title: 'Total Orders', value: '1,234', icon: 'mdi-cart', color: 'primary' },
+  { title: 'Today Sales', value: '$3,456K', icon: 'mdi-currency-usd', color: 'success' },
+  { title: 'Active Users', value: '567', icon: 'mdi-account-group', color: 'info' },
+  { title: 'Pending Process', value: '89', icon: 'mdi-clock-alert', color: 'warning' }
 ])
 </script>
 ```
 
-BoundedContext 카드 생성 로직:
+BoundedContext Card Generation Logic:
 ```typescript
-// 메타데이터 기반 BoundedContext 카드들 동적 생성
+// Dynamically generate BoundedContext cards based on metadata
 const generateBoundedContexts = (boundedContextsMetadata) => {
   return Object.keys(boundedContextsMetadata).map(contextKey => {
     const contextAggregates = boundedContextsMetadata[contextKey].aggregates || [];
@@ -318,10 +318,10 @@ const generateBoundedContexts = (boundedContextsMetadata) => {
   });
 };
 
-// 사용 예시
+// Usage example
 const boundedContexts = generateBoundedContexts(metaData.boundedContexts);
 
-// 각 BoundedContext 카드 컴포넌트
+// Each BoundedContext card component
 const BoundedContextCard = {
   props: ['contextName', 'contextPath', 'aggregates'],
   template: `
@@ -343,24 +343,24 @@ const BoundedContextCard = {
 };
 ```
 
-2. BoundedContext별 서브메뉴
-각 BoundedContext는 독립적인 서브메뉴로 구성되며, 해당 컨텍스트의 Aggregate List 컴포넌트들을 포함합니다.
+2. BoundedContext-specific Submenus
+Each BoundedContext is configured as an independent submenu that includes Aggregate List components of the corresponding context.
 
 SubMenu.vue
-구조:
-- Vue Router 기반 네비게이션
-- BoundedContext별 메뉴 그룹핑
-- 아코디언 또는 탭 형태의 메뉴
-- 메인페이지로 돌아가기 버튼
+Structure:
+- Vue Router-based navigation
+- Menu grouping by BoundedContext
+- Accordion or tab-style menu
+- Return to main page button
 
-3. 라우팅 구조 - Vue Router 4 활용
+3. Routing Structure - Utilizing Vue Router 4
 
-**router/index.js - 동적 라우팅 구성**
+**router/index.js - Dynamic Routing Configuration**
 ```javascript
 import { createRouter, createWebHistory } from 'vue-router'
 import MainDashboard from '@/views/common/MainDashboard.vue'
 
-// 메타데이터 기반 동적 라우트 생성
+// Generate dynamic routes based on metadata
 const generateRoutes = (boundedContexts) => {
   const routes = []
   
@@ -372,7 +372,7 @@ const generateRoutes = (boundedContexts) => {
       children: []
     }
     
-    // Aggregate별 라우트 생성
+    // Generate routes for each Aggregate
     contextData.aggregates?.forEach(aggregate => {
       contextRoute.children.push(
         {
@@ -416,7 +416,7 @@ const router = createRouter({
 export default router
 ```
 
-**App.vue - Vuetify 기본 레이아웃**
+**App.vue - Vuetify Basic Layout**
 ```vue
 <template>
   <v-app>
@@ -427,7 +427,7 @@ export default router
       <v-list nav>
         <v-list-item
           prepend-icon="mdi-view-dashboard"
-          title="대시보드"
+          title="Dashboard"
           to="/"
         ></v-list-item>
         
@@ -459,7 +459,7 @@ export default router
       <v-toolbar-title>{{ systemName }}</v-toolbar-title>
       <v-spacer></v-spacer>
       
-      <!-- 사용자 메뉴 -->
+      <!-- User menu -->
       <v-btn icon="mdi-account-circle" size="large"></v-btn>
     </v-app-bar>
     
@@ -467,7 +467,7 @@ export default router
       <router-view />
     </v-main>
     
-    <!-- 전역 스낵바 -->
+    <!-- Global snackbar -->
     <v-snackbar
       v-model="snackbar.show"
       :color="snackbar.color"
@@ -479,7 +479,7 @@ export default router
           variant="text"
           @click="snackbar.show = false"
         >
-          닫기
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -487,10 +487,10 @@ export default router
 </template>
 ```
 
-메인페이지 카드 UI 구성:
-- 메타데이터 기반 BoundedContext명 동적 표시 (contextKey 활용)
-- 해당 컨텍스트 내 Aggregate 개수 동적 표시
-- Aggregate 목록 미리보기 (aggregate.displayName 또는 aggregate.name 활용)
-- 클릭 시 첫 번째 Aggregate의 namePlural 기반 List 페이지로 이동
-- PRD 변경 시 자동으로 반영되는 범용적 구조
+Main Page Card UI Configuration:
+- Dynamic display of BoundedContext names based on metadata (utilizing contextKey)
+- Dynamic display of Aggregate count within the corresponding context
+- Aggregate list preview (utilizing aggregate.displayName or aggregate.name)
+- Navigate to List page based on the first Aggregate's namePlural when clicked
+- Universal structure that automatically reflects PRD changes
 - When parameters from views or ReadModels exist, write query statements referencing queryOption

@@ -1,64 +1,64 @@
 ---
 title: Frontend Design System
-description: Vue 3 + Vuetify 기반의 통합 디자인 시스템입니다. 색상, 타이포그래피, 컴포넌트 스타일, 애니메이션 등 일관된 UI/UX를 위한 포괄적인 가이드라인을 제공합니다.
+description: Integrated design system based on Vue 3 + Vuetify. Provides comprehensive guidelines for consistent UI/UX including colors, typography, component styles, and animations.
 ---
 
 # Frontend Design System
 
-Vue 3 + Vuetify 기반의 깔끔하고 모던한 디자인 시스템입니다. 일관된 사용자 경험과 유지보수 가능한 코드를 위한 가이드라인을 제공합니다.
+A clean and modern design system based on Vue 3 + Vuetify. Provides guidelines for consistent user experience and maintainable code.
 
-## 🎨 색상 팔레트 (Color Palette)
+## 🎨 Color Palette
 
 ### Primary Colors
 ```javascript
 // Light Theme
-primary: '#3B82F6',      // 모던한 블루 (주요 액션, 브랜드)
-secondary: '#64748B',    // 슬레이트 그레이 (보조 요소)
-accent: '#06B6D4',       // 시안 (강조 요소)
+primary: '#3B82F6',      // Modern blue (primary actions, brand)
+secondary: '#64748B',    // Slate gray (secondary elements)
+accent: '#06B6D4',       // Cyan (accent elements)
 
 // Dark Theme  
-primary: '#60A5FA',      // 라이트 블루
-secondary: '#94A3B8',    // 라이트 슬레이트
-accent: '#22D3EE',       // 라이트 시안
+primary: '#60A5FA',      // Light blue
+secondary: '#94A3B8',    // Light slate
+accent: '#22D3EE',       // Light cyan
 ```
 
 ### Semantic Colors
 ```javascript
 // Light Theme
-success: '#10B981',      // 에메랄드 (성공, 완료)
-warning: '#F59E0B',      // 앰버 (경고, 주의)
-error: '#EF4444',        // 레드 (오류, 삭제)
-info: '#3B82F6',         // 블루 (정보, 알림)
+success: '#10B981',      // Emerald (success, completion)
+warning: '#F59E0B',      // Amber (warning, caution)
+error: '#EF4444',        // Red (error, deletion)
+info: '#3B82F6',         // Blue (information, notification)
 
 // Dark Theme
-success: '#34D399',      // 라이트 에메랄드
-warning: '#FBBF24',      // 라이트 앰버  
-error: '#F87171',        // 라이트 레드
-info: '#60A5FA',         // 라이트 블루
+success: '#34D399',      // Light emerald
+warning: '#FBBF24',      // Light amber  
+error: '#F87171',        // Light red
+info: '#60A5FA',         // Light blue
 ```
 
 ### Surface Colors
 ```javascript
 // Light Theme
-background: '#F8FAFC',   // 라이트 그레이 (전체 배경)
-surface: '#FFFFFF',      // 화이트 (카드, 모달 배경)
+background: '#F8FAFC',   // Light gray (overall background)
+surface: '#FFFFFF',      // White (card, modal background)
 
 // Dark Theme
-background: '#0F172A',   // 다크 네이비 (전체 배경)
-surface: '#1E293B',      // 다크 슬레이트 (카드, 모달 배경)
+background: '#0F172A',   // Dark navy (overall background)
+surface: '#1E293B',      // Dark slate (card, modal background)
 ```
 
-### 색상 사용 원칙
-- **Primary**: 주요 액션 버튼, 브랜드 요소, 활성 상태
-- **Secondary**: 보조 버튼, 비활성 상태, 설명 텍스트
-- **Accent**: 특별한 강조, 호버 상태, 포인트 컬러
-- **Semantic**: 상태별 피드백 (성공/경고/오류/정보)
+### Color Usage Principles
+- **Primary**: Main action buttons, brand elements, active states
+- **Secondary**: Secondary buttons, inactive states, descriptive text
+- **Accent**: Special emphasis, hover states, point colors
+- **Semantic**: Status-based feedback (success/warning/error/information)
 
-## 📝 타이포그래피 (Typography)
+## 📝 Typography
 
-### 폰트 크기 체계
+### Font Size System
 ```scss
-// Display Titles (메인 타이틀)
+// Display Titles (main titles)
 .display-title {
   font-size: 2.5rem;        // 40px
   font-weight: 700;
@@ -66,90 +66,90 @@ surface: '#1E293B',      // 다크 슬레이트 (카드, 모달 배경)
   line-height: 1.2;
 }
 
-// Section Headings (섹션 제목)
+// Section Headings (section titles)
 .section-heading {
   font-size: 1.25rem;       // 20px
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
-// Card Titles (카드 제목)
+// Card Titles (card titles)
 .card-title {
   font-size: 1.125rem;      // 18px
   font-weight: 600;
 }
 
-// Body Text (본문)
+// Body Text (body text)
 .body-text {
   font-size: 1rem;          // 16px
   font-weight: 400;
   line-height: 1.6;
 }
 
-// Caption Text (설명글)
+// Caption Text (captions)
 .caption-text {
   font-size: 0.875rem;      // 14px
   opacity: 0.7;
 }
 ```
 
-### 텍스트 컬러 사용
+### Text Color Usage
 ```scss
-// 주요 텍스트
+// Primary text
 color: rgb(var(--v-theme-on-background));
 
-// 보조 텍스트  
+// Secondary text  
 color: rgb(var(--v-theme-on-background));
 opacity: 0.7;
 
-// 캡션/설명
+// Caption/Description
 .text-medium-emphasis {
   opacity: 0.6;
 }
 ```
 
-## 🏗️ 레이아웃 & 간격 (Layout & Spacing)
+## 🏗️ Layout & Spacing
 
-### 컨테이너 시스템
+### Container System
 ```scss
-// 메인 컨테이너
+// Main container
 .main-container {
   max-width: 1200px;
   padding: 1.5rem;         // 24px
   margin: 0 auto;
 }
 
-// 카드 패딩
+// Card padding
 .card-padding {
   padding: 1.5rem;         // 24px
 }
 
-// 섹션 간격
+// Section spacing
 .section-spacing {
   margin-bottom: 2rem;     // 32px
 }
 ```
 
-### 그리드 시스템
+### Grid System
 ```html
-<!-- 통계 카드 그리드 -->
+<!-- Statistics card grid -->
 <v-row class="mb-8">
   <v-col cols="12" sm="6" md="3">
-    <!-- 4개 컬럼 그리드 -->
+    <!-- 4 column grid -->
   </v-col>
 </v-row>
 
-<!-- 서비스 카드 그리드 -->
+<!-- Service card grid -->
 <v-row class="mb-8">
   <v-col cols="12" md="4">
-    <!-- 3개 컬럼 그리드 -->
+    <!-- 3 column grid -->
   </v-col>
 </v-row>
 ```
 
-## 🎴 컴포넌트 스타일 가이드
+## 🎴 Component Style Guide
 
-### 카드 (Card) 스타일
+### Card Style
 ```scss
 .modern-card {
   background: rgb(var(--v-theme-surface));
@@ -164,7 +164,7 @@ opacity: 0.7;
 }
 ```
 
-### 버튼 (Button) 스타일
+### Button Style
 ```html
 <!-- Primary Button -->
 <v-btn color="primary" variant="flat" size="large">
@@ -183,34 +183,34 @@ opacity: 0.7;
 </v-btn>
 ```
 
-### 아이콘 아바타
+### Icon Avatar
 ```html
 <v-avatar :color="avatarColor" size="48">
   <v-icon :icon="iconName" color="white" />
 </v-avatar>
 ```
 
-### 상태 칩 (Status Chips)
+### Status Chips
 ```html
-<!-- 성공 상태 -->
+<!-- Success status -->
 <v-chip color="success" variant="flat" size="small">
-  운영 중
+  Active
 </v-chip>
 
-<!-- 경고 상태 -->
+<!-- Warning status -->
 <v-chip color="warning" variant="flat" size="small">  
-  대기 중
+  Pending
 </v-chip>
 
-<!-- 오류 상태 -->
+<!-- Error status -->
 <v-chip color="error" variant="flat" size="small">
-  중단됨
+  Stopped
 </v-chip>
 ```
 
-## 📊 데이터 테이블 스타일
+## 📊 Data Table Style
 
-### 테이블 컨테이너
+### Table Container
 ```scss
 .data-table-card {
   background: rgb(var(--v-theme-surface));
@@ -227,7 +227,7 @@ opacity: 0.7;
 }
 ```
 
-### 액션 버튼
+### Action Buttons
 ```html
 <div class="action-buttons">
   <v-btn icon="mdi-pencil" size="small" variant="text" color="primary" />
@@ -235,11 +235,11 @@ opacity: 0.7;
 </div>
 ```
 
-## 🎭 애니메이션 & 인터랙션
+## 🎭 Animation & Interaction
 
-### 호버 효과
+### Hover Effects
 ```scss
-// 카드 호버
+// Card hover
 .hover-card {
   transition: all 0.2s ease;
   
@@ -249,7 +249,7 @@ opacity: 0.7;
   }
 }
 
-// 버튼 호버  
+// Button hover  
 .hover-button {
   transition: all 0.2s ease;
   
@@ -259,18 +259,18 @@ opacity: 0.7;
 }
 ```
 
-### 로딩 상태
+### Loading States
 ```html
-<!-- 스켈레톤 로더 -->
+<!-- Skeleton loader -->
 <v-skeleton-loader type="table-tbody" />
 
-<!-- 스피너 -->
+<!-- Spinner -->
 <v-progress-circular indeterminate color="primary" />
 ```
 
-## 🌙 다크 모드 지원
+## 🌙 Dark Mode Support
 
-### 테마 전환
+### Theme Toggle
 ```javascript
 import { useTheme } from 'vuetify'
 
@@ -281,17 +281,17 @@ const toggleTheme = () => {
 }
 ```
 
-### CSS 변수 활용
+### CSS Variable Usage
 ```scss
-// 테마에 따라 자동으로 변경되는 색상
+// Colors that automatically change according to theme
 background: rgb(var(--v-theme-background));
 color: rgb(var(--v-theme-on-background));
 border-color: rgba(var(--v-theme-on-surface), 0.08);
 ```
 
-## 📱 반응형 디자인
+## 📱 Responsive Design
 
-### 브레이크포인트
+### Breakpoints
 ```scss
 // Mobile First
 @media (max-width: 600px) {
@@ -319,17 +319,17 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
 }
 ```
 
-### Vuetify 그리드 활용
+### Vuetify Grid Usage
 ```html
-<!-- 반응형 컬럼 -->
+<!-- Responsive columns -->
 <v-col cols="12" sm="6" md="4" lg="3">
-  <!-- 내용 -->
+  <!-- Content -->
 </v-col>
 ```
 
-## 🔄 네비게이션 시스템
+## 🔄 Navigation System
 
-### 사이드바 스타일
+### Sidebar Style
 ```scss
 .app-drawer {
   background: rgb(var(--v-theme-surface));
@@ -356,7 +356,7 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
 }
 ```
 
-### 앱바 스타일
+### App Bar Style
 ```scss
 .app-bar {
   border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
@@ -364,48 +364,48 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
 }
 ```
 
-## ♿ 접근성 가이드라인
+## ♿ Accessibility Guidelines
 
-### 색상 대비
-- 텍스트와 배경 간 최소 4.5:1 대비율 유지
-- 중요한 정보는 색상 외에 아이콘/텍스트로도 표현
+### Color Contrast
+- Maintain minimum 4.5:1 contrast ratio between text and background
+- Express important information with icons/text in addition to color
 
-### 키보드 내비게이션
-- 모든 인터랙티브 요소에 탭 순서 적용
-- 포커스 표시기 제공
+### Keyboard Navigation
+- Apply tab order to all interactive elements
+- Provide focus indicators
 
-### 스크린 리더 지원  
+### Screen Reader Support  
 ```html
-<!-- aria-label 활용 -->
-<v-btn aria-label="메뉴 열기" icon="mdi-menu" />
+<!-- aria-label usage -->
+<v-btn aria-label="Open menu" icon="mdi-menu" />
 
-<!-- 대체 텍스트 제공 -->
+<!-- Alternative text provision -->
 <v-icon aria-hidden="true">mdi-check</v-icon>
-<span class="sr-only">완료됨</span>
+<span class="sr-only">Completed</span>
 ```
 
-## 🚀 사용 예시
+## 🚀 Usage Examples
 
-### 새로운 페이지 생성 시
+### When Creating New Pages
 ```vue
 <template>
   <div class="page-wrapper">
     <v-container fluid class="pa-6">
-      <!-- 페이지 헤더 -->
+      <!-- Page header -->
       <v-row class="mb-8">
         <v-col>
           <div class="header-section">
-            <h1 class="display-title">페이지 제목</h1>
-            <p class="subtitle">페이지 설명</p>
+            <h1 class="display-title">Page Title</h1>
+            <p class="subtitle">Page Description</p>
           </div>
         </v-col>
       </v-row>
       
-      <!-- 메인 콘텐츠 -->
+      <!-- Main content -->
       <v-row>
         <v-col cols="12">
           <v-card class="modern-card">
-            <!-- 카드 내용 -->
+            <!-- Card content -->
           </v-card>
         </v-col>
       </v-row>
@@ -421,28 +421,28 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
 </style>
 ```
 
-### 새로운 카드 컴포넌트 생성 시
+### When Creating New Card Components
 ```vue
 <v-card class="modern-card" elevation="0" variant="flat">
   <v-card-text class="pa-6">
-    <!-- 카드 헤더 -->
+    <!-- Card header -->
     <div class="d-flex align-center mb-4">
       <v-avatar color="primary" size="48" class="mr-4">
         <v-icon icon="mdi-icon" color="white" />
       </v-avatar>
       <div>
-        <h3 class="text-h6 font-weight-bold">카드 제목</h3>
-        <p class="text-body-2 text-medium-emphasis">카드 설명</p>
+        <h3 class="text-h6 font-weight-bold">Card Title</h3>
+        <p class="text-body-2 text-medium-emphasis">Card Description</p>
       </div>
     </div>
     
-    <!-- 카드 내용 -->
-    <p class="text-body-2 mb-4">카드 내용</p>
+    <!-- Card content -->
+    <p class="text-body-2 mb-4">Card Content</p>
     
-    <!-- 카드 액션 -->
+    <!-- Card actions -->
     <div class="d-flex align-center justify-space-between">
       <v-chip color="success" variant="flat" size="small">
-        상태
+        Status
       </v-chip>
       <v-icon color="primary" size="20">mdi-arrow-right</v-icon>
     </div>
@@ -450,36 +450,36 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
 </v-card>
 ```
 
-## 📋 체크리스트
+## 📋 Checklist
 
-새로운 컴포넌트나 페이지 생성 시 다음 사항들을 확인하세요:
+Please verify the following when creating new components or pages:
 
-### 🎨 디자인
-- [ ] 정의된 색상 팔레트 사용
-- [ ] 일관된 타이포그래피 적용  
-- [ ] 적절한 간격과 패딩 사용
-- [ ] 카드 스타일 가이드라인 준수
+### 🎨 Design
+- [ ] Use defined color palette
+- [ ] Apply consistent typography  
+- [ ] Use appropriate spacing and padding
+- [ ] Follow card style guidelines
 
-### 🔧 기능성
-- [ ] 다크 모드 지원
-- [ ] 반응형 디자인 적용
-- [ ] 호버/포커스 상태 정의
-- [ ] 로딩 상태 처리
+### 🔧 Functionality
+- [ ] Dark mode support
+- [ ] Responsive design implementation
+- [ ] Hover/focus state definition
+- [ ] Loading state handling
 
-### ♿ 접근성
-- [ ] 적절한 색상 대비
-- [ ] 키보드 네비게이션 지원
-- [ ] 스크린 리더 호환성
-- [ ] 의미 있는 aria-label 제공
+### ♿ Accessibility
+- [ ] Appropriate color contrast
+- [ ] Keyboard navigation support
+- [ ] Screen reader compatibility
+- [ ] Meaningful aria-label provision
 
-## 🎨 모던 레이아웃 패턴
+## 🎨 Modern Layout Patterns
 
 ### Bento Box Layout
 ```vue
 <template>
   <v-container fluid>
     <div class="bento-grid">
-      <!-- 큰 카드 (2x2) -->
+      <!-- Large card (2x2) -->
       <v-card class="bento-item bento-large">
         <v-img 
           src="/hero-image.jpg" 
@@ -487,20 +487,20 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         >
           <v-card-title class="white--text">
-            오늘의 추천 메뉴
+            Today's Recommended Menu
           </v-card-title>
         </v-img>
       </v-card>
       
-      <!-- 중간 카드들 -->
+      <!-- Medium cards -->
       <v-card class="bento-item bento-medium">
         <v-card-text>
           <div class="text-h3 font-weight-bold primary--text">24</div>
-          <div class="text-subtitle-1">진행중인 주문</div>
+          <div class="text-subtitle-1">Orders in Progress</div>
         </v-card-text>
       </v-card>
       
-      <!-- 작은 카드들 -->
+      <!-- Small cards -->
       <v-card 
         v-for="stat in quickStats" 
         :key="stat.id"
@@ -551,16 +551,16 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
   <v-card class="glass-card">
     <v-card-title>
       <v-icon left>mdi-shimmer</v-icon>
-      프리미엄 멤버십
+      Premium Membership
     </v-card-title>
     <v-card-text>
       <div class="glass-content">
         <v-icon size="64" color="primary">mdi-crown</v-icon>
-        <h3>VIP 혜택</h3>
+        <h3>VIP Benefits</h3>
         <ul>
-          <li>무료 배송</li>
-          <li>10% 추가 할인</li>
-          <li>우선 예약</li>
+          <li>Free Shipping</li>
+          <li>10% Additional Discount</li>
+          <li>Priority Booking</li>
         </ul>
       </div>
     </v-card-text>
@@ -588,13 +588,13 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
   <div class="neumorphic-container">
     <div class="neumorphic-card">
       <v-icon size="48" color="primary">mdi-package-variant</v-icon>
-      <h3>총 상품</h3>
+      <h3>Total Products</h3>
       <p class="text-h4">1,234</p>
     </div>
     
     <button class="neumorphic-button">
       <v-icon left>mdi-plus</v-icon>
-      추가하기
+      Add
     </button>
   </div>
 </template>
@@ -636,38 +636,38 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
 </style>
 ```
 
-## 🎯 아이콘 시스템
+## 🎯 Icon System
 
-### 도메인별 아이콘 세트
+### Domain-specific Icon Sets
 ```javascript
 // config/icons.config.js
 export const domainIcons = {
-  // 음식 배달
+  // Food delivery
   restaurant: 'mdi-silverware-fork-knife',
   delivery: 'mdi-moped',
   order: 'mdi-receipt',
   
-  // 이커머스
+  // E-commerce
   cart: 'mdi-cart',
   product: 'mdi-package-variant',
   payment: 'mdi-credit-card',
   
-  // 분석
+  // Analytics
   analytics: 'mdi-chart-line',
   report: 'mdi-file-chart',
   dashboard: 'mdi-view-dashboard',
   
-  // 사용자
+  // Users
   customer: 'mdi-account',
   admin: 'mdi-shield-account',
   support: 'mdi-headset'
 }
 ```
 
-### 애니메이션 아이콘
+### Animated Icons
 ```vue
 <template>
-  <!-- CSS 애니메이션 -->
+  <!-- CSS animation -->
   <v-icon 
     class="animated-icon"
     :class="{ 'pulse': hasNewOrder }"
@@ -675,7 +675,7 @@ export const domainIcons = {
     mdi-bell
   </v-icon>
   
-  <!-- 회전 애니메이션 -->
+  <!-- Rotation animation -->
   <v-icon 
     class="rotating-icon"
     v-if="loading"
@@ -706,13 +706,13 @@ export const domainIcons = {
 </style>
 ```
 
-## 🎭 고급 UX 패턴
+## 🎭 Advanced UX Patterns
 
-### 스켈레톤 로더
+### Skeleton Loader
 ```vue
 <template>
   <v-container>
-    <!-- 로딩 중 -->
+    <!-- Loading state -->
     <template v-if="loading">
       <v-skeleton-loader
         v-for="i in 3"
@@ -722,7 +722,7 @@ export const domainIcons = {
       />
     </template>
     
-    <!-- 실제 콘텐츠 -->
+    <!-- Actual content -->
     <template v-else>
       <ProductCard 
         v-for="product in products" 
@@ -734,7 +734,7 @@ export const domainIcons = {
 </template>
 ```
 
-### 인터섹션 옵저버 (무한 스크롤)
+### Intersection Observer (Infinite Scroll)
 ```vue
 <template>
   <v-container>
@@ -748,7 +748,7 @@ export const domainIcons = {
       </v-col>
     </v-row>
     
-    <!-- 무한 스크롤 트리거 -->
+    <!-- Infinite scroll trigger -->
     <div ref="trigger" class="trigger-element" />
   </v-container>
 </template>
@@ -768,10 +768,10 @@ const { stop } = useIntersectionObserver(
 </script>
 ```
 
-### 트랜지션 효과
+### Transition Effects
 ```vue
 <template>
-  <!-- 리스트 트랜지션 -->
+  <!-- List transition -->
   <transition-group name="list" tag="div" class="row">
     <v-col 
       v-for="item in filteredItems" 
@@ -782,7 +782,7 @@ const { stop } = useIntersectionObserver(
     </v-col>
   </transition-group>
   
-  <!-- 페이지 트랜지션 -->
+  <!-- Page transition -->
   <router-view v-slot="{ Component }">
     <transition name="fade" mode="out-in">
       <component :is="Component" />
@@ -791,7 +791,7 @@ const { stop } = useIntersectionObserver(
 </template>
 
 <style>
-/* 리스트 애니메이션 */
+/* List animation */
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease;
@@ -807,7 +807,7 @@ const { stop } = useIntersectionObserver(
   transform: translateY(-30px);
 }
 
-/* 페이드 애니메이션 */
+/* Fade animation */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -820,4 +820,4 @@ const { stop } = useIntersectionObserver(
 </style>
 ```
 
-이 디자인 시스템을 따르면 일관되고 전문적인 사용자 인터페이스를 구축할 수 있습니다.
+Following this design system will help you build consistent and professional user interfaces.

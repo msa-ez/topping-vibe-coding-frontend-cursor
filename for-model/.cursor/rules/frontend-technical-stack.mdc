@@ -1,24 +1,24 @@
 ---
-description: Vue 3 + Vite + Vuetify 기반의 현대적인 Frontend 기술 스택을 정의합니다. 오류없이 빠르게 개발하고 효율적으로 배포할 수 있도록 최적화된 기술 구성입니다.
+description: Defines modern Frontend technology stack based on Vue 3 + Vite + Vuetify. Optimized technical configuration for rapid development and efficient deployment without errors.
 alwaysApply: false
 ---
-# Vue3 + Vite Frontend 기술 스택
+# Vue3 + Vite Frontend Technology Stack
 
-Frontend 코드를 생성할 때는 아래의 최신 기술 스택과 개발 가이드라인을 준수해 주세요.
+Please adhere to the following latest technology stack and development guidelines when generating Frontend code.
 
-## 핵심 기술 스택
+## Core Technology Stack
 
-### 1. 프로젝트 초기화 및 빌드 도구
-- **Vite 5.x**: 초고속 HMR(Hot Module Replacement)을 지원하는 차세대 빌드 도구
+### 1. Project Initialization and Build Tools
+- **Vite 5.x**: Next-generation build tool supporting ultra-fast HMR (Hot Module Replacement)
   ```bash
-  # Vite + Vue 프로젝트 생성
+  # Create Vite + Vue project
   pnpm create vite@latest frontend -- --template vue
   ```
-- **Node.js 18+**: LTS 버전 사용 권장
-- **pnpm**: 효율적인 디스크 공간 사용과 빠른 설치 속도
+- **Node.js 18+**: LTS version recommended
+- **pnpm**: Efficient disk space usage and fast installation speed
 
-### 2. 핵심 프레임워크
-- **Vue 3.4+**: Composition API와 `<script setup>` 문법 사용
+### 2. Core Framework
+- **Vue 3.4+**: Use Composition API and `<script setup>` syntax
   ```javascript
   // main.js
   import { createApp } from 'vue'
@@ -31,27 +31,27 @@ Frontend 코드를 생성할 때는 아래의 최신 기술 스택과 개발 가
   app.use(vuetify).mount('#app')
   ```
 
-### 3. UI 프레임워크 및 스타일링
-- **Vuetify 3.x**: Material Design 기반 UI 컴포넌트 라이브러리
+### 3. UI Framework and Styling
+- **Vuetify 3.x**: Material Design-based UI component library
   ```bash
   pnpm add vuetify
   pnpm add -D vite-plugin-vuetify
   ```
-- **Material Design Icons**: `@mdi/font` 또는 `@mdi/js` 사용
-- **CSS**: Vuetify의 내장 유틸리티 클래스 활용
+- **Material Design Icons**: Use `@mdi/font` or `@mdi/js`
+- **CSS**: Utilize Vuetify's built-in utility classes
 
-### 4. 라우팅 및 상태 관리
-- **Vue Router 4.x**: SPA 라우팅
+### 4. Routing and State Management
+- **Vue Router 4.x**: SPA routing
   ```javascript
   import { createRouter, createWebHistory } from 'vue-router'
   ```
-- **Pinia 2.x**: 직관적이고 타입 안전한 상태 관리
+- **Pinia 2.x**: Intuitive and type-safe state management
   ```javascript
   import { defineStore } from 'pinia'
   ```
 
-### 5. HTTP 통신
-- **Axios**: Promise 기반 HTTP 클라이언트
+### 5. HTTP Communication
+- **Axios**: Promise-based HTTP client
   ```javascript
   import axios from 'axios'
   
@@ -98,34 +98,34 @@ export default defineConfig({
 })
 ```
 
-## 프로젝트 구조 및 개발 패턴
+## Project Structure and Development Patterns
 
-### 1. Composition API 패턴
+### 1. Composition API Pattern
 ```vue
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useStore } from '@/stores/aggregate'
 
-// Props 정의
+// Props definition
 const props = defineProps({
   title: String
 })
 
-// 반응형 상태
+// Reactive state
 const count = ref(0)
 const doubleCount = computed(() => count.value * 2)
 
-// Store 사용
+// Store usage
 const store = useStore()
 
-// 생명주기 훅
+// Lifecycle hooks
 onMounted(async () => {
   await store.fetchData()
 })
 </script>
 ```
 
-### 2. Vuetify 컴포넌트 활용
+### 2. Vuetify Component Usage
 ```vue
 <template>
   <v-container>
@@ -135,7 +135,7 @@ onMounted(async () => {
           <v-card-title>{{ title }}</v-card-title>
           <v-card-text>
             <v-btn @click="handleClick" color="primary">
-              클릭
+              Click
             </v-btn>
           </v-card-text>
         </v-card>
@@ -145,7 +145,7 @@ onMounted(async () => {
 </template>
 ```
 
-### 3. API 서비스 패턴
+### 3. API Service Pattern
 ```javascript
 // services/aggregate.service.js
 import api from '@/services/api'
@@ -172,15 +172,15 @@ export const aggregateService = {
 }
 ```
 
-## 개발 도구 및 설정
+## Development Tools and Configuration
 
-### 1. VS Code 확장 프로그램
+### 1. VS Code Extensions
 - Vue - Official
-- Vetur (Vue 2) 또는 Volar (Vue 3)
+- Vetur (Vue 2) or Volar (Vue 3)
 - ESLint
 - Prettier
 
-### 2. ESLint 설정 (.eslintrc.js)
+### 2. ESLint Configuration (.eslintrc.js)
 ```javascript
 module.exports = {
   env: {
@@ -196,7 +196,7 @@ module.exports = {
 }
 ```
 
-### 3. 개발 스크립트 (package.json)
+### 3. Development Scripts (package.json)
 ```json
 {
   "scripts": {
@@ -208,30 +208,30 @@ module.exports = {
 }
 ```
 
-## 성능 최적화 팁
+## Performance Optimization Tips
 
-1. **컴포넌트 지연 로딩**
+1. **Component Lazy Loading**
    ```javascript
    const AdminPage = () => import('./views/AdminPage.vue')
    ```
 
-2. **Vite의 자동 임포트 활용**
-   - Vuetify 컴포넌트는 자동으로 트리쉐이킹됨
+2. **Utilize Vite's Auto Import**
+   - Vuetify components are automatically tree-shaken
 
-3. **이미지 최적화**
-   - Vite의 이미지 임포트 기능 활용
-   - WebP 포맷 사용 권장
+3. **Image Optimization**
+   - Utilize Vite's image import functionality
+   - WebP format recommended
 
-## 배포 고려사항
+## Deployment Considerations
 
-1. **빌드 최적화**
+1. **Build Optimization**
    ```bash
    pnpm run build
    ```
 
-2. **환경 변수 관리**
+2. **Environment Variable Management**
    - `.env.development`
    - `.env.production`
 
-3. **정적 자산 배포**
-   - `dist` 폴더를 CDN 또는 정적 호스팅 서비스에 배포
+3. **Static Asset Deployment**
+   - Deploy `dist` folder to CDN or static hosting service
