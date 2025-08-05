@@ -1,12 +1,17 @@
 ---
-description: 기초적인 Vue3 구조의 컴포넌트예시를 통해 제공된 HTML코드를 Vue3로 변환하여 BoundedContext내부에 구성되는 Aggregate별 Command와 관련하여 생성되어야 하는 UI에 대한 통일된 구조의 컴포넌트 가이드라인을 제공합니다.
+description: Provides unified component guidelines for UI that should be generated related to Command per Aggregate within BoundedContext by converting provided HTML code to Vue3 through basic Vue3 structure component examples.
 alwaysApply: false
 ---
 
+# Frontend Command UI Guidelines
 
-1. Button
+This document provides comprehensive guidelines for converting HTML wireframes to Vue3 components, specifically for Command-related UI elements within each Aggregate in a BoundedContext architecture.
 
-```
+## Component Structure Foundation
+
+### 1. Button Component Pattern
+
+```vue
 <template>
   <v-btn @click="handleClick" color="primary">
     Click Me
@@ -20,8 +25,9 @@ const handleClick = () => {
 </script>
 ```
 
-2. Dialog
-```
+### 2. Dialog Component Pattern
+
+```vue
 <template>
   <div>
     <v-btn @click="dialog = true" color="primary">
@@ -54,8 +60,9 @@ const confirm = () => {
 </script>
 ```
 
-3. Snackbar
-```
+### 3. Notification Component Pattern
+
+```vue
 <template>
   <div>
     <v-btn @click="showSnackbar" color="primary">
@@ -82,15 +89,27 @@ const showSnackbar = () => {
 }
 </script>
 ```
-아래 생성된 Command에 따른 UI HTML코드는 위에 제공된 Vue3 구조의 기초되는 컴포넌트를 참고하여 변환되어야 한다.
-이때 각 생성되는 파일의 위치는 @frontend-package-structure를 참고하며, 그에 따른 style은 @frontend-design-system을 참고하여 코드를 생성해야한다.
+
+## Implementation Guidelines
+
+The UI HTML code generated based on Commands below should be converted by referencing the basic Vue3 structure components provided above.
+
+- **File Structure**: Reference @frontend-package-structure for proper file organization
+- **Styling**: Apply @frontend-design-system guidelines for consistent styling
+- **Component Architecture**: Follow Vue3 Composition API patterns with `<script setup>` syntax
+
+## HTML Wireframe Processing
+
+The following template processes HTML wireframes for each Command within BoundedContexts:
+
 {{#if boundedContexts}}
 {{#boundedContexts}}
 {{#attached 'UI' this}}
-BoundedContext: {{boundedContext.name}}
+**BoundedContext**: {{boundedContext.name}}
 {{#attached 'Command'this}}
-Attached Command Name: {{name}}
-```
+**Command**: {{name}}
+
+```html
 {{#changeData ../runTimeTemplateHtml}}{{/changeData}}
 ```
 {{/attached}}
@@ -98,6 +117,14 @@ Attached Command Name: {{name}}
 {{/attached}}
 {{/boundedContexts}}
 {{/if}}
+
+### Processing Features:
+- **HTML Entity Decoding**: Converts encoded HTML entities (`&lt;`, `&gt;`, `&quot;`, etc.) to actual HTML characters
+- **Code Formatting**: Transforms compressed HTML into readable, properly indented code structure
+- **Vue3 Integration Ready**: Output is optimized for conversion to Vue3 components following the patterns above
+
+
+## Utility Functions
 
 <function>
 window.$HandleBars.registerHelper('changeData', function (desc) {
@@ -112,19 +139,19 @@ window.$HandleBars.registerHelper('changeData', function (desc) {
             .replace(/&#39;/g, "'")
             .replace(/&nbsp;/g, ' ');
         
-        // HTML 포맷팅 함수
+        // HTML formatting function for readable code output
         function formatHtml(html) {
             let formatted = '';
             let indent = 0;
-            const indentStr = '  '; // 2칸 들여쓰기
+            const indentStr = '  '; // 2-space indentation
             
-            // 블록 레벨 태그들
+            // Block-level elements
             const blockTags = ['div', 'section', 'article', 'header', 'footer', 'main', 'nav', 'aside', 'form', 'fieldset', 'table', 'thead', 'tbody', 'tr', 'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'blockquote', 'pre', 'address'];
             
-            // 자가 닫힘 태그들
+            // Self-closing elements
             const selfClosingTags = ['img', 'br', 'hr', 'input', 'meta', 'link', 'area', 'base', 'col', 'embed', 'source', 'track', 'wbr'];
             
-            // HTML을 태그 단위로 분리
+            // Split HTML into tokens (tags and text content)
             const tokens = html.match(/<\/?[^>]+>|[^<]+/g) || [];
             
             for (let i = 0; i < tokens.length; i++) {
@@ -132,22 +159,22 @@ window.$HandleBars.registerHelper('changeData', function (desc) {
                 if (!token) continue;
                 
                 if (token.startsWith('</')) {
-                    // 닫는 태그
+                    // Closing tag
                     indent--;
                     formatted += indentStr.repeat(Math.max(0, indent)) + token + '\n';
                 } else if (token.startsWith('<')) {
-                    // 여는 태그 또는 자가 닫힘 태그
+                    // Opening tag or self-closing tag
                     const tagMatch = token.match(/<(\w+)/);
                     const tagName = tagMatch ? tagMatch[1].toLowerCase() : '';
                     
                     formatted += indentStr.repeat(indent) + token + '\n';
                     
-                    // 자가 닫힘 태그가 아니고 블록 태그인 경우 들여쓰기 증가
+                    // Increase indentation for non-self-closing block tags
                     if (!selfClosingTags.includes(tagName) && !token.endsWith('/>')) {
                         indent++;
                     }
                 } else {
-                    // 텍스트 내용
+                    // Text content
                     if (token.length > 0) {
                         formatted += indentStr.repeat(indent) + token + '\n';
                     }
@@ -157,7 +184,7 @@ window.$HandleBars.registerHelper('changeData', function (desc) {
             return formatted.trim();
         }
         
-        // HTML 포맷팅 적용
+        // Apply HTML formatting for readable output
         return formatHtml(decodedHtml);
     }
     return desc;
