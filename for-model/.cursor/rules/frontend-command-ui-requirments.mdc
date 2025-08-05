@@ -84,10 +84,10 @@ const showSnackbar = () => {
 ```
 아래 생성된 Command에 따른 UI HTML코드는 위에 제공된 Vue3 구조의 기초되는 컴포넌트를 참고하여 변환되어야 한다.
 이때 각 생성되는 파일의 위치는 @frontend-package-structure를 참고하며, 그에 따른 style은 @frontend-design-system을 참고하여 코드를 생성해야한다.
+{{#if boundedContexts}}
 {{#boundedContexts}}
-{{#if aggregates}}
-{{else}}
-{{#editDesc description}}{{/editDesc}}
-{{/if}}
+{{#attached 'UI' this}}
+
+{{/attached}}
 {{/boundedContexts}}
 {{/if}}
