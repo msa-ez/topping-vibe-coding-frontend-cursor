@@ -103,7 +103,7 @@ Attached Command Name: {{name}}
 window.$HandleBars.registerHelper('changeData', function (desc) {
     // HTML 엔티티를 실제 HTML 문자로 디코딩
     if (typeof desc === 'string') {
-        return desc
+        let decodedHtml = desc
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>')
             .replace(/&quot;/g, '"')
@@ -111,6 +111,54 @@ window.$HandleBars.registerHelper('changeData', function (desc) {
             .replace(/&amp;/g, '&')
             .replace(/&#39;/g, "'")
             .replace(/&nbsp;/g, ' ');
+        
+        // HTML 포맷팅 함수
+        function formatHtml(html) {
+            let formatted = '';
+            let indent = 0;
+            const indentStr = '  '; // 2칸 들여쓰기
+            
+            // 블록 레벨 태그들
+            const blockTags = ['div', 'section', 'article', 'header', 'footer', 'main', 'nav', 'aside', 'form', 'fieldset', 'table', 'thead', 'tbody', 'tr', 'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'blockquote', 'pre', 'address'];
+            
+            // 자가 닫힘 태그들
+            const selfClosingTags = ['img', 'br', 'hr', 'input', 'meta', 'link', 'area', 'base', 'col', 'embed', 'source', 'track', 'wbr'];
+            
+            // HTML을 태그 단위로 분리
+            const tokens = html.match(/<\/?[^>]+>|[^<]+/g) || [];
+            
+            for (let i = 0; i < tokens.length; i++) {
+                const token = tokens[i].trim();
+                if (!token) continue;
+                
+                if (token.startsWith('</')) {
+                    // 닫는 태그
+                    indent--;
+                    formatted += indentStr.repeat(Math.max(0, indent)) + token + '\n';
+                } else if (token.startsWith('<')) {
+                    // 여는 태그 또는 자가 닫힘 태그
+                    const tagMatch = token.match(/<(\w+)/);
+                    const tagName = tagMatch ? tagMatch[1].toLowerCase() : '';
+                    
+                    formatted += indentStr.repeat(indent) + token + '\n';
+                    
+                    // 자가 닫힘 태그가 아니고 블록 태그인 경우 들여쓰기 증가
+                    if (!selfClosingTags.includes(tagName) && !token.endsWith('/>')) {
+                        indent++;
+                    }
+                } else {
+                    // 텍스트 내용
+                    if (token.length > 0) {
+                        formatted += indentStr.repeat(indent) + token + '\n';
+                    }
+                }
+            }
+            
+            return formatted.trim();
+        }
+        
+        // HTML 포맷팅 적용
+        return formatHtml(decodedHtml);
     }
     return desc;
 })
