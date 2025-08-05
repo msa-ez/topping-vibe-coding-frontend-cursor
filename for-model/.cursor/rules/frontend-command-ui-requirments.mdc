@@ -87,6 +87,13 @@ const showSnackbar = () => {
 {{#if boundedContexts}}
 {{#boundedContexts}}
 {{#attached 'UI' this}}
+{{boundedContext.name}}
+{{#attached 'Command'this}}
+{{name}}
+```
+{{../runTimeTemplateHtml}}
+```
+{{/attached}}
 
 {{/attached}}
 {{/boundedContexts}}
