@@ -1,102 +1,11 @@
 ---
-description: Provides unified component guidelines for UI that should be generated related to Command per Aggregate within BoundedContext by converting provided HTML code to Vue3 through basic Vue3 structure component examples.
+description: This document contains HTML wireframes for UIs (buttons, dialogs, dashboards, and search bars) derived from EventStorming. When building the frontend, if the names match, use these wireframes by converting them into Vue 3 components.
 alwaysApply: false
 ---
 
-# Frontend Command UI Guidelines
-
-This document provides comprehensive guidelines for converting HTML wireframes to Vue3 components, specifically for Command-related UI elements within each Aggregate in a BoundedContext architecture.
-
-## Component Structure Foundation
-
-### 1. Button Component Pattern
-
-```vue
-<template>
-  <v-btn @click="handleClick" color="primary">
-    Click Me
-  </v-btn>
-</template>
-
-<script setup>
-const handleClick = () => {
-  console.log('Button clicked!')
-}
-</script>
-```
-
-### 2. Dialog Component Pattern
-
-```vue
-<template>
-  <div>
-    <v-btn @click="dialog = true" color="primary">
-      Open Dialog
-    </v-btn>
-    
-    <v-dialog v-model="dialog" max-width="400">
-      <v-card>
-        <v-card-title>Dialog Title</v-card-title>
-        <v-card-text>Dialog content goes here.</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn @click="dialog = false">Cancel</v-btn>
-          <v-btn @click="confirm" color="primary">OK</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-
-const dialog = ref(false)
-
-const confirm = () => {
-  console.log('Confirmed!')
-  dialog.value = false
-}
-</script>
-```
-
-### 3. Notification Component Pattern
-
-```vue
-<template>
-  <div>
-    <v-btn @click="showSnackbar" color="primary">
-      Show Notification
-    </v-btn>
-    
-    <v-snackbar v-model="snackbar" timeout="3000">
-      {{ message }}
-      <template v-slot:actions>
-        <v-btn @click="snackbar = false">Close</v-btn>
-      </template>
-    </v-snackbar>
-  </div>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-
-const snackbar = ref(false)
-const message = ref('This is a notification!')
-
-const showSnackbar = () => {
-  snackbar.value = true
-}
-</script>
-```
-
 ## Implementation Guidelines
 
-The UI HTML code generated based on Commands below should be converted by referencing the basic Vue3 structure components provided above.
-
-- **File Structure**: Reference @frontend-package-structure for proper file organization
-- **Styling**: Apply @frontend-design-system guidelines for consistent styling
-- **Component Architecture**: Follow Vue3 Composition API patterns with `<script setup>` syntax
+When creating a component whose file name matches the names below, convert the provided HTML code into Vue 3 and use it.
 
 ## HTML Wireframe Processing
 
@@ -105,11 +14,19 @@ The following template processes HTML wireframes for each Command within Bounded
 {{#if boundedContexts}}
 {{#boundedContexts}}
 {{#attached 'UI' this}}
-**BoundedContext**: {{boundedContext.name}}
 {{#attached 'Command'this}}
-**Command**: {{name}}
+**BoundedContext**: {{boundedContext.name}}
+**name**: {{name}}
 
-```html
+```
+{{#changeData ../runTimeTemplateHtml}}{{/changeData}}
+```
+{{/attached}}
+{{#attached 'View'this}}
+**BoundedContext**: {{boundedContext.name}}
+**name**: {{name}}
+
+```
 {{#changeData ../runTimeTemplateHtml}}{{/changeData}}
 ```
 {{/attached}}
@@ -118,17 +35,9 @@ The following template processes HTML wireframes for each Command within Bounded
 {{/boundedContexts}}
 {{/if}}
 
-### Processing Features:
-- **HTML Entity Decoding**: Converts encoded HTML entities (`&lt;`, `&gt;`, `&quot;`, etc.) to actual HTML characters
-- **Code Formatting**: Transforms compressed HTML into readable, properly indented code structure
-- **Vue3 Integration Ready**: Output is optimized for conversion to Vue3 components following the patterns above
-
-
-## Utility Functions
-
 <function>
 window.$HandleBars.registerHelper('changeData', function (desc) {
-    // HTML 엔티티를 실제 HTML 문자로 디코딩
+    // Decode HTML entities into actual HTML characters
     if (typeof desc === 'string') {
         let decodedHtml = desc
             .replace(/&lt;/g, '<')
