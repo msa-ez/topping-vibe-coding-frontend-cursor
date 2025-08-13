@@ -7,7 +7,7 @@ Please implement Vue3 Frontend application code for an event storming model-base
 
 <function>
 var cache = []
-const includingKeys = ["", "options", "package" "_type", "fieldDescriptors", "className", "displayName", "events", "aggregateRoot", "aggregates", "policies", "incomingRelations", "source", "commands", "readModels", "queryOption", "queryParameters", "actors", "name", "examples", "given", "when", "then", "value", "type", "controllerInfo", "isRestRepository", "restRepositoryInfo", "apiPath", "method", "fullApiPath", "lifeCycles", "trigger", "annotataion", "entities", "relations", "targetElement", "items"]
+const includingKeys = ["", "options", "package", "_type", "fieldDescriptors", "className", "displayName", "events", "aggregateRoot", "aggregates", "policies", "incomingRelations", "source", "commands", "readModels", "queryOption", "queryParameters", "actors", "name", "examples", "given", "when", "then", "value", "type", "controllerInfo", "isRestRepository", "restRepositoryInfo", "apiPath", "method", "fullApiPath", "lifeCycles", "trigger", "annotataion", "entities", "relations", "targetElement", "items"]
 
 function customStringify(obj, cache = new Set(), parentType = null, parentKey = null, path = []) {
     if (obj === null || typeof obj !== 'object') {
