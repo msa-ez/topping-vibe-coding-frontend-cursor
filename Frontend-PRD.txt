@@ -1,5 +1,3 @@
-except: {{#checkFE this}}{{/checkFE}}
----
 Please implement Vue3 Frontend application code for an event storming model-based domain using Vue 3, TypeScript, and Pinia state management. The code must be implemented strictly based on the metadata provided below, following Component-Based Architecture patterns and MVVM design and @frontend-generation-rules:
 
 {{namePascalCase}} Metadata:
@@ -92,13 +90,4 @@ function customStringify(obj, cache = new Set(), parentType = null, parentKey = 
 
 // customStringify 함수 적용
 this.contexts.json = customStringify(this);
-
-window.$HandleBars.registerHelper('checkFE', function (bc) {
-    if(bc.name == 'ui' || bc.name == 'frontend' || bc.name == 'UI' || bc.name == 'Frontend' ){
-        return true;
-    }else{
-        return false;
-    }
-
-})
 </function>
