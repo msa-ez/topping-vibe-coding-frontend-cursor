@@ -1,7 +1,7 @@
-name: Vibe Coding for Vue3
+name: Vibe Coding for React
 rating: 5
 imageUrl: https://github.com/user-attachments/assets/7753ec29-b7dc-40ae-8582-d68221c56d43
-description: Implement Vue3 based on clean code through Vibe Coding
+description: Implement React based on clean code through Vibe Coding
 depends:
 tags:
   - Frontend

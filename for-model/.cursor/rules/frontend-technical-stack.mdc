@@ -1,237 +1,682 @@
 ---
-description: Defines modern Frontend technology stack based on Vue 3 + Vite + Vuetify. Optimized technical configuration for rapid development and efficient deployment without errors.
+
+description: Defines modern frontend technology stack based on React + TypeScript + Vite + Material-UI. Provides optimized technology settings for rapid development and efficient deployment.
 alwaysApply: false
 ---
-# Vue3 + Vite Frontend Technology Stack
 
-Please adhere to the following latest technology stack and development guidelines when generating Frontend code.
+# React + TypeScript + Vite Frontend Technology Stack
+
+Please follow the latest technology stack and development guidelines below when generating frontend code.
+
+## Development Environment Requirements
+
+- **Node.js**: 20.x or higher (LTS)
+- **Package Manager**: npm or yarn
 
 ## Core Technology Stack
 
-### 1. Project Initialization and Build Tools
-- **Vite 5.x**: Next-generation build tool supporting ultra-fast HMR (Hot Module Replacement)
-  ```bash
-  # Create Vite + Vue project
-  pnpm create vite@latest frontend -- --template vue
-  ```
-- **Node.js 18+**: LTS version recommended
-- **pnpm**: Efficient disk space usage and fast installation speed
+### Framework & Build Tools
+- **React**: 18.x or higher, functional components + Hooks pattern
+- **TypeScript**: Essential for type safety
+- **Vite**: Fast development server, HMR support, optimized build
 
-### 2. Core Framework
-- **Vue 3.4+**: Use Composition API and `<script setup>` syntax
-  ```javascript
-  // main.js
-  import { createApp } from 'vue'
-  import { createVuetify } from 'vuetify'
-  import App from './App.vue'
-  
-  const app = createApp(App)
-  const vuetify = createVuetify()
-  
-  app.use(vuetify).mount('#app')
-  ```
+### UI Component Library
+- **Material-UI (MUI)**: React component library based on Google Material Design
+- **@mui/material**: Core components
+- **@mui/icons-material**: Icon library
+- **@emotion/react**: CSS-in-JS styling
 
-### 3. UI Framework and Styling
-- **Vuetify 3.x**: Material Design-based UI component library
-  ```bash
-  pnpm add vuetify
-  pnpm add -D vite-plugin-vuetify
-  ```
-- **Material Design Icons**: Use `@mdi/font` or `@mdi/js`
-- **CSS**: Utilize Vuetify's built-in utility classes
+### State Management
+- **React Query (@tanstack/react-query)**: Server state management
+- **Zustand** or **Context API**: Client state management
+- **React Hook Form**: Form state management
 
-### 4. Routing and State Management
-- **Vue Router 4.x**: SPA routing
-  ```javascript
-  import { createRouter, createWebHistory } from 'vue-router'
-  ```
-- **Pinia 2.x**: Intuitive and type-safe state management
-  ```javascript
-  import { defineStore } from 'pinia'
-  ```
+### HTTP Client
+- **Axios**: HTTP client for API communication
+- **React Query**: Data fetching, caching, synchronization
 
-### 5. HTTP Communication
-- **Axios**: Promise-based HTTP client
-  ```javascript
-  import axios from 'axios'
-  
-  const api = axios.create({
-    baseURL: '/api',
-    timeout: 10000
-  })
-  ```
+### Routing
+- **React Router DOM**: SPA routing management
 
-## Vite 설정 (vite.config.js)
+## package.json Example
 
-```javascript
+```json
+{
+  "name": "react-typescript-vite-app",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "@mui/material": "^5.14.5",
+    "@mui/icons-material": "^5.14.3",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@tanstack/react-query": "^4.32.6",
+    "axios": "^1.5.0",
+    "react-hook-form": "^7.45.4",
+    "zustand": "^4.4.1",
+    "framer-motion": "^10.16.4",
+    "yup": "^1.3.0",
+    "@hookform/resolvers": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vitest": "^0.34.0",
+    "@vitest/ui": "^0.34.0"
+  }
+}
+```
+
+## Main Configuration Files
+
+### vite.config.ts
+```typescript
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-import { fileURLToPath, URL } from 'node:url'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
 export default defineConfig({
-  plugins: [
-    vue({
-      template: { transformAssetUrls }
-    }),
-    vuetify({
-      autoImport: true,
-      styles: {
-        configFile: 'src/styles/settings.scss'
-      }
-    })
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   server: {
     port: 3000,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true
-      }
-    }
-  }
+    host: true,
+    open: true,
+  },
+  preview: {
+    port: 4173,
+    host: true,
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          mui: ['@mui/material', '@mui/icons-material'],
+          router: ['react-router-dom'],
+        },
+      },
+    },
+  },
+  // Base URL configuration (adjust according to deployment environment)
+  base: '/',
 })
 ```
 
-## Project Structure and Development Patterns
-
-### 1. Composition API Pattern
-```vue
-<script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useStore } from '@/stores/aggregate'
-
-// Props definition
-const props = defineProps({
-  title: String
-})
-
-// Reactive state
-const count = ref(0)
-const doubleCount = computed(() => count.value * 2)
-
-// Store usage
-const store = useStore()
-
-// Lifecycle hooks
-onMounted(async () => {
-  await store.fetchData()
-})
-</script>
+### index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OrderPage</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
 ```
 
-### 2. Vuetify Component Usage
-```vue
-<template>
-  <v-container>
-    <v-row>
-      <v-col cols="12" md="6">
-        <v-card>
-          <v-card-title>{{ title }}</v-card-title>
-          <v-card-text>
-            <v-btn @click="handleClick" color="primary">
-              Click
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
-```
-
-### 3. API Service Pattern
-```javascript
-// services/aggregate.service.js
-import api from '@/services/api'
-
-export const aggregateService = {
-  async getAll() {
-    const { data } = await api.get('/aggregates')
-    return data
-  },
-  
-  async create(payload) {
-    const { data } = await api.post('/aggregates', payload)
-    return data
-  },
-  
-  async update(id, payload) {
-    const { data } = await api.put(`/aggregates/${id}`, payload)
-    return data
-  },
-  
-  async delete(id) {
-    await api.delete(`/aggregates/${id}`)
-  }
-}
-```
-
-## Development Tools and Configuration
-
-### 1. VS Code Extensions
-- Vue - Official
-- Vetur (Vue 2) or Volar (Vue 3)
-- ESLint
-- Prettier
-
-### 2. ESLint Configuration (.eslintrc.js)
-```javascript
-module.exports = {
-  env: {
-    node: true,
-  },
-  extends: [
-    'eslint:recommended',
-    'plugin:vue/vue3-recommended',
-  ],
-  rules: {
-    'vue/multi-word-component-names': 'off'
-  }
-}
-```
-
-### 3. Development Scripts (package.json)
+### tsconfig.json
 ```json
 {
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
-  }
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
 ```
 
-## Performance Optimization Tips
+### src/main.tsx
+```typescript
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
 
-1. **Component Lazy Loading**
-   ```javascript
-   const AdminPage = () => import('./views/AdminPage.vue')
-   ```
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+```
 
-2. **Utilize Vite's Auto Import**
-   - Vuetify components are automatically tree-shaken
+### src/store/index.ts (Zustand State Management)
+```typescript
+import { create } from 'zustand'
 
-3. **Image Optimization**
-   - Utilize Vite's image import functionality
-   - WebP format recommended
+interface AppState {
+  loading: boolean
+  user: any | null
+  theme: 'light' | 'dark'
+  setLoading: (loading: boolean) => void
+  setUser: (user: any) => void
+  toggleTheme: () => void
+}
 
-## Deployment Considerations
+export const useAppStore = create<AppState>((set) => ({
+  loading: false,
+  user: null,
+  theme: 'light',
+  setLoading: (loading) => set({ loading }),
+  setUser: (user) => set({ user }),
+  toggleTheme: () => set((state) => ({ 
+    theme: state.theme === 'light' ? 'dark' : 'light' 
+  })),
+}))
+```
 
-1. **Build Optimization**
-   ```bash
-   pnpm run build
-   ```
+## Router Configuration Example (React Router Based)
 
-2. **Environment Variable Management**
-   - `.env.development`
-   - `.env.production`
+### src/App.tsx
+```typescript
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ThemeProvider } from '@mui/material/styles'
+import { CssBaseline } from '@mui/material'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { lightTheme } from './theme'
+import Layout from './components/common/Layout'
 
-3. **Static Asset Deployment**
-   - Deploy `dist` folder to CDN or static hosting service
+// Pages
+import HomePage from './pages/HomePage'
+import OrderPage from './pages/order/OrderPage'
+import CustomerCenterPage from './pages/customercenter/CustomerCenterPage'
+
+const queryClient = new QueryClient()
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/order" element={<OrderPage />} />
+              <Route path="/customercenter" element={<CustomerCenterPage />} />
+            </Routes>
+          </Layout>
+        </Router>
+      </ThemeProvider>
+    </QueryClientProvider>
+  )
+}
+
+export default App
+```
+
+### src/pages/HomePage.tsx
+```typescript
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { 
+  Box, Container, Typography, Grid, Card, 
+  CardContent, CardActionArea 
+} from '@mui/material'
+
+const HomePage: React.FC = () => {
+  const navigate = useNavigate()
+
+  const boundedContexts = [
+    { 
+      name: 'Order Management', 
+      path: '/order', 
+      description: 'View and manage orders.' 
+    },
+    { 
+      name: 'Customer Center', 
+      path: '/customercenter', 
+      description: 'Check user information.' 
+    },
+  ]
+
+  return (
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h3" component="h1" gutterBottom>
+          OrderPage
+        </Typography>
+        <Typography variant="h6" color="text.secondary">
+          Welcome to the Order Management System.
+        </Typography>
+      </Box>
+      
+      <Grid container spacing={3}>
+        {boundedContexts.map((context) => (
+          <Grid item xs={12} sm={6} md={4} key={context.name}>
+            <Card elevation={2}>
+              <CardActionArea onClick={() => navigate(context.path)}>
+                <CardContent>
+                  <Typography variant="h5" component="h2" gutterBottom>
+                    {context.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {context.description}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  )
+}
+
+export default HomePage
+```
+
+### src/pages/order/OrderPage.tsx
+```typescript
+import React from 'react'
+import { Container, Typography, Box } from '@mui/material'
+
+const OrderPage: React.FC = () => {
+  return (
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box>
+        <Typography variant="h3" component="h1" gutterBottom>
+          Order Management
+        </Typography>
+        {/* Order related components */}
+      </Box>
+    </Container>
+  )
+}
+
+export default OrderPage
+```
+
+### src/pages/customercenter/CustomerCenterPage.tsx
+```typescript
+import React from 'react'
+import { Container, Typography, Box } from '@mui/material'
+
+const CustomerCenterPage: React.FC = () => {
+  return (
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Box>
+        <Typography variant="h3" component="h1" gutterBottom>
+          Customer Center
+        </Typography>
+        {/* Customer center related components */}
+      </Box>
+    </Container>
+  )
+}
+
+export default CustomerCenterPage
+```
+
+## React Hook Examples
+
+### src/hooks/useApi.ts
+```typescript
+import { useState, useEffect } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
+
+// API call hook
+export const useApiData = <T>(url: string, enabled = true) => {
+  return useQuery<T>({
+    queryKey: [url],
+    queryFn: () => axios.get(url).then(res => res.data),
+    enabled,
+  })
+}
+
+// Mutation hook
+export const useApiMutation = <T, U>(
+  url: string,
+  method: 'POST' | 'PUT' | 'DELETE' = 'POST'
+) => {
+  const queryClient = useQueryClient()
+  
+  return useMutation<T, Error, U>({
+    mutationFn: (data: U) => {
+      switch (method) {
+        case 'POST':
+          return axios.post(url, data).then(res => res.data)
+        case 'PUT':
+          return axios.put(url, data).then(res => res.data)
+        case 'DELETE':
+          return axios.delete(url).then(res => res.data)
+        default:
+          throw new Error('Unsupported method')
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [url] })
+    },
+  })
+}
+
+// Local state management hook
+export const useLocalStorage = <T>(key: string, initialValue: T) => {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initialValue
+    } catch (error) {
+      return initialValue
+    }
+  })
+
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value
+      setStoredValue(valueToStore)
+      window.localStorage.setItem(key, JSON.stringify(valueToStore))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return [storedValue, setValue] as const
+}
+```
+
+## Axios Service Example
+
+### src/services/api/client.ts
+```typescript
+import axios from 'axios'
+
+const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+// Request interceptor
+apiClient.interceptors.request.use(
+  (config) => {
+    // Add token logic
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
+
+// Response interceptor
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Error handling logic
+    if (error.response?.status === 401) {
+      // Handle authentication failure
+      localStorage.removeItem('token')
+      window.location.href = '/login'
+    }
+    return Promise.reject(error)
+  }
+)
+
+export default apiClient
+```
+
+## React Component Writing Guidelines
+
+### React + TypeScript Component Writing
+```typescript
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { Card, CardContent, Button, Typography } from '@mui/material'
+import { useAppStore } from '@/store'
+import { useApiData } from '@/hooks/useApi'
+
+interface ExampleComponentProps {
+  title: string
+  onUpdate?: (value: string) => void
+}
+
+const ExampleComponent: React.FC<ExampleComponentProps> = ({ 
+  title, 
+  onUpdate 
+}) => {
+  // Local state
+  const [localCount, setLocalCount] = useState(0)
+  
+  // Global state (Zustand)
+  const { loading, setLoading } = useAppStore()
+  
+  // Server state (React Query)
+  const { data, isLoading, error } = useApiData<any[]>('/api/items')
+  
+  // Computed value (using useMemo)
+  const displayCount = useMemo(() => localCount * 2, [localCount])
+  
+  // Event handler
+  const handleClick = useCallback(() => {
+    setLocalCount(prev => prev + 1)
+    onUpdate?.('updated')
+  }, [onUpdate])
+  
+  // Side effects
+  useEffect(() => {
+    setLoading(isLoading)
+  }, [isLoading, setLoading])
+
+  if (error) return <Typography color="error">An error occurred</Typography>
+
+  return (
+    <Card sx={{ p: 2 }}>
+      <CardContent>
+        <Typography variant="h5" gutterBottom>
+          {title}
+        </Typography>
+        <Typography variant="body1">
+          Local Count: {localCount} | Double Count: {displayCount}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Data Count: {data?.length || 0}
+        </Typography>
+        <Button 
+          variant="contained" 
+          onClick={handleClick}
+          disabled={loading}
+          sx={{ mt: 2 }}
+        >
+          Click ({localCount})
+        </Button>
+      </CardContent>
+    </Card>
+  )
+}
+
+export default ExampleComponent
+```
+
+## React Router and Error Handling
+
+### Key Features of React Router
+
+1. **Component-based Routing**: Define routes using JSX syntax
+2. **Dynamic Routing**: Support for URL parameters and query strings
+3. **Nested Routing**: Layout and nested route structure
+4. **Programmatic Navigation**: Using useNavigate hook
+5. **Route Guards**: Route protection based on authentication
+
+### Environment Variable Type Definition: src/vite-env.d.ts
+```typescript
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_BASE_URL: string
+  readonly VITE_APP_TITLE: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+```
+
+### Error Boundary: src/components/common/ErrorBoundary.tsx
+```typescript
+import React, { Component, ErrorInfo, ReactNode } from 'react'
+import { Box, Typography, Button, Card, CardContent } from '@mui/material'
+import { ErrorOutline, Home } from '@mui/icons-material'
+
+interface Props {
+  children: ReactNode
+}
+
+interface State {
+  hasError: boolean
+  error?: Error
+}
+
+class ErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error }
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <Box 
+          sx={{ 
+            minHeight: '100vh', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            p: 3
+          }}
+        >
+          <Card sx={{ maxWidth: 500 }}>
+            <CardContent sx={{ textAlign: 'center', p: 4 }}>
+              <ErrorOutline sx={{ fontSize: 80, color: 'error.main', mb: 2 }} />
+              
+              <Typography variant="h4" gutterBottom>
+                An Error Occurred
+              </Typography>
+              
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                An unexpected error occurred. Please refresh the page or return home.
+              </Typography>
+              
+              <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+                <Button 
+                  variant="outlined" 
+                  onClick={() => window.location.reload()}
+                >
+                  Refresh
+                </Button>
+                <Button 
+                  variant="contained" 
+                  startIcon={<Home />}
+                  onClick={() => window.location.href = '/'}
+                >
+                  Go Home
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      )
+    }
+
+    return this.props.children
+  }
+}
+
+export default ErrorBoundary
+```
+
+## Development Guidelines
+
+1. **Essential TypeScript Usage**: Strict type definitions in all components and services
+2. **Functional Components**: Use functional components + Hooks instead of Class components
+3. **Component Naming**: Use PascalCase (.tsx extension)
+4. **File Structure**: Maintain domain-separated folder structure
+5. **State Management**: Use React Query for server state, Zustand for client state
+6. **API Communication**: Data fetching through Axios + React Query
+7. **Styling**: Prioritize Material-UI sx props, use styled components when necessary
+8. **Performance Optimization**: Actively use useMemo, useCallback, React.memo
+9. **Error Handling**: Comprehensive error handling through ErrorBoundary and try-catch
+10. **Accessibility**: Utilize Material-UI's built-in accessibility features and add aria attributes
+
+## Additional Library Recommendations
+
+### Form Handling
+- **React Hook Form**: Performance-optimized form library
+- **Yup**: Schema-based validation
+
+### Animation
+- **Framer Motion**: Advanced animation and gestures
+- **Material-UI Transitions**: Simple transition effects
+
+### Testing
+- **Vitest**: Vite-based test runner
+- **Testing Library**: React component testing
+- **MSW**: API mocking

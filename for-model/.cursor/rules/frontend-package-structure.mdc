@@ -1,103 +1,189 @@
 ---
-description: Vue 3 + Vite 프로젝트의 표준 폴더 구조를 정의합니다. 확장 가능하고 유지보수가 용이한 프로젝트 구조를 제공합니다.
+
+description: Defines the standard folder structure for React + TypeScript + Vite projects. Provides an extensible and maintainable project structure.
 alwaysApply: false
 ---
-Vue3 Frontend 프로젝트 구조 요구사항
 
-제공된 메타데이터에 따라 다음 구조와 파일 설명을 따라 파일들을 생성해 주세요.
-BoundedContext별 PRD에 따른 frontend는 하나의 frontend 폴더 하위에 통합 구성됩니다.
+React + TypeScript Frontend Project Structure Requirements
+
+Please create files following the structure and file descriptions below according to the provided metadata.
+BoundedContext-specific frontend based on PRD is integrated under a single frontend folder.
 
 ```
-/frontend                  # 통합 프론트엔드 프로젝트
+/frontend                  # Integrated frontend project (React + Vite + TypeScript)
+  /public
+    /favicon.ico          # Favicon
+    /logo192.png         # App logo
+    /manifest.json       # PWA configuration
   /src
     /components
-      /common              # 모든 BC에서 공통으로 사용하는 컴포넌트
-        /Button.vue        # 재사용 가능한 버튼 컴포넌트
-        /Modal.vue         # 모달 컴포넌트
-        /DataTable.vue     # 데이터 테이블 컴포넌트
-        /Layout.vue        # 공통 레이아웃 컴포넌트
-      /[BoundedContext]    # BC별 컴포넌트 그룹 (ex. order, delivery, product..)
-        /[aggregate]       # BC 내 Aggregate별 컴포넌트
-          /AggregateList.vue # Aggregate 데이터를 표시하는 List 컴포넌트
-          /AggregateDetail.vue # Aggregate 상세 정보 컴포넌트
-          /AggregateForm.vue # Aggregate 생성/수정 폼 컴포넌트
-        /[command]         # BC 내 Command별 버튼 컴포넌트
-          /CommandButton.vue # Command 실행을 위한 버튼 컴포넌트
-    /composables
-      /common              # 공통 composables
-        /useAuth.ts        # 인증 관련 로직
-        /useNotification.ts # 알림 관련 로직
-      /[BoundedContext]    # BC별 composables
-        /use[Aggregate].ts # BC 내 Aggregate 관련 비즈니스 로직
-        /use[Command].ts   # BC 내 Command 관련 API 호출 로직
-        /use[Event].ts     # BC 내 Event 처리 로직
-        /usePolicyHandler.ts # BC 내 Policy 이벤트 핸들링 로직
-    /stores
-      /common
-        /app.store.ts      # 애플리케이션 전역 상태
-        /auth.store.ts     # 인증 상태 관리
-      /[BoundedContext]    # BC별 스토어
-        /[aggregate].store.ts # BC 내 Aggregate 상태 관리
-    /services
+      /common             # Global common components
+        /Layout.tsx       # Common layout component
+        /Navigation.tsx   # Navigation component
+        /Toast.tsx        # Global toast notification
+        /ErrorBoundary.tsx # Error boundary
+        /Loading.tsx      # Loading component
+      /[BoundedContext]   # BC-specific event storming sticker-based structure
+        /[Aggregate]Page.tsx        # Aggregate CRUD main page
+        /[Aggregate]Form.tsx        # Create/update form
+        /[Aggregate]Table.tsx       # Data table
+        /[Aggregate]Card.tsx        # Card component
+        /[VO]Component.tsx          # Value Object component (created only when VO info exists in aggregateRoot.entities.relations)
+        /[Enum]Component.tsx        # Enum component (created only when Enum info exists in aggregateRoot.entities.relations)
+        /[Entity]Component.tsx      # Entity component (created only when Entity info exists in aggregateRoot.entities.relations)
+        /[Command]Button.tsx        # Command button component
+        /[Command]Modal.tsx         # Command modal component (created only when commands.isRestRepository is false)
+        /search            # Query for Aggregate-based search (created when Metadata views.queryparameters exist)
+          /[ReadModel]Search.tsx # Search bar UI implementation
+        /dashboard         # CQRS-based dashboard (created when Metadata views.fieldDescriptors exist)
+          /[ReadModel]Dashboard.tsx # Dashboard dedicated page
+    /pages                # Page components (React Router based)
+      /HomePage.tsx       # Main home page (including BC navigation)
+      /[BoundedContext]   # BC-specific pages
+        /[BoundedContext]Page.tsx # BC dashboard page
+        /[aggregate]
+          /[Aggregate]Page.tsx  # Aggregate page
+        /[views]
+          /[ReadModel]Page.tsx  # ReadModel dashboard page
+    /hooks                # Custom React hooks
+      /useApi.ts          # API call hook
+      /useAuth.ts         # Authentication related hook
+      /useLocalStorage.ts # Local storage hook
+      /[BoundedContext]   # BC-specific hooks
+        /use[Aggregate].ts # Aggregate related hook
+    /services             # API and business logic
       /api
-        /client.ts         # API 클라이언트 기본 설정
-        /interceptors.ts   # API 인터셉터
-      /[BoundedContext]    # BC별 API 서비스
-        /[aggregate].service.ts # BC 내 Aggregate 관련 API 서비스
-    /types
-      /common.types.ts     # 공통 타입 정의
-      /[BoundedContext]    # BC별 타입 정의
-        /[aggregate].types.ts # BC 내 Aggregate 관련 TypeScript 타입 정의
-    /views
-      /common
-        /MainDashboard.vue # 메인 대시보드 페이지
-        /NotFound.vue      # 404 페이지
-      /[BoundedContext]    # BC별 페이지 그룹
-        /[Aggregate]View.vue # BC 내 Aggregate 메인 뷰
-        /[Aggregate]ListView.vue # BC 내 Aggregate 목록 뷰
-        /[Aggregate]DetailView.vue # BC 내 Aggregate 상세 뷰
-    /router
-      /index.ts            # Vue Router 메인 설정
-      /[BoundedContext].routes.ts # BC별 라우트 정의
-    /assets
-      /styles
-        /main.scss         # 전역 스타일
-        /variables.scss    # SCSS 변수
-        /themes            # 테마별 스타일
-      /images              # 이미지 리소스
-        /common            # 공통 이미지
-        /[BoundedContext]  # BC별 이미지
-    /plugins
-      /vuetify.ts          # Vuetify 플러그인 설정 (또는 Element Plus)
-      /pinia.ts            # Pinia 플러그인 설정
-    /utils
-      /helpers.ts          # 유틸리티 함수
-      /constants.ts        # 상수 정의
-      /formatters.ts       # 데이터 포맷터
-    App.vue                # 루트 컴포넌트
-    main.ts                # 애플리케이션 진입점
-  /tests
-    /unit
-      /components          # 컴포넌트 단위 테스트
-        /common            # 공통 컴포넌트 테스트
-        /[BoundedContext]  # BC별 컴포넌트 테스트
-      /composables         # Composables 단위 테스트
-      /stores              # 스토어 단위 테스트
-      /utils               # 유틸리티 함수 테스트
-    playwright.config.ts  # Playwright E2E 테스트 설정
-  /public
-    index.html            # HTML 진입점
-    favicon.ico           # 파비콘
-    /assets               # 정적 자산
-  /docs                   # 프로젝트 문서
-    /components          # 컴포넌트 문서
-    /api                 # API 문서
-  package.json            # NPM 패키지 설정
-  vite.config.ts          # Vite 빌드 도구 설정
-  tsconfig.json           # TypeScript 설정
-  .eslintrc.js            # ESLint 설정
-  .prettierrc             # Prettier 설정
-  .env                    # 환경 변수
-  .env.example            # 환경 변수 예시
+        /client.ts        # Axios client basic configuration
+        /interceptors.ts  # API interceptors
+        /types.ts         # API related types
+      /[BoundedContext]   # BC-specific API services
+        /[aggregate].service.ts # BC Aggregate related API service
+        /[command].service.ts   # Command related API service
+        /[query].service.ts     # Query related API service
+    /store                # State management (Zustand or Context API)
+      /index.ts           # Store root
+      /auth.store.ts      # Authentication state
+      /[BoundedContext]   # BC-specific store
+        /[aggregate].store.ts # BC Aggregate related state management
+    /types                # TypeScript type definitions
+      /common.types.ts    # Common type definitions
+      /api.types.ts       # API related types
+      /[BoundedContext]   # BC-specific type definitions
+        /[aggregate].types.ts # BC Aggregate related TypeScript type definitions
+        /[command].types.ts   # Command related types
+        /[query].types.ts     # Query related types
+    /utils                # Utility functions
+      /constants.ts       # Constant definitions
+      /formatters.ts      # Data formatters
+      /validators.ts      # Validation
+      /helpers.ts         # Helper functions
+    /theme                # Material-UI theme configuration
+      /index.ts           # Main theme configuration
+      /palette.ts         # Color palette
+      /typography.ts      # Typography configuration
+      /components.ts      # Component-specific theme overrides
+    /App.tsx              # Root App component
+    /main.tsx             # Vite entry point
+    /index.css            # Global styles
+    /vite-env.d.ts        # Vite type definitions
+  package.json            # NPM package configuration
+  vite.config.ts          # Vite build tool configuration
+  tsconfig.json           # TypeScript configuration
+  tsconfig.node.json      # Node.js TypeScript configuration
+  .eslintrc.cjs           # ESLint configuration
+  .prettierrc             # Prettier configuration
+  .env                    # Environment variables
+  .env.example            # Environment variable examples
+  .gitignore              # Git ignore file
+  README.md               # Project documentation
   ```
 
+## Detailed Folder Structure Description
+
+### `/src/components` - Components Directory
+- **`/common`**: Globally used common components
+- **`/[BoundedContext]`**: Domain-specific component grouping
+- **Naming Convention**: Use PascalCase, clearly express functionality
+
+### `/src/pages` - Page Components
+- Page-level components integrated with **React Router**
+- **`/[BoundedContext]`**: Domain-specific page structure
+- **Routing Structure**: `/boundedcontext/aggregate` format
+
+### `/src/hooks` - Custom Hooks
+- Use **`use`** prefix
+- **Business Logic Separation**: Separate logic from components
+- **Reusability**: Common use across multiple components
+
+### `/src/services` - Service Layer
+- **API Communication**: Axios-based HTTP client
+- **Business Logic**: Domain-specific service separation
+- **Error Handling**: Centralized error handling
+
+### `/src/store` - State Management
+- **Global State**: Using Zustand or Context API
+- **Domain Separation**: BC-specific state management
+- **Type Safety**: Full TypeScript support
+
+### `/src/types` - Type Definitions
+- **Domain-specific Types**: Separate types by BC
+- **API Types**: Server response type definitions
+- **Component Props**: Interface definitions
+
+### `/src/theme` - Theme Configuration
+- **Material-UI Theme**: Centralized theme management
+- **Dark/Light Mode**: Theme switching support
+- **Component Override**: Default style customization
+
+## File Naming Conventions
+
+### Component Files
+- **React Components**: `ComponentName.tsx`
+- **Page Components**: `PageName.tsx`
+- **Hooks**: `useHookName.ts`
+
+### Service Files
+- **API Services**: `service-name.service.ts`
+- **Type Definitions**: `entity.types.ts`
+- **Store**: `entity.store.ts`
+
+### Configuration Files
+- **Vite Configuration**: `vite.config.ts`
+- **TypeScript Configuration**: `tsconfig.json`
+- **Environment Variables**: `.env`
+
+## Metadata-Based File Creation Rules
+
+### Aggregate-Based Creation
+1. **Page**: `[AggregateRoot]Page.tsx`
+2. **Form**: `[AggregateRoot]Form.tsx`
+3. **Table**: `[AggregateRoot]Table.tsx`
+4. **Service**: `[aggregate].service.ts`
+5. **Types**: `[aggregate].types.ts`
+6. **Store**: `[aggregate].store.ts`
+
+### Command-Based Creation 
+1. **Button**: `[Command]Button.tsx`
+2. **Modal**: `[Command]Modal.tsx`
+3. **Service**: `[command].service.ts`
+4. **Types**: `[command].types.ts`
+
+### View-Based Creation
+1. **Search**: `[ReadModel]Search.tsx`
+2. **Dashboard**: `[ReadModel]Dashboard.tsx`
+3. **Service**: `[query].service.ts`
+4. **Types**: `[query].types.ts`
+
+## React Router Routing Structure
+
+```typescript
+// Routing examples
+/                           # HomePage
+/order                      # OrderPage (BC dashboard)
+/order/orders               # Order Aggregate page
+/order/orderhistory         # OrderHistory ReadModel page
+/customercenter             # CustomerCenterPage (BC dashboard)
+/customercenter/mypage      # MyPage ReadModel page
+```
+
+Following this structure will help you build an extensible and maintainable React + TypeScript project.

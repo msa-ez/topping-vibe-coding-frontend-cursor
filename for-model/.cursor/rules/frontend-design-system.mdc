@@ -1,367 +1,678 @@
 ---
+
 title: Frontend Design System
-description: Integrated design system based on Vue 3 + Vuetify. Provides comprehensive guidelines for consistent UI/UX including colors, typography, component styles, and animations.
+description: Integrated design system based on React + TypeScript + Material-UI. Provides comprehensive guidelines for consistent UI/UX including colors, typography, component styles, and animations.
 ---
 
-# Frontend Design System
 
-A clean and modern design system based on Vue 3 + Vuetify. Provides guidelines for consistent user experience and maintainable code.
+# React Frontend Design System
+
+A clean and modern design system based on React + TypeScript + Material-UI. Provides guidelines for consistent user experience and maintainable code.
 
 ## 🎨 Color Palette
 
-### Primary Colors
-```javascript
-// Light Theme
-primary: '#3B82F6',      // Modern blue (primary actions, brand)
-secondary: '#64748B',    // Slate gray (secondary elements)
-accent: '#06B6D4',       // Cyan (accent elements)
+### Base Colors (Material-UI Theme Based)
+```typescript
+// themes/colors.ts
+export const colorPalette = {
+  primary: {
+    50: '#e3f2fd',
+    100: '#bbdefb',
+    200: '#90caf9',
+    300: '#64b5f6',
+    400: '#42a5f5',
+    500: '#2196f3',  // main
+    600: '#1e88e5',
+    700: '#1976d2',
+    800: '#1565c0',
+    900: '#0d47a1',
+  },
+  gray: {
+    50: '#fafafa',
+    100: '#f5f5f5',
+    200: '#eeeeee',
+    300: '#e0e0e0',
+    400: '#bdbdbd',
+    500: '#9e9e9e',
+    600: '#757575',
+    700: '#616161',
+    800: '#424242',
+    900: '#212121',
+  }
+};
 
-// Dark Theme  
-primary: '#60A5FA',      // Light blue
-secondary: '#94A3B8',    // Light slate
-accent: '#22D3EE',       // Light cyan
+// Automatic dark theme support (using Material-UI ThemeProvider)
 ```
 
-### Semantic Colors
-```javascript
-// Light Theme
-success: '#10B981',      // Emerald (success, completion)
-warning: '#F59E0B',      // Amber (warning, caution)
-error: '#EF4444',        // Red (error, deletion)
-info: '#3B82F6',         // Blue (information, notification)
-
-// Dark Theme
-success: '#34D399',      // Light emerald
-warning: '#FBBF24',      // Light amber  
-error: '#F87171',        // Light red
-info: '#60A5FA',         // Light blue
+### Semantic Colors (Material-UI Semantic Colors)
+```typescript
+export const semanticColors = {
+  success: {
+    light: '#81c784',
+    main: '#4caf50',
+    dark: '#388e3c',
+    contrastText: '#fff',
+  },
+  warning: {
+    light: '#ffb74d',
+    main: '#ff9800',
+    dark: '#f57c00',
+    contrastText: '#fff',
+  },
+  error: {
+    light: '#e57373',
+    main: '#f44336',
+    dark: '#d32f2f',
+    contrastText: '#fff',
+  },
+  info: {
+    light: '#64b5f6',
+    main: '#2196f3',
+    dark: '#1976d2',
+    contrastText: '#fff',
+  },
+};
 ```
 
-### Surface Colors
-```javascript
-// Light Theme
-background: '#F8FAFC',   // Light gray (overall background)
-surface: '#FFFFFF',      // White (card, modal background)
+### Material-UI Theme Configuration
+```typescript
+// themes/theme.ts
+import { createTheme } from '@mui/material/styles';
 
-// Dark Theme
-background: '#0F172A',   // Dark navy (overall background)
-surface: '#1E293B',      // Dark slate (card, modal background)
+export const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#2196f3',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+    background: {
+      default: '#fafafa',
+      paper: '#ffffff',
+    },
+  },
+});
+
+export const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#90caf9',
+    },
+    secondary: {
+      main: '#f48fb1',
+    },
+    background: {
+      default: '#121212',
+      paper: '#1e1e1e',
+    },
+  },
+});
 ```
 
 ### Color Usage Principles
-- **Primary**: Main action buttons, brand elements, active states
-- **Secondary**: Secondary buttons, inactive states, descriptive text
-- **Accent**: Special emphasis, hover states, point colors
-- **Semantic**: Status-based feedback (success/warning/error/information)
+- **Primary Colors**: Main action buttons, brand elements, active states
+- **Secondary Colors**: Secondary buttons, inactive states, description text
+- **Accent Colors**: Special emphasis, hover states, highlight colors
+- **Semantic Colors**: Status-based feedback (success/warning/error/info)
 
 ## 📝 Typography
 
-### Font Size System
-```scss
-// Display Titles (main titles)
-.display-title {
-  font-size: 2.5rem;        // 40px
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
-}
+### Material-UI Typography Component System
+```typescript
+import { Typography } from '@mui/material';
 
-// Section Headings (section titles)
-.section-heading {
-  font-size: 1.25rem;       // 20px
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
+// Main Heading
+<Typography variant="h1" component="h1" fontWeight={700}>
+  Main Title
+</Typography>
 
-// Card Titles (card titles)
-.card-title {
-  font-size: 1.125rem;      // 18px
-  font-weight: 600;
-}
+// Section Heading
+<Typography variant="h2" component="h2" fontWeight={600}>
+  Section Title
+</Typography>
 
-// Body Text (body text)
-.body-text {
-  font-size: 1rem;          // 16px
-  font-weight: 400;
-  line-height: 1.6;
-}
+// Card Heading
+<Typography variant="h3" component="h3" fontWeight={600}>
+  Card Title
+</Typography>
 
-// Caption Text (captions)
-.caption-text {
-  font-size: 0.875rem;      // 14px
-  opacity: 0.7;
-}
+// Body Text
+<Typography variant="body1" component="p">
+  Body text content
+</Typography>
+
+// Caption Text
+<Typography variant="caption" color="text.secondary">
+  Caption text
+</Typography>
 ```
 
-### Text Color Usage
-```scss
-// Primary text
-color: rgb(var(--v-theme-on-background));
+### Text Color Usage (Material-UI)
+```typescript
+import { Typography } from '@mui/material';
 
-// Secondary text  
-color: rgb(var(--v-theme-on-background));
-opacity: 0.7;
+// Default text
+<Typography>Default text</Typography>
 
-// Caption/Description
-.text-medium-emphasis {
-  opacity: 0.6;
-}
+// Secondary text
+<Typography color="text.secondary">Secondary text</Typography>
+
+// Colored text
+<Typography color="primary">Blue text</Typography>
+<Typography color="error">Red text</Typography>
+<Typography color="success.main">Green text</Typography>
+
+// Custom color
+<Typography sx={{ color: 'grey.600' }}>
+  Custom color text
+</Typography>
 ```
 
 ## 🏗️ Layout & Spacing
 
-### Container System
-```scss
+### Container System (Material-UI)
+```typescript
+import { Container, Box } from '@mui/material';
+
 // Main container
-.main-container {
-  max-width: 1200px;
-  padding: 1.5rem;         // 24px
-  margin: 0 auto;
-}
+<Container maxWidth="xl">
+  {/* Maximum width 1536px */}
+</Container>
 
-// Card padding
-.card-padding {
-  padding: 1.5rem;         // 24px
-}
+// Custom container
+<Box
+  sx={{
+    maxWidth: 1200,
+    padding: 3,
+    margin: '0 auto',
+  }}
+>
+  {/* Content */}
+</Box>
 
-// Section spacing
-.section-spacing {
-  margin-bottom: 2rem;     // 32px
-}
+// Responsive padding
+<Container
+  sx={{
+    px: { xs: 2, sm: 3, md: 4 },
+    py: { xs: 2, md: 3 },
+  }}
+>
+  {/* Responsive padding content */}
+</Container>
 ```
 
-### Grid System
-```html
-<!-- Statistics card grid -->
-<v-row class="mb-8">
-  <v-col cols="12" sm="6" md="3">
-    <!-- 4 column grid -->
-  </v-col>
-</v-row>
+### Grid System (Material-UI Grid)
+```typescript
+import { Grid } from '@mui/material';
 
-<!-- Service card grid -->
-<v-row class="mb-8">
-  <v-col cols="12" md="4">
-    <!-- 3 column grid -->
-  </v-col>
-</v-row>
+// Statistics card grid (4 columns)
+<Grid container spacing={2}>
+  <Grid item xs={12} sm={6} md={3}>
+    {/* Responsive 4-column grid */}
+  </Grid>
+  <Grid item xs={12} sm={6} md={3}>
+    {/* Card content */}
+  </Grid>
+</Grid>
+
+// Service card grid (3 columns)
+<Grid container spacing={3}>
+  <Grid item xs={12} md={4}>
+    {/* Responsive 3-column grid */}
+  </Grid>
+</Grid>
+
+// Equal split grid
+<Grid container spacing={2}>
+  {Array.from({ length: 3 }).map((_, index) => (
+    <Grid item xs={12} sm={6} md={4} key={index}>
+      {/* 3 columns → 2 columns → 1 column responsive */}
+    </Grid>
+  ))}
+</Grid>
 ```
 
 ## 🎴 Component Style Guide
 
-### Card Style
-```scss
-.modern-card {
-  background: rgb(var(--v-theme-surface));
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-  border-radius: 12px;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-  }
-}
+### Card Styles (Material-UI Card)
+```typescript
+import { Card, CardContent, CardActions } from '@mui/material';
+
+// Basic card
+<Card elevation={2} sx={{ p: 2, borderRadius: 2 }}>
+  <CardContent>
+    {/* Card content */}
+  </CardContent>
+</Card>
+
+// Card with hover effect
+<Card
+  elevation={2}
+  sx={{
+    p: 2,
+    borderRadius: 2,
+    border: 1,
+    borderColor: 'divider',
+    transition: 'all 0.2s ease',
+    cursor: 'pointer',
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      elevation: 8,
+    },
+  }}
+>
+  <CardContent>
+    {/* Card content */}
+  </CardContent>
+</Card>
 ```
 
-### Button Style
-```html
-<!-- Primary Button -->
-<v-btn color="primary" variant="flat" size="large">
-  <v-icon start>mdi-plus</v-icon>
+### Button Styles (Material-UI Button)
+```typescript
+import { Button } from '@mui/material';
+import { Add } from '@mui/icons-material';
+
+// Primary button
+<Button 
+  variant="contained" 
+  color="primary" 
+  size="large" 
+  startIcon={<Add />}
+>
   Primary Action
-</v-btn>
+</Button>
 
-<!-- Secondary Button -->
-<v-btn color="secondary" variant="outlined" size="large">
-  Secondary Action  
-</v-btn>
+// Secondary button
+<Button variant="outlined" color="inherit" size="large">
+  Secondary Action
+</Button>
 
-<!-- Text Button -->
-<v-btn variant="text" color="primary">
+// Text button
+<Button variant="text" color="primary">
   Text Action
-</v-btn>
+</Button>
+
+// Gradient button
+<Button
+  variant="contained"
+  sx={{
+    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+    '&:hover': {
+      background: 'linear-gradient(45deg, #1976D2 30%, #0097A7 90%)',
+    },
+  }}
+>
+  Gradient Button
+</Button>
 ```
 
-### Icon Avatar
-```html
-<v-avatar :color="avatarColor" size="48">
-  <v-icon :icon="iconName" color="white" />
-</v-avatar>
+### Avatar (Material-UI Avatar)
+```typescript
+import { Avatar } from '@mui/material';
+import { Person } from '@mui/icons-material';
+
+<Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56 }}>
+  <Person />
+</Avatar>
+
+// Avatar with image
+<Avatar 
+  src="/user-image.jpg" 
+  sx={{ width: 56, height: 56 }}
+  alt="User"
+/>
+
+// Initial avatar
+<Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56 }}>
+  JD
+</Avatar>
 ```
 
-### Status Chips
-```html
-<!-- Success status -->
-<v-chip color="success" variant="flat" size="small">
-  Active
-</v-chip>
+### Status Chips (Material-UI Chip)
+```typescript
+import { Chip } from '@mui/material';
 
-<!-- Warning status -->
-<v-chip color="warning" variant="flat" size="small">  
-  Pending
-</v-chip>
+// Success status
+<Chip 
+  label="Active" 
+  color="success" 
+  variant="filled" 
+  size="small" 
+/>
 
-<!-- Error status -->
-<v-chip color="error" variant="flat" size="small">
-  Stopped
-</v-chip>
+// Warning status
+<Chip 
+  label="Pending" 
+  color="warning" 
+  variant="filled" 
+  size="small" 
+/>
+
+// Error status
+<Chip 
+  label="Stopped" 
+  color="error" 
+  variant="filled" 
+  size="small" 
+/>
+
+// Badge with dot indicator
+<Chip 
+  label="New Notification" 
+  color="primary" 
+  variant="outlined" 
+  size="small"
+  sx={{ '&::before': { content: '"•"', marginRight: 1 } }}
+/>
 ```
 
-## 📊 Data Table Style
+## 📊 Data Table Styles
 
-### Table Container
-```scss
-.data-table-card {
-  background: rgb(var(--v-theme-surface));
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-  border-radius: 12px;
-}
+### Table Container (Material-UI Table)
+```typescript
+import { 
+  Card, CardContent, Table, TableBody, TableCell, 
+  TableContainer, TableHead, TableRow, IconButton, 
+  Chip, Box 
+} from '@mui/material';
+import { Edit, Delete } from '@mui/icons-material';
 
-.custom-data-table :deep(.v-data-table-header) {
-  background: rgba(var(--v-theme-primary), 0.04);
-}
-
-.custom-data-table :deep(.v-data-table__tr:hover) {
-  background: rgba(var(--v-theme-primary), 0.04);
-}
+<Card elevation={2}>
+  <CardContent>
+    <TableContainer>
+      <Table sx={{ '& .MuiTableRow-hover:hover': { bgcolor: 'action.hover' } }}>
+        <TableHead>
+          <TableRow sx={{ bgcolor: 'grey.50' }}>
+            <TableCell>ID</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id} hover>
+              <TableCell>{item.id}</TableCell>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>
+                <Chip 
+                  label={item.status} 
+                  color={getStatusColor(item.status)}
+                  size="small"
+                />
+              </TableCell>
+              <TableCell>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <IconButton color="primary" size="small">
+                    <Edit fontSize="small" />
+                  </IconButton>
+                  <IconButton color="error" size="small">
+                    <Delete fontSize="small" />
+                  </IconButton>
+                </Box>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </CardContent>
+</Card>
 ```
 
-### Action Buttons
-```html
-<div class="action-buttons">
-  <v-btn icon="mdi-pencil" size="small" variant="text" color="primary" />
-  <v-btn icon="mdi-delete" size="small" variant="text" color="error" />
-</div>
+### Advanced Data Table (MUI X DataGrid)
+```typescript
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', width: 90, sortable: true },
+  { field: 'name', headerName: 'Name', width: 150, sortable: true },
+  { 
+    field: 'status', 
+    headerName: 'Status', 
+    width: 110,
+    renderCell: (params) => (
+      <Chip label={params.value} color="primary" size="small" />
+    )
+  },
+  {
+    field: 'actions',
+    headerName: 'Actions',
+    width: 120,
+    renderCell: (params) => (
+      <Box>
+        <IconButton size="small" onClick={() => handleEdit(params.row)}>
+          <Edit />
+        </IconButton>
+        <IconButton size="small" onClick={() => handleDelete(params.row)}>
+          <Delete />
+        </IconButton>
+      </Box>
+    )
+  }
+];
+
+<DataGrid
+  rows={tableData}
+  columns={columns}
+  pageSize={pageSize}
+  page={currentPage}
+  rowCount={totalItems}
+  pagination
+  onPageChange={handlePageChange}
+  onSortModelChange={handleSort}
+  autoHeight
+/>
 ```
 
 ## 🎭 Animation & Interaction
 
-### Hover Effects
-```scss
-// Card hover
-.hover-card {
-  transition: all 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-  }
-}
+### React Animations (Framer Motion)
+```typescript
+import { motion, AnimatePresence } from 'framer-motion';
+import { Fade, Slide, Grow } from '@mui/material';
 
-// Button hover  
-.hover-button {
-  transition: all 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-1px);
-  }
-}
+// Fade in/out
+<AnimatePresence>
+  {visible && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      Content
+    </motion.div>
+  )}
+</AnimatePresence>
+
+// Slide effect
+{items.map((item) => (
+  <motion.div
+    key={item.id}
+    layout
+    initial={{ opacity: 0, x: -50 }}
+    animate={{ opacity: 1, x: 0 }}
+    exit={{ opacity: 0, x: 50 }}
+    transition={{ duration: 0.3 }}
+  >
+    {item.name}
+  </motion.div>
+))}
+
+// Material-UI transitions
+<Grow in={visible} timeout={300}>
+  <Card>Card content</Card>
+</Grow>
 ```
 
-### Loading States
-```html
-<!-- Skeleton loader -->
-<v-skeleton-loader type="table-tbody" />
+### Loading States (Material-UI)
+```typescript
+import { Skeleton, CircularProgress, Backdrop } from '@mui/material';
 
-<!-- Spinner -->
-<v-progress-circular indeterminate color="primary" />
+// Skeleton loader
+<Skeleton variant="rectangular" height={20} sx={{ borderRadius: 2 }} />
+<Skeleton variant="rectangular" height={20} width="70%" sx={{ mt: 1, borderRadius: 2 }} />
+
+// Spinner
+<CircularProgress color="primary" size={40} />
+
+// Loading overlay
+<Backdrop open={loading} sx={{ zIndex: 9999 }}>
+  <CircularProgress color="inherit" />
+</Backdrop>
 ```
 
 ## 🌙 Dark Mode Support
 
-### Theme Toggle
-```javascript
-import { useTheme } from 'vuetify'
+### Material-UI Theme Toggle
+```typescript
+import { ThemeProvider, IconButton } from '@mui/material';
+import { LightMode, DarkMode } from '@mui/icons-material';
+import { createContext, useContext, useState } from 'react';
 
-const theme = useTheme()
+const ThemeContext = createContext<{
+  mode: 'light' | 'dark';
+  toggleMode: () => void;
+}>({
+  mode: 'light',
+  toggleMode: () => {},
+});
 
-const toggleTheme = () => {
-  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
-}
-```
+export const useTheme = () => useContext(ThemeContext);
 
-### CSS Variable Usage
-```scss
-// Colors that automatically change according to theme
-background: rgb(var(--v-theme-background));
-color: rgb(var(--v-theme-on-background));
-border-color: rgba(var(--v-theme-on-surface), 0.08);
+export const ThemeToggleButton = () => {
+  const { mode, toggleMode } = useTheme();
+  
+  return (
+    <IconButton onClick={toggleMode} color="inherit">
+      {mode === 'light' ? <DarkMode /> : <LightMode />}
+    </IconButton>
+  );
+};
+
+// Theme provider
+export const CustomThemeProvider = ({ children }: { children: React.ReactNode }) => {
+  const [mode, setMode] = useState<'light' | 'dark'>('light');
+  
+  const toggleMode = () => {
+    setMode(prev => prev === 'light' ? 'dark' : 'light');
+  };
+  
+  const theme = mode === 'light' ? lightTheme : darkTheme;
+  
+  return (
+    <ThemeContext.Provider value={{ mode, toggleMode }}>
+      <ThemeProvider theme={theme}>
+        {children}
+      </ThemeProvider>
+    </ThemeContext.Provider>
+  );
+};
 ```
 
 ## 📱 Responsive Design
 
-### Breakpoints
-```scss
-// Mobile First
-@media (max-width: 600px) {
-  .responsive-text {
-    font-size: 1.5rem;
-  }
+### Material-UI Breakpoints
+```typescript
+import { useMediaQuery, useTheme, Box } from '@mui/material';
+
+const ResponsiveComponent = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
-  .responsive-grid {
-    grid-template-columns: 1fr;
-  }
-}
+  return (
+    <Box>
+      {isMobile ? (
+        <Typography variant="h6">Mobile View</Typography>
+      ) : (
+        <Typography variant="h4">Desktop View</Typography>
+      )}
+    </Box>
+  );
+};
 
-// Tablet
-@media (min-width: 960px) {
-  .responsive-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+// Responsive Grid
+<Grid container spacing={{ xs: 2, md: 3 }}>
+  <Grid item xs={12} sm={6} md={4} lg={3}>
+    {/* Responsive columns: 12 → 6 → 4 → 3 */}
+  </Grid>
+</Grid>
 
-// Desktop
-@media (min-width: 1280px) {
-  .responsive-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-```
-
-### Vuetify Grid Usage
-```html
-<!-- Responsive columns -->
-<v-col cols="12" sm="6" md="4" lg="3">
-  <!-- Content -->
-</v-col>
+// Responsive styles with sx props
+<Box
+  sx={{
+    display: { xs: 'block', md: 'flex' },
+    gap: { xs: 1, md: 2 },
+    p: { xs: 2, md: 3 },
+  }}
+>
+  {/* Responsive layout */}
+</Box>
 ```
 
 ## 🔄 Navigation System
 
-### Sidebar Style
-```scss
-.app-drawer {
-  background: rgb(var(--v-theme-surface));
-  border-right: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-}
+### Material-UI Navigation
+```typescript
+import { 
+  AppBar, Toolbar, Drawer, List, ListItem, 
+  ListItemIcon, ListItemText, Typography 
+} from '@mui/material';
+import { Home, ShoppingCart, Person } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
-.drawer-header {
-  background: rgba(var(--v-theme-primary), 0.04);
-}
-
-.nav-item {
-  margin-bottom: 4px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+const Navigation = () => {
+  const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
   
-  &:hover {
-    background: rgba(var(--v-theme-primary), 0.08);
-  }
+  const menuItems = [
+    { text: 'Home', icon: <Home />, path: '/' },
+    { text: 'Orders', icon: <ShoppingCart />, path: '/orders' },
+    { text: 'Users', icon: <Person />, path: '/users' },
+  ];
   
-  &.v-list-item--active {
-    background: rgba(var(--v-theme-primary), 0.12);
-    color: rgb(var(--v-theme-primary));
-  }
-}
-```
-
-### App Bar Style
-```scss
-.app-bar {
-  border-bottom: 1px solid rgba(var(--v-theme-on-surface), 0.08);
-  backdrop-filter: blur(8px);
-}
+  return (
+    <>
+      <AppBar position="fixed">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            OrderPage
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: 240,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: 240,
+            boxSizing: 'border-box',
+            top: 64, // AppBar height
+          },
+        }}
+      >
+        <List>
+          {menuItems.map((item) => (
+            <ListItem 
+              key={item.text}
+              button 
+              onClick={() => navigate(item.path)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+    </>
+  );
+};
 ```
 
 ## ♿ Accessibility Guidelines
@@ -374,450 +685,165 @@ border-color: rgba(var(--v-theme-on-surface), 0.08);
 - Apply tab order to all interactive elements
 - Provide focus indicators
 
-### Screen Reader Support  
-```html
-<!-- aria-label usage -->
-<v-btn aria-label="Open menu" icon="mdi-menu" />
+### Screen Reader Support (Material-UI)
+```typescript
+import { IconButton, Typography, VisuallyHidden } from '@mui/material';
+import { Menu, Check } from '@mui/icons-material';
 
-<!-- Alternative text provision -->
-<v-icon aria-hidden="true">mdi-check</v-icon>
-<span class="sr-only">Completed</span>
+// Using aria-label
+<IconButton aria-label="Open menu">
+  <Menu />
+</IconButton>
+
+// Providing alternative text
+<Typography>
+  <Check aria-hidden="true" />
+  <VisuallyHidden>Completed</VisuallyHidden>
+</Typography>
+
+// Visually hidden text
+<VisuallyHidden>Screen reader only text</VisuallyHidden>
 ```
 
 ## 🚀 Usage Examples
 
-### When Creating New Pages
-```vue
-<template>
-  <div class="page-wrapper">
-    <v-container fluid class="pa-6">
-      <!-- Page header -->
-      <v-row class="mb-8">
-        <v-col>
-          <div class="header-section">
-            <h1 class="display-title">Page Title</h1>
-            <p class="subtitle">Page Description</p>
-          </div>
-        </v-col>
-      </v-row>
-      
-      <!-- Main content -->
-      <v-row>
-        <v-col cols="12">
-          <v-card class="modern-card">
-            <!-- Card content -->
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-</template>
+### Creating New Pages (React + TypeScript)
+```typescript
+import React from 'react';
+import { Container, Typography, Card, CardContent, Grid, Box } from '@mui/material';
 
-<style scoped>
-.page-wrapper {
-  min-height: 100vh;
-  background: rgb(var(--v-theme-background));
-}
-</style>
+const NewPage: React.FC = () => {
+  return (
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+      <Container maxWidth="xl" sx={{ p: 3 }}>
+        {/* Page header */}
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h3" component="h1" gutterBottom>
+            Page Title
+          </Typography>
+          <Typography variant="h6" color="text.secondary">
+            Page description
+          </Typography>
+        </Box>
+        
+        {/* Main content */}
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Card elevation={2}>
+              <CardContent>
+                {/* Card content */}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
+};
+
+export default NewPage;
 ```
 
-### When Creating New Card Components
-```vue
-<v-card class="modern-card" elevation="0" variant="flat">
-  <v-card-text class="pa-6">
-    <!-- Card header -->
-    <div class="d-flex align-center mb-4">
-      <v-avatar color="primary" size="48" class="mr-4">
-        <v-icon icon="mdi-icon" color="white" />
-      </v-avatar>
-      <div>
-        <h3 class="text-h6 font-weight-bold">Card Title</h3>
-        <p class="text-body-2 text-medium-emphasis">Card Description</p>
-      </div>
-    </div>
-    
-    <!-- Card content -->
-    <p class="text-body-2 mb-4">Card Content</p>
-    
-    <!-- Card actions -->
-    <div class="d-flex align-center justify-space-between">
-      <v-chip color="success" variant="flat" size="small">
-        Status
-      </v-chip>
-      <v-icon color="primary" size="20">mdi-arrow-right</v-icon>
-    </div>
-  </v-card-text>
-</v-card>
+### Creating New Card Components (React + TypeScript)
+```typescript
+import React from 'react';
+import { 
+  Card, CardContent, Avatar, Typography, 
+  Chip, Box, IconButton 
+} from '@mui/material';
+import { ArrowForward, LocalShipping } from '@mui/icons-material';
+
+interface CustomCardProps {
+  title: string;
+  description: string;
+  status: string;
+  content: string;
+}
+
+const CustomCard: React.FC<CustomCardProps> = ({ 
+  title, description, status, content 
+}) => {
+  return (
+    <Card 
+      elevation={2} 
+      sx={{ 
+        p: 2, 
+        borderRadius: 2,
+        '&:hover': { 
+          transform: 'translateY(-2px)',
+          transition: 'transform 0.2s ease' 
+        }
+      }}
+    >
+      <CardContent>
+        {/* Card header */}
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
+            <LocalShipping />
+          </Avatar>
+          <Box>
+            <Typography variant="h6" component="h3">
+              {title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {description}
+            </Typography>
+          </Box>
+        </Box>
+        
+        {/* Card content */}
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          {content}
+        </Typography>
+        
+        {/* Card actions */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Chip 
+            label={status} 
+            color="success" 
+            variant="filled" 
+            size="small" 
+          />
+          <IconButton color="primary">
+            <ArrowForward />
+          </IconButton>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default CustomCard;
 ```
 
 ## 📋 Checklist
 
-Please verify the following when creating new components or pages:
+When creating new components or pages, please check the following:
 
-### 🎨 Design
-- [ ] Use defined color palette
-- [ ] Apply consistent typography  
-- [ ] Use appropriate spacing and padding
-- [ ] Follow card style guidelines
+### 🎨 Design (Material-UI)
+- [ ] Use Material-UI theme system
+- [ ] Apply consistent typography with Typography component
+- [ ] Style with sx props or styled components
+- [ ] Use layout components like Grid, Container, Box
 
-### 🔧 Functionality
-- [ ] Dark mode support
-- [ ] Responsive design implementation
-- [ ] Hover/focus state definition
-- [ ] Loading state handling
+### 🔧 Functionality (React + TypeScript)
+- [ ] Complete TypeScript type definitions
+- [ ] Support dark mode with ThemeProvider
+- [ ] Implement responsive design with useMediaQuery
+- [ ] Add animations with Framer Motion or Material-UI transitions
+- [ ] Handle loading states with Skeleton, CircularProgress
 
-### ♿ Accessibility
-- [ ] Appropriate color contrast
-- [ ] Keyboard navigation support
-- [ ] Screen reader compatibility
-- [ ] Meaningful aria-label provision
+### ♿ Accessibility (Material-UI)
+- [ ] Follow Material-UI accessibility guidelines
+- [ ] Basic keyboard navigation support
+- [ ] Utilize VisuallyHidden component
+- [ ] Provide appropriate aria-labels for IconButton, Button, etc.
 
-## 🎨 Modern Layout Patterns
+Following this Material-UI based design system will help you build consistent and professional user interfaces.
 
-### Bento Box Layout
-```vue
-<template>
-  <v-container fluid>
-    <div class="bento-grid">
-      <!-- Large card (2x2) -->
-      <v-card class="bento-item bento-large">
-        <v-img 
-          src="/hero-image.jpg" 
-          height="100%"
-          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-        >
-          <v-card-title class="white--text">
-            Today's Recommended Menu
-          </v-card-title>
-        </v-img>
-      </v-card>
-      
-      <!-- Medium cards -->
-      <v-card class="bento-item bento-medium">
-        <v-card-text>
-          <div class="text-h3 font-weight-bold primary--text">24</div>
-          <div class="text-subtitle-1">Orders in Progress</div>
-        </v-card-text>
-      </v-card>
-      
-      <!-- Small cards -->
-      <v-card 
-        v-for="stat in quickStats" 
-        :key="stat.id"
-        class="bento-item bento-small"
-      >
-        <v-card-text>
-          <v-icon :color="stat.color">{{ stat.icon }}</v-icon>
-          <div class="text-h6">{{ stat.value }}</div>
-          <div class="text-caption">{{ stat.label }}</div>
-        </v-card-text>
-      </v-card>
-    </div>
-  </v-container>
-</template>
-
-<style scoped>
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  grid-auto-rows: 120px;
-}
-
-.bento-large {
-  grid-column: span 2;
-  grid-row: span 2;
-}
-
-.bento-medium {
-  grid-column: span 2;
-}
-
-.bento-small {
-  grid-column: span 1;
-}
-
-@media (max-width: 960px) {
-  .bento-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-</style>
-```
-
-### Glassmorphism Card
-```vue
-<template>
-  <v-card class="glass-card">
-    <v-card-title>
-      <v-icon left>mdi-shimmer</v-icon>
-      Premium Membership
-    </v-card-title>
-    <v-card-text>
-      <div class="glass-content">
-        <v-icon size="64" color="primary">mdi-crown</v-icon>
-        <h3>VIP Benefits</h3>
-        <ul>
-          <li>Free Shipping</li>
-          <li>10% Additional Discount</li>
-          <li>Priority Booking</li>
-        </ul>
-      </div>
-    </v-card-text>
-  </v-card>
-</template>
-
-<style scoped>
-.glass-card {
-  background: rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-.glass-content {
-  text-align: center;
-  padding: 20px;
-}
-</style>
-```
-
-### Neumorphism Components
-```vue
-<template>
-  <div class="neumorphic-container">
-    <div class="neumorphic-card">
-      <v-icon size="48" color="primary">mdi-package-variant</v-icon>
-      <h3>Total Products</h3>
-      <p class="text-h4">1,234</p>
-    </div>
-    
-    <button class="neumorphic-button">
-      <v-icon left>mdi-plus</v-icon>
-      Add
-    </button>
-  </div>
-</template>
-
-<style scoped>
-.neumorphic-container {
-  background: #e0e5ec;
-  padding: 40px;
-  border-radius: 20px;
-}
-
-.neumorphic-card {
-  background: #e0e5ec;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 
-    9px 9px 16px #a3b1c6, 
-    -9px -9px 16px #ffffff;
-  text-align: center;
-}
-
-.neumorphic-button {
-  background: #e0e5ec;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
-  box-shadow: 
-    6px 6px 12px #a3b1c6, 
-    -6px -6px 12px #ffffff;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.neumorphic-button:active {
-  box-shadow: 
-    inset 6px 6px 12px #a3b1c6, 
-    inset -6px -6px 12px #ffffff;
-}
-</style>
-```
-
-## 🎯 Icon System
-
-### Domain-specific Icon Sets
-```javascript
-// config/icons.config.js
-export const domainIcons = {
-  // Food delivery
-  restaurant: 'mdi-silverware-fork-knife',
-  delivery: 'mdi-moped',
-  order: 'mdi-receipt',
-  
-  // E-commerce
-  cart: 'mdi-cart',
-  product: 'mdi-package-variant',
-  payment: 'mdi-credit-card',
-  
-  // Analytics
-  analytics: 'mdi-chart-line',
-  report: 'mdi-file-chart',
-  dashboard: 'mdi-view-dashboard',
-  
-  // Users
-  customer: 'mdi-account',
-  admin: 'mdi-shield-account',
-  support: 'mdi-headset'
-}
-```
-
-### Animated Icons
-```vue
-<template>
-  <!-- CSS animation -->
-  <v-icon 
-    class="animated-icon"
-    :class="{ 'pulse': hasNewOrder }"
-  >
-    mdi-bell
-  </v-icon>
-  
-  <!-- Rotation animation -->
-  <v-icon 
-    class="rotating-icon"
-    v-if="loading"
-  >
-    mdi-loading
-  </v-icon>
-</template>
-
-<style>
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.animated-icon.pulse {
-  animation: pulse 0.5s ease-in-out infinite;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.rotating-icon {
-  animation: rotate 1s linear infinite;
-}
-</style>
-```
-
-## 🎭 Advanced UX Patterns
-
-### Skeleton Loader
-```vue
-<template>
-  <v-container>
-    <!-- Loading state -->
-    <template v-if="loading">
-      <v-skeleton-loader
-        v-for="i in 3"
-        :key="i"
-        type="card"
-        class="mb-4"
-      />
-    </template>
-    
-    <!-- Actual content -->
-    <template v-else>
-      <ProductCard 
-        v-for="product in products" 
-        :key="product.id"
-        :product="product"
-      />
-    </template>
-  </v-container>
-</template>
-```
-
-### Intersection Observer (Infinite Scroll)
-```vue
-<template>
-  <v-container>
-    <v-row>
-      <v-col 
-        v-for="item in items" 
-        :key="item.id"
-        cols="12" md="4"
-      >
-        <ItemCard :item="item" />
-      </v-col>
-    </v-row>
-    
-    <!-- Infinite scroll trigger -->
-    <div ref="trigger" class="trigger-element" />
-  </v-container>
-</template>
-
-<script setup>
-import { useIntersectionObserver } from '@vueuse/core'
-
-const trigger = ref(null)
-const { stop } = useIntersectionObserver(
-  trigger,
-  ([{ isIntersecting }]) => {
-    if (isIntersecting && !loading.value) {
-      loadMore()
-    }
-  }
-)
-</script>
-```
-
-### Transition Effects
-```vue
-<template>
-  <!-- List transition -->
-  <transition-group name="list" tag="div" class="row">
-    <v-col 
-      v-for="item in filteredItems" 
-      :key="item.id"
-      cols="12" md="3"
-    >
-      <v-card>{{ item.name }}</v-card>
-    </v-col>
-  </transition-group>
-  
-  <!-- Page transition -->
-  <router-view v-slot="{ Component }">
-    <transition name="fade" mode="out-in">
-      <component :is="Component" />
-    </transition>
-  </router-view>
-</template>
-
-<style>
-/* List animation */
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-
-.list-enter-from {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.list-leave-to {
-  opacity: 0;
-  transform: translateY(-30px);
-}
-
-/* Fade animation */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
-```
-
-Following this design system will help you build consistent and professional user interfaces.
+**Key Features:**
+- **Type Safety**: Built-in TypeScript support for safe development
+- **Built-in Accessibility**: Default accessibility support from Material-UI components
+- **Theme System**: Easy dark/light mode switching with ThemeProvider
+- **Responsive Design**: Perfect responsive implementation with sx props and useMediaQuery
+- **Performance Optimization**: React's virtual DOM and Material-UI's optimized components
