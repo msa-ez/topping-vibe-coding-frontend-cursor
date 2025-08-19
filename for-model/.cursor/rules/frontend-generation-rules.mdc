@@ -15,7 +15,7 @@ When configuring frontend based on BoundedContext PRD, the following requirement
 5. **Gateway Integration**: When a gateway service exists in the root directory, must configure gateway routing to serve frontend through port 8088.
 
 ## Project Development Sequence Guidelines
-Frontend folder creation → Frontend subfolder structure creation → React + Vite configuration files → **Gateway routing configuration (if gateway exists)** → Metadata-based React component structure files → Main page creation → Material-UI setup → Router setup (React Router) → Node.js 20+ version setup → npm package installation → Frontend execution and error fixes during runtime
+Frontend folder creation → Frontend subfolder structure creation → React + Vite configuration files → Gateway routing configuration (if gateway exists) → Metadata-based React component structure files → Main page creation → Material-UI setup → Backend API endpoint and axios endpoint alignment verification and correction → Router setup (React Router) → Node.js 20+ version setup → npm package installation → Frontend execution and error fixes during runtime
 
 ## Project Creation Requirements
 1. Do not reference existing files in the Root directory when creating projects. Files should be created based only on the folder structure defined in metadata.
@@ -191,11 +191,215 @@ export default App;
 ### Step 6: Environment Variables Setup
 ```env
 # .env file creation
-VITE_API_BASE_URL=http://localhost:8088/api
+VITE_API_BASE_URL=http://localhost:8088
 VITE_APP_TITLE=OrderPage
 ```
 
-### Step 7: Gateway Routing Configuration (If Gateway Exists)
+### Step 7: Backend API Endpoint and Axios Endpoint Alignment Verification and Correction
+
+Before setting up routing, verify and align backend API endpoints with frontend axios configuration to ensure proper communication.
+
+#### 7.1 OpenAPI Specification Review
+```bash
+# Check for OpenAPI specification files
+find .. -name "openapi.yaml" -o -name "openapi.yml" -o -name "swagger.yaml"
+```
+
+#### 7.2 Gateway Configuration Verification
+```bash
+# Verify gateway service configuration
+find .. -name "application.yml" -o -name "application.yaml" | xargs grep -l "gateway"
+```
+
+#### 7.3 API Endpoint Verification
+Review the following files to ensure endpoint consistency:
+- Backend: `openapi.yaml` or Swagger documentation
+- Frontend: API service files and axios configuration
+
+#### 7.4 Axios Client Configuration Update
+```typescript
+// src/services/api/client.ts - Ensure proper endpoint configuration
+import axios from 'axios';
+
+// Primary API client for backend services
+export const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8088',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+});
+
+// Request interceptor for authentication
+apiClient.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor for error handling
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('authToken');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default apiClient;
+```
+
+#### 7.5 Service-Specific API Configuration
+```typescript
+// src/services/[boundedContext]/[aggregate].service.ts
+import apiClient from '../api/client';
+import type { [Aggregate] } from '@/types/[boundedContext]/[aggregate].types';
+
+export class [Aggregate]Service {
+  private readonly basePath = '/[aggregates.namePlural]'; // e.g., '/orders', '/deliveries'
+
+  // GET /{aggregates.namePlural} - List all aggregates
+  async getAll(): Promise<[Aggregate][]> {
+    const response = await apiClient.get(this.basePath);
+    return response.data;
+  }
+
+  // GET /{aggregates.namePlural}/{id} - Get aggregate by ID
+  async getById(id: string): Promise<[Aggregate]> {
+    const response = await apiClient.get(`${this.basePath}/${id}`);
+    return response.data;
+  }
+
+  // POST /{aggregates.namePlural} - Create new aggregate
+  async create(data: Partial<[Aggregate]>): Promise<[Aggregate]> {
+    const response = await apiClient.post(this.basePath, data);
+    return response.data;
+  }
+
+  // PUT /{aggregates.namePlural}/{id} - Update aggregate
+  async update(id: string, data: Partial<[Aggregate]>): Promise<[Aggregate]> {
+    const response = await apiClient.put(`${this.basePath}/${id}`, data);
+    return response.data;
+  }
+
+  // DELETE /{aggregates.namePlural}/{id} - Delete aggregate
+  async delete(id: string): Promise<void> {
+    await apiClient.delete(`${this.basePath}/${id}`);
+  }
+
+  // Custom command endpoints (for commands where isRestRepository: false)
+  async executeCommand(id: string, command: string, data?: any): Promise<any> {
+    const response = await apiClient.post(`${this.basePath}/${id}/${command}`, data);
+    return response.data;
+  }
+}
+
+export const [aggregate]Service = new [Aggregate]Service();
+```
+
+#### 7.6 Environment Variables Verification
+```env
+# .env - Verify these match backend configuration
+VITE_API_BASE_URL=http://localhost:8088
+VITE_GATEWAY_URL=http://localhost:8088
+
+# .env.development - Development mode (through gateway)
+VITE_API_BASE_URL=http://localhost:8088
+VITE_GATEWAY_URL=http://localhost:8088
+
+# .env.production - Production mode (through gateway)
+VITE_API_BASE_URL=http://localhost:8088
+VITE_GATEWAY_URL=http://localhost:8088
+```
+
+#### 7.7 API Endpoint Testing Utility
+```typescript
+// src/utils/api-test.ts - Utility for testing API connectivity
+import apiClient from '@/services/api/client';
+
+export const testApiConnectivity = async () => {
+  try {
+    // Test gateway connectivity
+    const healthResponse = await apiClient.get('/health');
+    console.log('✅ Gateway connectivity successful:', healthResponse.status);
+    
+    // Test each bounded context endpoint through gateway (using namePlural)
+    const contexts = ['orders', 'deliveries', 'products']; // Based on your metadata namePlural
+    
+    for (const context of contexts) {
+      try {
+        const response = await apiClient.get(`/${context}`);
+        console.log(`✅ ${context} endpoint accessible through gateway:`, response.status);
+      } catch (error) {
+        console.warn(`⚠️ ${context} endpoint issue through gateway:`, error.message);
+      }
+    }
+  } catch (error) {
+    console.error('❌ Gateway connectivity failed:', error.message);
+    throw new Error('Gateway API is not accessible on port 8088');
+  }
+};
+
+// Call this during app initialization
+export const initializeApiCheck = () => {
+  if (import.meta.env.DEV) {
+    testApiConnectivity().catch(console.error);
+  }
+};
+```
+
+#### 7.8 CORS Configuration Verification
+Ensure the backend services have proper CORS configuration:
+```yaml
+# Backend application.yml - CORS configuration
+spring:
+  web:
+    cors:
+      allowed-origins: 
+        - "http://localhost:3000"
+        - "http://localhost:8088"
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowed-headers: "*"
+      allow-credentials: true
+```
+
+#### 7.9 API Documentation Integration
+```typescript
+// src/utils/api-docs.ts - OpenAPI specification integration
+export const generateApiClient = async () => {
+  // If using openapi-typescript-codegen or similar
+  const spec = await fetch('/openapi.yaml').then(r => r.text());
+  console.log('OpenAPI spec loaded:', spec);
+  
+  // Generate TypeScript types from OpenAPI spec
+  // This step can be automated in build process
+};
+```
+
+#### 7.10 Endpoint Validation Checklist
+- [ ] Gateway service is running on port 8088
+- [ ] OpenAPI specification matches actual backend endpoints
+- [ ] Axios base URL is configured to use gateway (http://localhost:8088)
+- [ ] Gateway CORS configuration allows frontend origin
+- [ ] Authentication headers are properly configured
+- [ ] Error handling covers common HTTP status codes
+- [ ] Environment variables use gateway URL for all stages
+
+### Step 8: Gateway Routing Configuration (If Gateway Exists)
 When a gateway service exists in the root directory, configure the gateway to serve the frontend application through port 8088.
 
 #### Check for Gateway Service
@@ -221,13 +425,13 @@ spring:
           filters:
             - RewritePath=/(?<segment>.*), /$\{segment}
         
-        # Frontend API Proxy Route  
-        - id: frontend-api
-          uri: http://localhost:3000
+        # API Routes for BoundedContexts (direct namePlural routing)
+        - id: backend-api
+          uri: lb://BACKEND-SERVICE
           predicates:
-            - Path=/api/**
+            - Path=/orders/**, /deliveries/**, /products/**
           filters:
-            - RewritePath=/api/(?<segment>.*), /api/$\{segment}
+            - RewritePath=/(?<segment>.*), /$\{segment}
             
         # Default Frontend Route (SPA Support)
         - id: frontend-spa
@@ -278,8 +482,18 @@ export default defineConfig({
     port: 3000,
     host: true,
     proxy: {
-      // Proxy API requests to gateway
-      '/api': {
+      // Proxy API requests to gateway (direct namePlural routing)
+      '/orders': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/deliveries': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/products': {
         target: 'http://localhost:8088',
         changeOrigin: true,
         secure: false,
@@ -306,16 +520,16 @@ export default defineConfig({
 
 #### Frontend Development vs Production Configuration
 ```env
-# .env.development - Development mode (direct access)
-VITE_API_BASE_URL=http://localhost:3000/api
+# .env.development - Development mode (through gateway)
+VITE_API_BASE_URL=http://localhost:8088
 VITE_GATEWAY_URL=http://localhost:8088
 
 # .env.production - Production mode (through gateway)
-VITE_API_BASE_URL=http://localhost:8088/api
+VITE_API_BASE_URL=http://localhost:8088
 VITE_GATEWAY_URL=http://localhost:8088
 ```
 
-### Step 8: Package Scripts Optimization
+### Step 9: Package Scripts Optimization
 ```json
 // package.json scripts section
 {
@@ -361,6 +575,16 @@ VITE_GATEWAY_URL=http://localhost:8088
 - [ ] Configure Material-UI theme
 - [ ] Set up React Router
 - [ ] Configure API client
+
+### Backend API Endpoint Alignment Verification
+- [ ] Review OpenAPI specification files
+- [ ] Verify gateway configuration and routing
+- [ ] Ensure axios base URL uses gateway (http://localhost:8088)
+- [ ] Test API connectivity through gateway
+- [ ] Validate gateway CORS configuration
+- [ ] Configure authentication headers properly
+- [ ] Set up error handling for HTTP status codes
+- [ ] Verify environment variables use gateway URL for all stages
 
 ### Gateway Integration (If Gateway Exists)
 - [ ] Check for gateway service in root directory

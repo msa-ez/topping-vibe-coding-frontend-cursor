@@ -438,7 +438,7 @@ export const useLocalStorage = <T>(key: string, initialValue: T) => {
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8088',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
@@ -665,6 +665,41 @@ export default ErrorBoundary
 8. **Performance Optimization**: Actively use useMemo, useCallback, React.memo
 9. **Error Handling**: Comprehensive error handling through ErrorBoundary and try-catch
 10. **Accessibility**: Utilize Material-UI's built-in accessibility features and add aria attributes
+
+## API Communication Guidelines
+
+### Base URL Configuration
+- **Development**: Always use Gateway URL (`http://localhost:8088`) as baseURL
+- **Production**: Use environment variable `VITE_API_BASE_URL`
+- **CRITICAL**: Never include `/api` prefix in baseURL when using Spring Cloud Gateway
+  - ❌ Wrong: `http://localhost:8088/api`
+  - ✅ Correct: `http://localhost:8088`
+
+### Gateway Routing Pattern
+Spring Cloud Gateway routes requests based on path patterns:
+- `/authors/**` → Author Service (localhost:8082)
+- `/manuscripts/**` → Writing Service (localhost:8083)
+- Frontend should call: `GET /authors` (not `/api/authors`)
+
+### Timeout Handling
+- Set appropriate timeout values (default: 10000ms)
+- Implement retry logic for critical API calls
+- Handle timeout errors gracefully in UI
+
+### Error Handling Best Practices
+```typescript
+// Example of proper error handling
+try {
+  const response = await apiClient.get('/authors');
+  return response.data;
+} catch (error) {
+  if (error.code === 'ECONNABORTED') {
+    // Handle timeout specifically
+    throw new Error('Request timeout - please try again');
+  }
+  throw error;
+}
+```
 
 ## Additional Library Recommendations
 
