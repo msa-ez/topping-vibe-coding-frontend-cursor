@@ -1,0 +1,44 @@
+Please create the basic package structure, common files, and configuration files for the Frontend based on the following requirements.
+
+Project Creation Order
+
+Create frontend folder → Create frontend sub-package structure → Create React + Vite-based configuration files → set up node version 22 → Run React
+
+Frontend Package Structure
+When creating the frontend sub-package structure, it should be created with the following structure:
+```
+/frontend                  # Integrated frontend project (React + Vite + TypeScript)
+  /public
+    /favicon.ico          # Favicon
+  /src
+    /components
+      /common             # Global common components
+        /Layout.tsx       # Common layout component
+        /Loading.tsx      # Loading component
+    /pages                # Page components (React Router based)
+      /HomePage.tsx       # Main homepage (includes BC-specific navigation)
+    /services             # API and business logic
+      /api
+        /client.ts        # Axios client basic configuration
+        /interceptors.ts  # API interceptors
+        /types.ts         # API-related types
+    /types                # TypeScript type definitions
+      /common.types.ts    # Common type definitions
+      /api.types.ts       # API-related types
+    /utils                # Utility functions
+      /constants.ts       # Constant definitions (API endpoints, etc.)
+    /theme                # Material-UI theme configuration
+      /index.ts           # Integrated theme configuration
+    /App.tsx              # Root App component
+    /main.tsx             # Vite entry point
+    /index.css            # Global styles
+    /vite-env.d.ts        # Vite type definitions
+  package.json            # NPM package configuration
+  vite.config.ts          # Vite build tool configuration
+  tsconfig.json           # TypeScript configuration
+  .gitignore              # Git ignore file
+  ```
+
+Important Notes
+1. For basic file creation, a React-based project compatible with Node22 should be created at a level that does not cause execution errors.
+2. When creating files based on the package structure, HomePage.tsx should be created with only the initial basic configuration.

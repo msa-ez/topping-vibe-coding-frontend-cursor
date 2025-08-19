@@ -1,254 +1,150 @@
 ---
 
-description: Defines modern frontend technology stack based on React + TypeScript + Vite + Material-UI. Provides optimized technology settings for rapid development and efficient deployment.
+
+description: Defines advanced technology stack configurations and metadata integration patterns for React + TypeScript + Vite projects. Focuses on optimization and DDD-based development beyond basic setup.
 alwaysApply: false
 ---
 
-# React + TypeScript + Vite Frontend Technology Stack
 
-Please follow the latest technology stack and development guidelines below when generating frontend code.
+# Advanced Frontend Technology Stack & Metadata Integration
 
-## Development Environment Requirements
+This rule defines the technology stack configuration for advanced features and metadata-based development after the basic project setup is completed.
 
-- **Node.js**: 20.x or higher (LTS)
-- **Package Manager**: npm or yarn
+**Prerequisites**: Basic React + TypeScript + Vite project has already been set up.
 
-## Core Technology Stack
+## Metadata Integration Technologies
 
-### Framework & Build Tools
-- **React**: 18.x or higher, functional components + Hooks pattern
-- **TypeScript**: Essential for type safety
-- **Vite**: Fast development server, HMR support, optimized build
+### Event Storming Metadata Integration
+- **OpenAPI Integration**: Automatic type generation based on Swagger/OpenAPI specifications
+- **Code Generation**: Metadata-based automatic component generation
+- **Type Safety**: Synchronization between domain models and UI types
 
-### UI Component Library
-- **Material-UI (MUI)**: React component library based on Google Material Design
-- **@mui/material**: Core components
-- **@mui/icons-material**: Icon library
-- **@emotion/react**: CSS-in-JS styling
+### DDD Pattern Support Technologies
+- **CQRS Support**: Command/Query separation pattern
+- **Domain Events**: Event-driven architecture support
+- **Aggregate Patterns**: Aggregate-based component structure
 
-### State Management
-- **React Query (@tanstack/react-query)**: Server state management
-- **Zustand** or **Context API**: Client state management
-- **React Hook Form**: Form state management
+## Metadata-Based Store Pattern (Zustand)
 
-### HTTP Client
-- **Axios**: HTTP client for API communication
-- **React Query**: Data fetching, caching, synchronization
-
-### Routing
-- **React Router DOM**: SPA routing management
-
-## package.json Example
-
-```json
-{
-  "name": "react-typescript-vite-app",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext ts,tsx --fix",
-    "type-check": "tsc --noEmit",
-    "test": "vitest",
-    "test:ui": "vitest --ui"
-  },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0",
-    "@mui/material": "^5.14.5",
-    "@mui/icons-material": "^5.14.3",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@tanstack/react-query": "^4.32.6",
-    "axios": "^1.5.0",
-    "react-hook-form": "^7.45.4",
-    "zustand": "^4.4.1",
-    "framer-motion": "^10.16.4",
-    "yup": "^1.3.0",
-    "@hookform/resolvers": "^3.3.1"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react": "^4.0.3",
-    "eslint": "^8.45.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vitest": "^0.34.0",
-    "@vitest/ui": "^0.34.0"
-  }
-}
-```
-
-## Main Configuration Files
-
-### vite.config.ts
+### Domain-Specific Store Creation
 ```typescript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
-
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
-  server: {
-    port: 3000,
-    host: true,
-    open: true,
-  },
-  preview: {
-    port: 4173,
-    host: true,
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          mui: ['@mui/material', '@mui/icons-material'],
-          router: ['react-router-dom'],
-        },
-      },
-    },
-  },
-  // Base URL configuration (adjust according to deployment environment)
-  base: '/',
-})
-```
-
-### index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OrderPage</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
-```
-
-### tsconfig.json
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
-}
-```
-
-### src/main.tsx
-```typescript
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
-```
-
-### src/store/index.ts (Zustand State Management)
-```typescript
+// src/store/[boundedContext]/[aggregate].store.ts
 import { create } from 'zustand'
+import { [Aggregate] } from '@/types/[boundedContext]/[aggregate].types'
 
-interface AppState {
+interface [Aggregate]State {
+  items: [Aggregate][]
+  selectedItem: [Aggregate] | null
   loading: boolean
-  user: any | null
-  theme: 'light' | 'dark'
+  error: string | null
+  // Metadata-based state additions
+  setItems: (items: [Aggregate][]) => void
+  setSelectedItem: (item: [Aggregate] | null) => void
   setLoading: (loading: boolean) => void
-  setUser: (user: any) => void
-  toggleTheme: () => void
+  setError: (error: string | null) => void
 }
 
-export const useAppStore = create<AppState>((set) => ({
+export const use[Aggregate]Store = create<[Aggregate]State>((set) => ({
+  items: [],
+  selectedItem: null,
   loading: false,
-  user: null,
-  theme: 'light',
+  error: null,
+  setItems: (items) => set({ items }),
+  setSelectedItem: (selectedItem) => set({ selectedItem }),
   setLoading: (loading) => set({ loading }),
-  setUser: (user) => set({ user }),
-  toggleTheme: () => set((state) => ({ 
-    theme: state.theme === 'light' ? 'dark' : 'light' 
-  })),
+  setError: (error) => set({ error }),
 }))
 ```
 
-## Router Configuration Example (React Router Based)
+## Advanced Router Configuration (Metadata-Based)
 
-### src/App.tsx
+### Dynamic Route Generation
 ```typescript
+// src/utils/route-generator.ts
+import { BoundedContext, Aggregate, View } from '@/types/metadata.types'
+
+export const generateRoutes = (metadata: {
+  boundedContexts: BoundedContext[]
+  aggregates: Aggregate[]
+  views: View[]
+}) => {
+  const routes = []
+  
+  // Generate BoundedContext-based routes
+  metadata.boundedContexts.forEach(bc => {
+    routes.push({
+      path: `/${bc.name.toLowerCase()}`,
+      element: `${bc.name}Page`,
+      children: []
+    })
+    
+    // Generate Aggregate-based sub-routes
+    metadata.aggregates
+      .filter(agg => agg.boundedContext === bc.name)
+      .forEach(agg => {
+        routes.push({
+          path: `/${bc.name.toLowerCase()}/${agg.namePlural.toLowerCase()}`,
+          element: `${agg.name}Page`
+        })
+      })
+  })
+  
+  // Generate View-based routes (CQRS)
+  metadata.views
+    .filter(view => view.dataProjection === 'cqrs')
+    .forEach(view => {
+      routes.push({
+        path: `/${view.namePlural.toLowerCase()}`,
+        element: `${view.name}Page`
+      })
+    })
+  
+  return routes
+}
+```
+
+### Metadata-Driven App Configuration
+```typescript
+// src/App.tsx (Metadata Integration)
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { lightTheme } from './theme'
-import Layout from './components/common/Layout'
+import { generateRoutes } from '@/utils/route-generator'
+import { metadata } from '@/metadata' // Metadata file
+import Layout from '@/components/common/Layout'
+import HomePage from '@/pages/HomePage'
 
-// Pages
-import HomePage from './pages/HomePage'
-import OrderPage from './pages/order/OrderPage'
-import CustomerCenterPage from './pages/customercenter/CustomerCenterPage'
-
-const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        cacheTime: 1000 * 60 * 10, // 10 minutes
+        retry: 3,
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
 
 function App() {
+  const routes = generateRoutes(metadata)
+  
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={lightTheme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
           <Layout>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/order" element={<OrderPage />} />
-              <Route path="/customercenter" element={<CustomerCenterPage />} />
+              {routes.map(route => (
+                <Route 
+                  key={route.path} 
+                  path={route.path} 
+                  element={route.element} 
+                />
+              ))}
             </Routes>
           </Layout>
         </Router>
@@ -260,311 +156,310 @@ function App() {
 export default App
 ```
 
-### src/pages/HomePage.tsx
+## Advanced React Hook Patterns (Metadata-Based)
+
+### Aggregate-Based Hooks
 ```typescript
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { 
-  Box, Container, Typography, Grid, Card, 
-  CardContent, CardActionArea 
-} from '@mui/material'
-
-const HomePage: React.FC = () => {
-  const navigate = useNavigate()
-
-  const boundedContexts = [
-    { 
-      name: 'Order Management', 
-      path: '/order', 
-      description: 'View and manage orders.' 
-    },
-    { 
-      name: 'Customer Center', 
-      path: '/customercenter', 
-      description: 'Check user information.' 
-    },
-  ]
-
-  return (
-    <Container maxWidth="xl" sx=\{{ py: 4 }}>
-      <Box sx=\{{ mb: 4 }}>
-        <Typography variant="h3" component="h1" gutterBottom>
-          OrderPage
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Welcome to the Order Management System.
-        </Typography>
-      </Box>
-      
-      <Grid container spacing={3}>
-        {boundedContexts.map((context) => (
-          <Grid item xs={12} sm={6} md={4} key={context.name}>
-            <Card elevation={2}>
-              <CardActionArea onClick={() => navigate(context.path)}>
-                <CardContent>
-                  <Typography variant="h5" component="h2" gutterBottom>
-                    {context.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {context.description}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
-  )
-}
-
-export default HomePage
-```
-
-### src/pages/order/OrderPage.tsx
-```typescript
-import React from 'react'
-import { Container, Typography, Box } from '@mui/material'
-
-const OrderPage: React.FC = () => {
-  return (
-    <Container maxWidth="xl" sx=\{{ py: 4 }}>
-      <Box>
-        <Typography variant="h3" component="h1" gutterBottom>
-          Order Management
-        </Typography>
-        {/* Order related components */}
-      </Box>
-    </Container>
-  )
-}
-
-export default OrderPage
-```
-
-### src/pages/customercenter/CustomerCenterPage.tsx
-```typescript
-import React from 'react'
-import { Container, Typography, Box } from '@mui/material'
-
-const CustomerCenterPage: React.FC = () => {
-  return (
-    <Container maxWidth="xl" sx=\{{ py: 4 }}>
-      <Box>
-        <Typography variant="h3" component="h1" gutterBottom>
-          Customer Center
-        </Typography>
-        {/* Customer center related components */}
-      </Box>
-    </Container>
-  )
-}
-
-export default CustomerCenterPage
-```
-
-## React Hook Examples
-
-### src/hooks/useApi.ts
-```typescript
-import { useState, useEffect } from 'react'
+// src/hooks/[boundedContext]/use[Aggregate].ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
+import { [aggregate]Service } from '@/services/[boundedContext]/[aggregate].service'
+import { use[Aggregate]Store } from '@/store/[boundedContext]/[aggregate].store'
+import type { [Aggregate], Create[Aggregate]Request } from '@/types/[boundedContext]/[aggregate].types'
 
-// API call hook
-export const useApiData = <T>(url: string, enabled = true) => {
-  return useQuery<T>({
-    queryKey: [url],
-    queryFn: () => axios.get(url).then(res => res.data),
-    enabled,
-  })
-}
-
-// Mutation hook
-export const useApiMutation = <T, U>(
-  url: string,
-  method: 'POST' | 'PUT' | 'DELETE' = 'POST'
-) => {
+export const use[Aggregate] = () => {
   const queryClient = useQueryClient()
-  
-  return useMutation<T, Error, U>({
-    mutationFn: (data: U) => {
-      switch (method) {
-        case 'POST':
-          return axios.post(url, data).then(res => res.data)
-        case 'PUT':
-          return axios.put(url, data).then(res => res.data)
-        case 'DELETE':
-          return axios.delete(url).then(res => res.data)
-        default:
-          throw new Error('Unsupported method')
-      }
-    },
+  const { setLoading, setError } = use[Aggregate]Store()
+
+  // Query for list
+  const use[Aggregate]List = useQuery({
+    queryKey: ['[aggregates]'],
+    queryFn: [aggregate]Service.getAll,
+    onError: (error) => setError(error.message),
+  })
+
+  // Mutation for create
+  const create[Aggregate] = useMutation({
+    mutationFn: (data: Create[Aggregate]Request) => [aggregate]Service.create(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [url] })
+      queryClient.invalidateQueries(['[aggregates]'])
+      setError(null)
+    },
+    onError: (error) => setError(error.message),
+  })
+
+  // Mutation for update
+  const update[Aggregate] = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<[Aggregate]> }) => 
+      [aggregate]Service.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['[aggregates]'])
+      setError(null)
+    },
+    onError: (error) => setError(error.message),
+  })
+
+  // Mutation for delete
+  const delete[Aggregate] = useMutation({
+    mutationFn: (id: string) => [aggregate]Service.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['[aggregates]'])
+      setError(null)
+    },
+    onError: (error) => setError(error.message),
+  })
+
+  return {
+    // Queries
+    [aggregates]: use[Aggregate]List.data || [],
+    isLoading: use[Aggregate]List.isLoading,
+    error: use[Aggregate]List.error,
+    
+    // Mutations
+    create[Aggregate],
+    update[Aggregate],
+    delete[Aggregate],
+    
+    // Loading states
+    isCreating: create[Aggregate].isLoading,
+    isUpdating: update[Aggregate].isLoading,
+    isDeleting: delete[Aggregate].isLoading,
+  }
+}
+```
+
+### Command-Based Hooks (for non-REST commands)
+```typescript
+// src/hooks/[boundedContext]/use[Command].ts
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { [command]Service } from '@/services/[boundedContext]/[command].service'
+import type { [Command]Request } from '@/types/[boundedContext]/[command].types'
+
+export const use[Command] = () => {
+  const queryClient = useQueryClient()
+
+  const execute[Command] = useMutation({
+    mutationFn: (request: [Command]Request) => [command]Service.execute(request),
+    onSuccess: () => {
+      // Invalidate Aggregate-related queries
+      queryClient.invalidateQueries(['[aggregates]'])
     },
   })
-}
 
-// Local state management hook
-export const useLocalStorage = <T>(key: string, initialValue: T) => {
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    try {
-      const item = window.localStorage.getItem(key)
-      return item ? JSON.parse(item) : initialValue
-    } catch (error) {
-      return initialValue
-    }
+  return {
+    execute[Command],
+    isExecuting: execute[Command].isLoading,
+    error: execute[Command].error,
+  }
+}
+```
+
+### ReadModel-Based Hooks (for CQRS views)
+```typescript
+// src/hooks/[boundedContext]/use[ReadModel].ts
+import { useQuery } from '@tanstack/react-query'
+import { [query]Service } from '@/services/[boundedContext]/[query].service'
+import type { [ReadModel], [ReadModel]SearchParams } from '@/types/[boundedContext]/[query].types'
+
+export const use[ReadModel] = (searchParams?: [ReadModel]SearchParams) => {
+  const [readModels] = useQuery({
+    queryKey: ['[readModels]', searchParams],
+    queryFn: () => [query]Service.search(searchParams),
+    keepPreviousData: true,
   })
 
-  const setValue = (value: T | ((val: T) => T)) => {
-    try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value
-      setStoredValue(valueToStore)
-      window.localStorage.setItem(key, JSON.stringify(valueToStore))
-    } catch (error) {
-      console.error(error)
-    }
+  return {
+    [readModels]: [readModels]?.data || [],
+    totalElements: [readModels]?.totalElements || 0,
+    totalPages: [readModels]?.totalPages || 0,
+    isLoading: [readModels].isLoading,
+    error: [readModels].error,
   }
-
-  return [storedValue, setValue] as const
 }
 ```
 
-## Axios Service Example
+## Advanced API Service Patterns (Metadata-Based)
 
-### src/services/api/client.ts
+### Aggregate-Based API Service
 ```typescript
-import axios from 'axios'
+// src/services/[boundedContext]/[aggregate].service.ts
+import apiClient from '../api/client'
+import type { 
+  [Aggregate], 
+  Create[Aggregate]Request,
+  Update[Aggregate]Request,
+  [Aggregate]ListResponse 
+} from '@/types/[boundedContext]/[aggregate].types'
 
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8088',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json'
+export class [Aggregate]Service {
+  private readonly basePath = '/[aggregates.namePlural]' // use namePlural from metadata
+
+  // GET /{namePlural} - including HAL JSON processing
+  async getAll(params?: any): Promise<[Aggregate]ListResponse> {
+    const response = await apiClient.get(this.basePath, { params })
+    
+    // Spring Data REST HAL JSON transformation
+    if (response.data._embedded && response.data._embedded.[aggregates]) {
+      return {
+        content: response.data._embedded.[aggregates],
+        totalElements: response.data.page?.totalElements || 0,
+        totalPages: response.data.page?.totalPages || 0,
+        size: response.data.page?.size || 20,
+        number: response.data.page?.number || 0,
+      }
+    }
+    
+    return response.data
   }
+
+  // GET /{namePlural}/{id}
+  async getById(id: string): Promise<[Aggregate]> {
+    const response = await apiClient.get(`${this.basePath}/${id}`)
+    return response.data
+  }
+
+  // POST /{namePlural}
+  async create(data: Create[Aggregate]Request): Promise<[Aggregate]> {
+    const response = await apiClient.post(this.basePath, data)
+    return response.data
+  }
+
+  // PUT /{namePlural}/{id}
+  async update(id: string, data: Update[Aggregate]Request): Promise<[Aggregate]> {
+    const response = await apiClient.put(`${this.basePath}/${id}`, data)
+    return response.data
+  }
+
+  // DELETE /{namePlural}/{id}
+  async delete(id: string): Promise<void> {
+    await apiClient.delete(`${this.basePath}/${id}`)
+  }
+}
+
+export const [aggregate]Service = new [Aggregate]Service()
+```
+
+### Command-Based API Service (for isRestRepository: false)
+```typescript
+// src/services/[boundedContext]/[command].service.ts
+import apiClient from '../api/client'
+import type { [Command]Request, [Command]Response } from '@/types/[boundedContext]/[command].types'
+
+export class [Command]Service {
+  private readonly basePath = '/[aggregates.namePlural]' // Command's target aggregate path
+
+  // POST /{aggregates.namePlural}/{id}/[command.name]
+  async execute(request: [Command]Request): Promise<[Command]Response> {
+    const response = await apiClient.post(
+      `${this.basePath}/${request.targetId}/[command.name]`,
+      request
+    )
+    return response.data
+  }
+}
+
+export const [command]Service = new [Command]Service()
+```
+
+### Query-Based API Service (for ReadModels)
+```typescript
+// src/services/[boundedContext]/[query].service.ts
+import apiClient from '../api/client'
+import type { 
+  [ReadModel], 
+  [ReadModel]SearchParams,
+  [ReadModel]ListResponse 
+} from '@/types/[boundedContext]/[query].types'
+
+export class [Query]Service {
+  private readonly basePath = '/[views.namePlural]' // use views.namePlural from metadata
+
+  // GET /{views.namePlural} with search parameters
+  async search(params?: [ReadModel]SearchParams): Promise<[ReadModel]ListResponse> {
+    const response = await apiClient.get(this.basePath, { params })
+    
+    // HAL JSON processing
+    if (response.data._embedded && response.data._embedded.[readModels]) {
+      return {
+        content: response.data._embedded.[readModels],
+        totalElements: response.data.page?.totalElements || 0,
+        totalPages: response.data.page?.totalPages || 0,
+        size: response.data.page?.size || 20,
+        number: response.data.page?.number || 0,
+      }
+    }
+    
+    return response.data
+  }
+
+  // GET /{views.namePlural}/{id}
+  async getById(id: string): Promise<[ReadModel]> {
+    const response = await apiClient.get(`${this.basePath}/${id}`)
+    return response.data
+  }
+}
+
+export const [query]Service = new [Query]Service()
+```
+
+## Metadata-Based Component Development Guidelines
+
+### Component Development Principles
+1. **Metadata Driven**: All components are generated based on Event Storming metadata
+2. **Type Safety**: Complete synchronization between domain models and UI types
+3. **Domain Separation**: Component separation by BoundedContext
+4. **CQRS Pattern**: Command/Query responsibility separation
+
+### Performance Optimization (Metadata-Based)
+```typescript
+// Metadata-based lazy loading
+const LazyAggregateComponent = React.lazy(() => 
+  import(`@/components/${boundedContext}/${aggregate}Page`)
+)
+
+// Metadata-based memoization
+const Memo[Aggregate]Card = React.memo([Aggregate]Card, (prev, next) => {
+  // Comparison based on metadata fieldDescriptors
+  return prev.[aggregateId] === next.[aggregateId] && 
+         prev.[lastModified] === next.[lastModified]
 })
-
-// Request interceptor
-apiClient.interceptors.request.use(
-  (config) => {
-    // Add token logic
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
-    return config
-  },
-  (error) => {
-    return Promise.reject(error)
-  }
-)
-
-// Response interceptor
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // Error handling logic
-    if (error.response?.status === 401) {
-      // Handle authentication failure
-      localStorage.removeItem('token')
-      window.location.href = '/login'
-    }
-    return Promise.reject(error)
-  }
-)
-
-export default apiClient
 ```
 
-## React Component Writing Guidelines
-
-### React + TypeScript Component Writing
+### TypeScript Integration with Metadata
 ```typescript
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { Card, CardContent, Button, Typography } from '@mui/material'
-import { useAppStore } from '@/store'
-import { useApiData } from '@/hooks/useApi'
-
-interface ExampleComponentProps {
-  title: string
-  onUpdate?: (value: string) => void
+// src/types/metadata.types.ts - Metadata type definitions
+export interface AggregateMetadata {
+  name: string
+  namePlural: string
+  fieldDescriptors: FieldDescriptor[]
+  boundedContext: string
 }
 
-const ExampleComponent: React.FC<ExampleComponentProps> = ({ 
-  title, 
-  onUpdate 
-}) => {
-  // Local state
-  const [localCount, setLocalCount] = useState(0)
-  
-  // Global state (Zustand)
-  const { loading, setLoading } = useAppStore()
-  
-  // Server state (React Query)
-  const { data, isLoading, error } = useApiData<any[]>('/api/items')
-  
-  // Computed value (using useMemo)
-  const displayCount = useMemo(() => localCount * 2, [localCount])
-  
-  // Event handler
-  const handleClick = useCallback(() => {
-    setLocalCount(prev => prev + 1)
-    onUpdate?.('updated')
-  }, [onUpdate])
-  
-  // Side effects
-  useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading, setLoading])
-
-  if (error) return <Typography color="error">An error occurred</Typography>
-
-  return (
-    <Card sx=\{{ p: 2 }}>
-      <CardContent>
-        <Typography variant="h5" gutterBottom>
-          {title}
-        </Typography>
-        <Typography variant="body1">
-          Local Count: {localCount} | Double Count: {displayCount}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Data Count: {data?.length || 0}
-        </Typography>
-        <Button 
-          variant="contained" 
-          onClick={handleClick}
-          disabled={loading}
-          sx=\{{ mt: 2 }}
-        >
-          Click ({localCount})
-        </Button>
-      </CardContent>
-    </Card>
-  )
+export interface CommandMetadata {
+  name: string
+  namePascalCase: string
+  isRestRepository: boolean
+  targetAggregate: string
 }
 
-export default ExampleComponent
+export interface ViewMetadata {
+  name: string
+  namePlural: string
+  dataProjection: 'cqrs' | 'query-for-aggregate'
+  queryParameters?: QueryParameter[]
+  fieldDescriptors?: FieldDescriptor[]
+}
 ```
 
-## React Router and Error Handling
-
-### Key Features of React Router
-
-1. **Component-based Routing**: Define routes using JSX syntax
-2. **Dynamic Routing**: Support for URL parameters and query strings
-3. **Nested Routing**: Layout and nested route structure
-4. **Programmatic Navigation**: Using useNavigate hook
-5. **Route Guards**: Route protection based on authentication
-
-### Environment Variable Type Definition: src/vite-env.d.ts
+### Environment Variables for Metadata Integration
 ```typescript
+// src/vite-env.d.ts
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
   readonly VITE_API_BASE_URL: string
-  readonly VITE_APP_TITLE: string
+  readonly VITE_GATEWAY_URL: string
+  readonly VITE_METADATA_URL: string
+  readonly VITE_OPENAPI_URL: string
 }
 
 interface ImportMeta {
@@ -572,214 +467,45 @@ interface ImportMeta {
 }
 ```
 
-### Error Boundary: src/components/common/ErrorBoundary.tsx
+## Advanced API Integration Patterns
+
+### Gateway Integration
+- **Base URL**: Always use Gateway URL (`http://localhost:8088`)
+- **Routing**: Follow Spring Cloud Gateway routing patterns
+- **HAL JSON**: Automatic transformation of Spring Data REST HAL JSON format
+
+### Metadata-Based API Generation
 ```typescript
-import React, { Component, ErrorInfo, ReactNode } from 'react'
-import { Box, Typography, Button, Card, CardContent } from '@mui/material'
-import { ErrorOutline, Home } from '@mui/icons-material'
-
-interface Props {
-  children: ReactNode
-}
-
-interface State {
-  hasError: boolean
-  error?: Error
-}
-
-class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = { hasError: false }
-  }
-
-  static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error }
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo)
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <Box 
-          sx=\{{ 
-            minHeight: '100vh', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            p: 3
-          }}
-        >
-          <Card sx=\{{ maxWidth: 500 }}>
-            <CardContent sx=\{{ textAlign: 'center', p: 4 }}>
-              <ErrorOutline sx=\{{ fontSize: 80, color: 'error.main', mb: 2 }} />
-              
-              <Typography variant="h4" gutterBottom>
-                An Error Occurred
-              </Typography>
-              
-              <Typography variant="body1" color="text.secondary" sx=\{{ mb: 3 }}>
-                An unexpected error occurred. Please refresh the page or return home.
-              </Typography>
-              
-              <Box sx=\{{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-                <Button 
-                  variant="outlined" 
-                  onClick={() => window.location.reload()}
-                >
-                  Refresh
-                </Button>
-                <Button 
-                  variant="contained" 
-                  startIcon={<Home />}
-                  onClick={() => window.location.href = '/'}
-                >
-                  Go Home
-                </Button>
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
-      )
+// src/utils/api-generator.ts
+export const generateApiEndpoints = (metadata: AggregateMetadata[]) => {
+  return metadata.reduce((endpoints, aggregate) => {
+    endpoints[aggregate.name] = {
+      list: `/${aggregate.namePlural}`,
+      get: `/${aggregate.namePlural}/{id}`,
+      create: `/${aggregate.namePlural}`,
+      update: `/${aggregate.namePlural}/{id}`,
+      delete: `/${aggregate.namePlural}/{id}`,
     }
-
-    return this.props.children
-  }
-}
-
-export default ErrorBoundary
-```
-
-## Development Guidelines
-
-1. **Essential TypeScript Usage**: Strict type definitions in all components and services
-2. **Functional Components**: Use functional components + Hooks instead of Class components
-3. **Component Naming**: Use PascalCase (.tsx extension)
-4. **File Structure**: Maintain domain-separated folder structure
-5. **State Management**: Use React Query for server state, Zustand for client state
-6. **API Communication**: Data fetching through Axios + React Query
-7. **Styling**: Prioritize Material-UI sx props, use styled components when necessary
-8. **Performance Optimization**: Actively use useMemo, useCallback, React.memo
-9. **Error Handling**: Comprehensive error handling through ErrorBoundary and try-catch
-10. **Accessibility**: Utilize Material-UI's built-in accessibility features and add aria attributes
-
-## API Communication Guidelines
-
-### Base URL Configuration
-- **Development**: Always use Gateway URL (`http://localhost:8088`) as baseURL
-- **Production**: Use environment variable `VITE_API_BASE_URL`
-- **CRITICAL**: Never include `/api` prefix in baseURL when using Spring Cloud Gateway
-  - ❌ Wrong: `http://localhost:8088/api`
-  - ✅ Correct: `http://localhost:8088`
-
-### Gateway Routing Pattern
-Spring Cloud Gateway routes requests based on path patterns:
-- `/authors/**` → Author Service (localhost:8082)
-- `/manuscripts/**` → Writing Service (localhost:8083)
-- Frontend should call: `GET /authors` (not `/api/authors`)
-
-### Timeout Handling
-- Set appropriate timeout values (default: 10000ms)
-- Implement retry logic for critical API calls
-- Handle timeout errors gracefully in UI
-
-### Error Handling Best Practices
-```typescript
-// Example of proper error handling
-try {
-  const response = await apiClient.get('/authors');
-  return response.data;
-} catch (error) {
-  if (error.code === 'ECONNABORTED') {
-    // Handle timeout specifically
-    throw new Error('Request timeout - please try again');
-  }
-  throw error;
+    return endpoints
+  }, {})
 }
 ```
 
-### Spring Data REST HAL JSON Response Handling
-Spring Data REST returns HAL JSON format which needs transformation for frontend compatibility:
-
-**❌ Wrong: Direct API response usage**
+### OpenAPI Integration
 ```typescript
-getAuthors: async () => {
-  const response = await apiClient.get('/authors');
-  return response.data; // HAL JSON format causes UI errors
+// src/types/openapi.types.ts - Auto-generated types based on OpenAPI spec
+// This file is automatically generated by openapi-typescript-codegen
+export interface paths {
+  "/[aggregates.namePlural]": {
+    get: operations["get[Aggregates]"]
+    post: operations["create[Aggregate]"]
+  }
+  "/[aggregates.namePlural]/{id}": {
+    get: operations["get[Aggregate]ById"]
+    put: operations["update[Aggregate]"]
+    delete: operations["delete[Aggregate]"]
+  }
 }
 ```
 
-**✅ Correct: Transform HAL JSON to expected format**
-```typescript
-getAuthors: async (params?: AuthorSearchParams): Promise<AuthorListResponse> => {
-  const response = await apiClient.get('/authors', { params });
-  const data = response.data;
-  
-  // Transform HAL JSON to standard pagination format
-  if (data._embedded && data._embedded.authors) {
-    return {
-      content: data._embedded.authors,
-      totalElements: data.page?.totalElements || 0,
-      totalPages: data.page?.totalPages || 0,
-      size: data.page?.size || 20,
-      number: data.page?.number || 0,
-    };
-  }
-  
-  return response.data;
-}
-```
-
-### HAL JSON Structure Understanding
-Spring Data REST HAL JSON structure includes:
-- **`_embedded`**: Contains actual data arrays (e.g., `_embedded.authors`)
-- **`_links`**: Contains navigation links for HATEOAS
-- **`page`**: Contains pagination metadata (totalElements, totalPages, size, number)
-
-### Common Issues and Solutions
-1. **Empty Data Arrays**: Frontend expects `content[]` but receives `_embedded.entityName[]`
-2. **Pagination Mismatch**: Frontend expects standard pagination but receives `page` object
-3. **Type Safety**: Define proper TypeScript interfaces for both HAL and standard formats
-
-### API Service Pattern for HAL JSON
-```typescript
-// Generic HAL JSON transformer
-const transformHalResponse = <T>(data: any, entityKey: string): AuthorListResponse => {
-  if (data._embedded && data._embedded[entityKey]) {
-    return {
-      content: data._embedded[entityKey],
-      totalElements: data.page?.totalElements || 0,
-      totalPages: data.page?.totalPages || 0,
-      size: data.page?.size || 20,
-      number: data.page?.number || 0,
-    };
-  }
-  return data;
-};
-
-// Usage in service
-export const authorService = {
-  getAuthors: async (params?: AuthorSearchParams) => {
-    const response = await apiClient.get('/authors', { params });
-    return transformHalResponse(response.data, 'authors');
-  }
-};
-```
-
-## Additional Library Recommendations
-
-### Form Handling
-- **React Hook Form**: Performance-optimized form library
-- **Yup**: Schema-based validation
-
-### Animation
-- **Framer Motion**: Advanced animation and gestures
-- **Material-UI Transitions**: Simple transition effects
-
-### Testing
-- **Vitest**: Vite-based test runner
-- **Testing Library**: React component testing
-- **MSW**: API mocking
+**Important**: All API configurations must be automatically generated based on metadata and OpenAPI specifications, and should not be written manually.
