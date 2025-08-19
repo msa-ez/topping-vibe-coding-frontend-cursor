@@ -12,9 +12,10 @@ When configuring frontend based on BoundedContext PRD, the following requirement
 2. BC Integration Structure: All BoundedContext (order, delivery, product, ui) frontend files must be organized under a single `frontend` folder.
 3. Structure Compliance: Must follow the integrated frontend structure defined in `@frontend-package-structure`.
 4. UI Compliance: Must follow the files that should be generated for each event storming sticker defined in `@frontend-sticker-based-generation.mdc`.
+5. **Gateway Integration**: When a gateway service exists in the root directory, must configure gateway routing to serve frontend through port 8088.
 
 ## Project Development Sequence Guidelines
-Frontend folder creation → Frontend subfolder structure creation → React + Vite configuration files → Metadata-based React component structure files → Main page creation → Material-UI setup → Router setup (React Router) → Node.js 20+ version setup → npm package installation → Frontend execution and error fixes during runtime
+Frontend folder creation → Frontend subfolder structure creation → React + Vite configuration files → **Gateway routing configuration (if gateway exists)** → Metadata-based React component structure files → Main page creation → Material-UI setup → Router setup (React Router) → Node.js 20+ version setup → npm package installation → Frontend execution and error fixes during runtime
 
 ## Project Creation Requirements
 1. Do not reference existing files in the Root directory when creating projects. Files should be created based only on the folder structure defined in metadata.
@@ -190,11 +191,131 @@ export default App;
 ### Step 6: Environment Variables Setup
 ```env
 # .env file creation
-VITE_API_BASE_URL=http://localhost:8080/api
+VITE_API_BASE_URL=http://localhost:8088/api
 VITE_APP_TITLE=OrderPage
 ```
 
-### Step 7: Package Scripts Optimization
+### Step 7: Gateway Routing Configuration (If Gateway Exists)
+When a gateway service exists in the root directory, configure the gateway to serve the frontend application through port 8088.
+
+#### Check for Gateway Service
+```bash
+# Check if gateway service exists in root directory
+ls ../gateway* || ls ../*/gateway* || ls ../**/application.yml | grep -l "gateway"
+```
+
+#### Gateway application.yml Configuration
+If a gateway service is found, add the following frontend routing configuration to the gateway's `application.yml`:
+
+```yaml
+# Gateway application.yml - Add to spring.cloud.gateway.routes
+spring:
+  cloud:
+    gateway:
+      routes:
+        # Frontend Static Resources Route
+        - id: frontend-static
+          uri: http://localhost:3000
+          predicates:
+            - Path=/**, /static/**, /assets/**
+          filters:
+            - RewritePath=/(?<segment>.*), /$\{segment}
+        
+        # Frontend API Proxy Route  
+        - id: frontend-api
+          uri: http://localhost:3000
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /api/$\{segment}
+            
+        # Default Frontend Route (SPA Support)
+        - id: frontend-spa
+          uri: http://localhost:3000
+          predicates:
+            - Path=/**
+          filters:
+            - RewritePath=/(?<segment>.*), /
+      
+      # Global CORS Configuration for Frontend
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: 
+              - "http://localhost:3000"
+              - "http://localhost:8088"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+# Server Configuration
+server:
+  port: 8088
+```
+
+#### Vite Configuration for Gateway Integration
+Update the frontend `vite.config.ts` to work with the gateway:
+
+```typescript
+// vite.config.ts - Gateway integration
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    port: 3000,
+    host: true,
+    proxy: {
+      // Proxy API requests to gateway
+      '/api': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          mui: ['@mui/material', '@mui/icons-material'],
+          router: ['react-router-dom'],
+        },
+      },
+    },
+  },
+  // Configure base path for gateway deployment
+  base: '/',
+})
+```
+
+#### Frontend Development vs Production Configuration
+```env
+# .env.development - Development mode (direct access)
+VITE_API_BASE_URL=http://localhost:3000/api
+VITE_GATEWAY_URL=http://localhost:8088
+
+# .env.production - Production mode (through gateway)
+VITE_API_BASE_URL=http://localhost:8088/api
+VITE_GATEWAY_URL=http://localhost:8088
+```
+
+### Step 8: Package Scripts Optimization
 ```json
 // package.json scripts section
 {
@@ -241,6 +362,13 @@ VITE_APP_TITLE=OrderPage
 - [ ] Set up React Router
 - [ ] Configure API client
 
+### Gateway Integration (If Gateway Exists)
+- [ ] Check for gateway service in root directory
+- [ ] Configure gateway application.yml with frontend routes
+- [ ] Set up CORS configuration for port 8088
+- [ ] Update Vite config for gateway proxy
+- [ ] Configure environment variables for gateway access
+
 ### Component Creation Rules
 - [ ] Follow metadata-based component structure
 - [ ] Complete TypeScript type definitions
@@ -253,3 +381,10 @@ VITE_APP_TITLE=OrderPage
 - [ ] Pass lint checking (`npm run lint`)
 - [ ] Development server runs normally (`npm run dev`)
 - [ ] Production build successful (`npm run build`)
+
+### Gateway Access Verification (If Gateway Configured)
+- [ ] Gateway service running on port 8088
+- [ ] Frontend accessible through `http://localhost:8088`
+- [ ] API requests properly proxied through gateway
+- [ ] CORS policy working correctly
+- [ ] Static assets served through gateway
