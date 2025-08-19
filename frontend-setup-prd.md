@@ -1,11 +1,11 @@
 forEach: Model
-
+---
 
 아래의 요구사항을 기반으로 Frontend의 기본 패키지구조, 공통 파일, 기본 설정 파일을 생성해주세요.
 
 프로젝트 생성 순서
 
-frontend 폴더 생성 → frontend 하위 패키지 구조 생성 → React + Vite 기반 설정 파일 생성
+frontend 폴더 생성 → frontend 하위 패키지 구조 생성 → React + Vite 기반 설정 파일 생성 → React 실행
 
 frontend 패키지 구조
 frontend 하위 패키지 구조를 생성할때 아래의 구조로 생성해야합니다:
