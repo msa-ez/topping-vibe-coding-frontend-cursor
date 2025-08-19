@@ -701,6 +701,74 @@ try {
 }
 ```
 
+### Spring Data REST HAL JSON Response Handling
+Spring Data REST returns HAL JSON format which needs transformation for frontend compatibility:
+
+**❌ Wrong: Direct API response usage**
+```typescript
+getAuthors: async () => {
+  const response = await apiClient.get('/authors');
+  return response.data; // HAL JSON format causes UI errors
+}
+```
+
+**✅ Correct: Transform HAL JSON to expected format**
+```typescript
+getAuthors: async (params?: AuthorSearchParams): Promise<AuthorListResponse> => {
+  const response = await apiClient.get('/authors', { params });
+  const data = response.data;
+  
+  // Transform HAL JSON to standard pagination format
+  if (data._embedded && data._embedded.authors) {
+    return {
+      content: data._embedded.authors,
+      totalElements: data.page?.totalElements || 0,
+      totalPages: data.page?.totalPages || 0,
+      size: data.page?.size || 20,
+      number: data.page?.number || 0,
+    };
+  }
+  
+  return response.data;
+}
+```
+
+### HAL JSON Structure Understanding
+Spring Data REST HAL JSON structure includes:
+- **`_embedded`**: Contains actual data arrays (e.g., `_embedded.authors`)
+- **`_links`**: Contains navigation links for HATEOAS
+- **`page`**: Contains pagination metadata (totalElements, totalPages, size, number)
+
+### Common Issues and Solutions
+1. **Empty Data Arrays**: Frontend expects `content[]` but receives `_embedded.entityName[]`
+2. **Pagination Mismatch**: Frontend expects standard pagination but receives `page` object
+3. **Type Safety**: Define proper TypeScript interfaces for both HAL and standard formats
+
+### API Service Pattern for HAL JSON
+```typescript
+// Generic HAL JSON transformer
+const transformHalResponse = <T>(data: any, entityKey: string): AuthorListResponse => {
+  if (data._embedded && data._embedded[entityKey]) {
+    return {
+      content: data._embedded[entityKey],
+      totalElements: data.page?.totalElements || 0,
+      totalPages: data.page?.totalPages || 0,
+      size: data.page?.size || 20,
+      number: data.page?.number || 0,
+    };
+  }
+  return data;
+};
+
+// Usage in service
+export const authorService = {
+  getAuthors: async (params?: AuthorSearchParams) => {
+    const response = await apiClient.get('/authors', { params });
+    return transformHalResponse(response.data, 'authors');
+  }
+};
+```
+
 ## Additional Library Recommendations
 
 ### Form Handling
