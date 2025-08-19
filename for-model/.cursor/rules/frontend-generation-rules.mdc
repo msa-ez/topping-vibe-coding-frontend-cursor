@@ -1,6 +1,4 @@
 ---
-
-
 description: Defines metadata-driven component generation rules for React + TypeScript projects. Focuses on Event Storming sticker-based development process beyond basic project setup.
 globs: Frontend-PRD.txt
 alwaysApply: false
@@ -18,7 +16,7 @@ This rule defines the process of generating components based on Event Storming m
 ## Metadata-Based Component Generation Sequence
 
 ```
-Metadata Analysis → BoundedContext Folder Creation → Aggregate-based Component Generation → Command Component Generation (Conditional) → ReadModel Component Generation (Conditional) → Routing Setup → API Service Integration → Type Definition Synchronization → Component Testing → Integration Testing & Access Verification
+Gateway & API Validation → Metadata Analysis → BoundedContext Folder Creation → Aggregate-based Component Generation → Command Component Generation (Conditional) → ReadModel Component Generation (Conditional) → Routing Setup → Environment Variables & Gateway Configuration → Gateway Integration Testing & API Validation
 ```
 
 ## Metadata Analysis Requirements
@@ -49,273 +47,41 @@ const shouldCreateDashboard = (view: ViewMetadata) => {
 
 ## Step-by-Step Component Generation Process
 
-### Step 1: Metadata Analysis and Validation
-```typescript
-// Metadata validation and analysis
-interface GenerationPlan {
-  boundedContexts: string[]
-  aggregateComponents: ComponentPlan[]
-  commandComponents: ComponentPlan[]
-  viewComponents: ComponentPlan[]
-}
+### Step 1: Gateway & API Endpoint Validation
+- **Gateway Connection Check**: Test connectivity to `http://localhost:8088/actuator/health`
+- **Controller Endpoint Validation**: Verify metadata aggregates match backend REST API endpoints  
+- **API Client Configuration**: Set Gateway URL in `src/services/api/client.ts` (`VITE_GATEWAY_URL=http://localhost:8088`)
 
-const analyzeMetadata = (metadata: EventStormingMetadata): GenerationPlan => {
-  const plan: GenerationPlan = {
-    boundedContexts: metadata.boundedContexts.map(bc => bc.name),
-    aggregateComponents: [],
-    commandComponents: [],
-    viewComponents: []
-  }
+### Step 2: Metadata Analysis and Validation
+- **Aggregate Components**: Generate Page, Form, Table, Card + service, types, store, hook
+- **Command Components**: Generate Button, Modal only when `isRestRepository: false`
+- **View Components**: Generate Dashboard when `dataProjection: 'cqrs'`, Search when `query-for-aggregate`
 
-  // Aggregate-based component planning
-  metadata.aggregates.forEach(aggregate => {
-    plan.aggregateComponents.push({
-      boundedContext: aggregate.boundedContext,
-      name: aggregate.name,
-      namePlural: aggregate.namePlural,
-      components: ['Page', 'Form', 'Table', 'Card'],
-      services: ['service', 'types', 'store', 'hook']
-    })
-  })
+### Step 3: BoundedContext Folder Structure Creation
+Create folders for each BoundedContext: `src/components/[BC]`, `src/pages/[BC]`, `src/hooks/[BC]`, `src/services/[BC]`, `src/store/[BC]`, `src/types/[BC]`
 
-  // Command-based component planning (conditional)
-  metadata.commands
-    .filter(cmd => cmd.isRestRepository === false)
-    .forEach(command => {
-      plan.commandComponents.push({
-        boundedContext: command.boundedContext,
-        name: command.namePascalCase,
-        targetAggregate: command.targetAggregate,
-        components: ['Button', 'Modal'],
-        services: ['service', 'types', 'hook']
-      })
-    })
+### Step 4: Aggregate-based Component Generation
+Generate CRUD component set for each Aggregate:
+- **Components**: `[Aggregate]Page.tsx`, `[Aggregate]Form.tsx`, `[Aggregate]Table.tsx`, `[Aggregate]Card.tsx`
+- **Services**: `[aggregate].service.ts`, `[aggregate].types.ts`, `[aggregate].store.ts`, `use[Aggregate].ts`
 
-  // View-based component planning (conditional)
-  metadata.views.forEach(view => {
-    if (shouldCreateSearch(view)) {
-      plan.viewComponents.push({
-        type: 'search',
-        name: view.name,
-        components: ['Search'],
-        services: ['service', 'types', 'hook']
-      })
-    }
-    
-    if (shouldCreateDashboard(view)) {
-      plan.viewComponents.push({
-        type: 'dashboard',
-        name: view.name,
-        namePlural: view.namePlural,
-        components: ['Dashboard', 'Page'],
-        services: ['service', 'types', 'hook']
-      })
-    }
-  })
+### Step 5: Command-based Component Generation (Conditional)
+Generate only Commands with `isRestRepository: false`:
+- **Components**: `[Command]Button.tsx`, `[Command]Modal.tsx`  
+- **Services**: `[command].service.ts`, `[command].types.ts`, `use[Command].ts`
 
-  return plan
-}
-```
+### Step 6: ReadModel/View-based Component Generation (Conditional)
+- **Search**: When `dataProjection: 'query-for-aggregate'` + `queryParameters` exist → `[View]Search.tsx`
+- **Dashboard**: When `dataProjection: 'cqrs'` + `fieldDescriptors` exist → `[View]Dashboard.tsx`, `[View]Page.tsx`
 
-### Step 2: BoundedContext Folder Structure Creation
-```typescript
-// Folder structure creation
-const createBoundedContextStructure = (boundedContext: string) => {
-  const folders = [
-    `src/components/${boundedContext}`,
-    `src/pages/${boundedContext}`,
-    `src/hooks/${boundedContext}`,
-    `src/services/${boundedContext}`,
-    `src/store/${boundedContext}`,
-    `src/types/${boundedContext}`
-  ]
-  
-  folders.forEach(folder => {
-    // Folder creation logic
-    console.log(`Creating folder: ${folder}`)
-  })
-}
-```
+### Step 7: Routing Setup (Metadata-based)
+- **BC Routes**: `/${boundedContext.name}`
+- **Aggregate Routes**: `/${boundedContext}/${aggregate.namePlural}`  
+- **View Routes**: `/${view.namePlural}` (CQRS only)
 
-### Step 3: Aggregate-based Component Generation
-```typescript
-// Aggregate component generation rules
-const generateAggregateComponents = (aggregate: AggregateMetadata) => {
-  const components = [
-    {
-      name: `${aggregate.name}Page.tsx`,
-      template: 'aggregate-page',
-      path: `src/components/${aggregate.boundedContext}`
-    },
-    {
-      name: `${aggregate.name}Form.tsx`,
-      template: 'aggregate-form',
-      path: `src/components/${aggregate.boundedContext}`
-    },
-    {
-      name: `${aggregate.name}Table.tsx`,
-      template: 'aggregate-table',
-      path: `src/components/${aggregate.boundedContext}`
-    },
-    {
-      name: `${aggregate.name}Card.tsx`,
-      template: 'aggregate-card',
-      path: `src/components/${aggregate.boundedContext}`
-    }
-  ]
-  
-  // Service files
-  const services = [
-    {
-      name: `${aggregate.name.toLowerCase()}.service.ts`,
-      template: 'aggregate-service',
-      path: `src/services/${aggregate.boundedContext}`
-    },
-    {
-      name: `${aggregate.name.toLowerCase()}.types.ts`,
-      template: 'aggregate-types',
-      path: `src/types/${aggregate.boundedContext}`
-    },
-    {
-      name: `${aggregate.name.toLowerCase()}.store.ts`,
-      template: 'aggregate-store',
-      path: `src/store/${aggregate.boundedContext}`
-    },
-    {
-      name: `use${aggregate.name}.ts`,
-      template: 'aggregate-hook',
-      path: `src/hooks/${aggregate.boundedContext}`
-    }
-  ]
-  
-  return [...components, ...services]
-}
-```
-
-### Step 4: Command-based Component Generation (Conditional)
-```typescript
-// Command component generation (only when isRestRepository: false)
-const generateCommandComponents = (command: CommandMetadata) => {
-  if (command.isRestRepository !== false) return []
-
-  const components = [
-    {
-      name: `${command.namePascalCase}Button.tsx`,
-      template: 'command-button',
-      path: `src/components/${command.boundedContext}`
-    },
-    {
-      name: `${command.namePascalCase}Modal.tsx`,
-      template: 'command-modal',
-      path: `src/components/${command.boundedContext}`
-    }
-  ]
-
-  const services = [
-    {
-      name: `${command.name.toLowerCase()}.service.ts`,
-      template: 'command-service',
-      path: `src/services/${command.boundedContext}`
-    },
-    {
-      name: `${command.name.toLowerCase()}.types.ts`,
-      template: 'command-types',
-      path: `src/types/${command.boundedContext}`
-    },
-    {
-      name: `use${command.namePascalCase}.ts`,
-      template: 'command-hook',
-      path: `src/hooks/${command.boundedContext}`
-    }
-  ]
-
-  return [...components, ...services]
-}
-```
-
-### Step 5: ReadModel/View-based Component Generation (Conditional)
-```typescript
-// View component generation (conditional based on dataProjection)
-const generateViewComponents = (view: ViewMetadata) => {
-  const components = []
-  const services = []
-
-  // Search component (query-for-aggregate + queryParameters exist)
-  if (shouldCreateSearch(view)) {
-    components.push({
-      name: `${view.name}Search.tsx`,
-      template: 'view-search',
-      path: `src/components/${view.boundedContext}/search`
-    })
-  }
-
-  // Dashboard component (cqrs + fieldDescriptors exist)
-  if (shouldCreateDashboard(view)) {
-    components.push(
-      {
-        name: `${view.name}Dashboard.tsx`,
-        template: 'view-dashboard',
-        path: `src/components/${view.boundedContext}/dashboard`
-      },
-      {
-        name: `${view.name}Page.tsx`,
-        template: 'view-page',
-        path: `src/pages/${view.boundedContext}/${view.namePlural}`
-      }
-    )
-  }
-
-  // Common service files
-  if (components.length > 0) {
-    services.push(
-      {
-        name: `${view.name.toLowerCase()}.service.ts`,
-        template: 'query-service',
-        path: `src/services/${view.boundedContext}`
-      },
-      {
-        name: `${view.name.toLowerCase()}.types.ts`,
-        template: 'query-types',
-        path: `src/types/${view.boundedContext}`
-      },
-      {
-        name: `use${view.name}.ts`,
-        template: 'view-hook',
-        path: `src/hooks/${view.boundedContext}`
-      }
-    )
-  }
-
-  return [...components, ...services]
-}
-```
-
-### Step 6: Routing Setup (Metadata-based)
-```typescript
-// Automatic routing generation
-const generateRouting = (metadata: EventStormingMetadata) => {
-  const routes = []
-
-  // BoundedContext routes
-  metadata.boundedContexts.forEach(bc => {
-    routes.push(`/${bc.name.toLowerCase()}`)
-  })
-
-  // Aggregate routes
-  metadata.aggregates.forEach(aggregate => {
-    routes.push(`/${aggregate.boundedContext.toLowerCase()}/${aggregate.namePlural.toLowerCase()}`)
-  })
-
-  // View routes (CQRS)
-  metadata.views
-    .filter(view => view.dataProjection === 'cqrs')
-    .forEach(view => {
-      routes.push(`/${view.namePlural.toLowerCase()}`)
-    })
-
-  return routes
-}
-```
+### Step 8: Environment Variables & Gateway Configuration
+- **Environment Setup**: Set `VITE_GATEWAY_URL=http://localhost:8088` in `.env`, `.env.development`, `.env.production`
+- **API Path Validation**: Aggregate → `/${aggregate.namePlural}`, Command → `/${aggregate.namePlural}/{id}/{command.name}`
 
 ## Generation Guidelines
 
@@ -328,75 +94,27 @@ const generateRouting = (metadata: EventStormingMetadata) => {
 - Skip generation for incomplete metadata
 - Confirm overwrite for existing components
 
-## Step 7: Integration Testing & Access Verification
+## Step 9: Gateway Integration Testing & API Validation
 
-### Basic Integration Testing
-```typescript
-// Simple integration test suite
-const runBasicIntegrationTests = async (metadata: EventStormingMetadata) => {
-  const results = {
-    routeTests: [],
-    componentTests: [],
-    apiTests: []
-  }
+### Integration Testing & Validation
+- **Gateway Connection**: Verify `http://localhost:8088/actuator/health` accessibility
+- **Frontend Routes**: Test `http://localhost:5173/[route]` accessibility
+- **API Endpoints**: Check availability of CRUD and Command endpoints for each Aggregate
 
-  // Test route accessibility
-  for (const bc of metadata.boundedContexts) {
-    const route = `/${bc.name.toLowerCase()}`
-    try {
-      const response = await fetch(`http://localhost:5173${route}`)
-      results.routeTests.push({
-        route,
-        status: response.status,
-        accessible: response.status === 200
-      })
-    } catch (error) {
-      results.routeTests.push({
-        route,
-        status: 'ERROR',
-        accessible: false
-      })
-    }
-  }
-
-  // Test basic component rendering
-  for (const aggregate of metadata.aggregates) {
-    results.componentTests.push({
-      aggregate: aggregate.name,
-      components: [`${aggregate.name}Page`, `${aggregate.name}Form`, `${aggregate.name}Table`],
-      status: 'pending' // To be tested manually or with test runner
-    })
-  }
-
-  // Test API endpoints
-  for (const aggregate of metadata.aggregates) {
-    results.apiTests.push({
-      service: `${aggregate.name.toLowerCase()}.service`,
-      endpoint: `/api/${aggregate.namePlural.toLowerCase()}`,
-      method: 'GET',
-      status: 'pending' // To be tested with actual backend
-    })
-  }
-
-  return results
-}
-```
-
-### Quick Verification
+### Verification Steps
 ```bash
-# Start development server
+# Verify Gateway and Frontend are running
+curl http://localhost:8088/actuator/health
 npm run dev
-
-# Build verification  
-npm run build
-
-# Production preview test
-npm run preview
 ```
 
-### Manual Testing
-1. Visit generated routes and verify they load
-2. Test basic CRUD operations
-3. Verify API integration works
+### Verification Checklist
+1. **Gateway Connection**: Ensure `localhost:8088` is accessible
+2. **Environment Variables**: Confirm `VITE_GATEWAY_URL` is set in `.env`
+3. **Route Access**: Verify all generated pages load properly
+4. **API Integration**: Confirm CRUD and Command operations work
 
-**Complete**: Ensure all generated components are accessible and functional.
+### Troubleshooting
+- **CORS Errors**: Check Gateway CORS configuration
+- **404 Errors**: Verify Backend Controller paths match Frontend Service paths
+- **Connection Refused**: Ensure Gateway is running on port 8088

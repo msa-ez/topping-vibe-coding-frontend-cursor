@@ -1,840 +1,143 @@
 ---
-
-
-title: Frontend Design System
 description: Integrated design system based on React + TypeScript + Material-UI. Provides comprehensive guidelines for consistent UI/UX including colors, typography, component styles, and animations.
 ---
-
-
 
 # React Frontend Design System
 
 A clean and modern design system based on React + TypeScript + Material-UI. Provides guidelines for consistent user experience and maintainable code.
 
-## 🎨 Color Palette
+## 🎨 Color System
 
-### Base Colors (Material-UI Theme Based)
-```typescript
-// themes/colors.ts
-export const colorPalette = {
-  primary: {
-    50: '#e3f2fd',
-    100: '#bbdefb',
-    200: '#90caf9',
-    300: '#64b5f6',
-    400: '#42a5f5',
-    500: '#2196f3',  // main
-    600: '#1e88e5',
-    700: '#1976d2',
-    800: '#1565c0',
-    900: '#0d47a1',
-  },
-  gray: {
-    50: '#fafafa',
-    100: '#f5f5f5',
-    200: '#eeeeee',
-    300: '#e0e0e0',
-    400: '#bdbdbd',
-    500: '#9e9e9e',
-    600: '#757575',
-    700: '#616161',
-    800: '#424242',
-    900: '#212121',
-  }
-};
+### Material-UI Theme Colors
+- **Primary**: `#2196f3` (main action buttons, brand elements)
+- **Secondary**: `#f50057` (secondary actions, inactive states)  
+- **Success**: `#4caf50` | **Warning**: `#ff9800` | **Error**: `#f44336` | **Info**: `#2196f3`
+- **Background**: `#fafafa` (default), `#ffffff` (paper)
+- **Text**: `primary`, `secondary`, `disabled` variants
 
-// Automatic dark theme support (using Material-UI ThemeProvider)
-```
-
-### Semantic Colors (Material-UI Semantic Colors)
-```typescript
-export const semanticColors = {
-  success: {
-    light: '#81c784',
-    main: '#4caf50',
-    dark: '#388e3c',
-    contrastText: '#fff',
-  },
-  warning: {
-    light: '#ffb74d',
-    main: '#ff9800',
-    dark: '#f57c00',
-    contrastText: '#fff',
-  },
-  error: {
-    light: '#e57373',
-    main: '#f44336',
-    dark: '#d32f2f',
-    contrastText: '#fff',
-  },
-  info: {
-    light: '#64b5f6',
-    main: '#2196f3',
-    dark: '#1976d2',
-    contrastText: '#fff',
-  },
-};
-```
-
-### Material-UI Theme Configuration
-For basic theme setup and ThemeProvider configuration, refer to `@frontend-technical-stack`.
-The following extends the base configuration with design system specific colors:
-
-```typescript
-// themes/theme.ts - Extended theme configuration
-import { createTheme } from '@mui/material/styles';
-// Base theme setup - refer to @frontend-technical-stack
-
-export const extendedLightTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#2196f3',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-    background: {
-      default: '#fafafa',
-      paper: '#ffffff',
-    },
-    // Extended color palette from design system
-  },
-});
-```
-
-### Color Usage Principles
-- **Primary Colors**: Main action buttons, brand elements, active states
-- **Secondary Colors**: Secondary buttons, inactive states, description text
-- **Accent Colors**: Special emphasis, hover states, highlight colors
-- **Semantic Colors**: Status-based feedback (success/warning/error/info)
+### Theme Configuration
+Refer to `@frontend-technical-stack` for basic setup. Extended theme includes design system specific colors and automatic dark mode support.
 
 ## 📝 Typography
 
-### Material-UI Typography Component System
-```typescript
-import { Typography } from '@mui/material';
-
-// Main Heading
-<Typography variant="h1" component="h1" fontWeight={700}>
-  Main Title
-</Typography>
-
-// Section Heading
-<Typography variant="h2" component="h2" fontWeight={600}>
-  Section Title
-</Typography>
-
-// Card Heading
-<Typography variant="h3" component="h3" fontWeight={600}>
-  Card Title
-</Typography>
-
-// Body Text
-<Typography variant="body1" component="p">
-  Body text content
-</Typography>
-
-// Caption Text
-<Typography variant="caption" color="text.secondary">
-  Caption text
-</Typography>
-```
-
-### Text Color Usage (Material-UI)
-```typescript
-import { Typography } from '@mui/material';
-
-// Default text
-<Typography>Default text</Typography>
-
-// Secondary text
-<Typography color="text.secondary">Secondary text</Typography>
-
-// Colored text
-<Typography color="primary">Blue text</Typography>
-<Typography color="error">Red text</Typography>
-<Typography color="success.main">Green text</Typography>
-
-// Custom color
-<Typography sx=\{{ color: 'grey.600' }}>
-  Custom color text
-</Typography>
-```
+### Material-UI Typography Variants
+- **Headings**: `h1` (fontWeight: 700), `h2-h6` (fontWeight: 600)
+- **Body**: `body1` (main content), `body2` (smaller text)
+- **Caption**: Small text with `color="text.secondary"`
+- **Colors**: `primary`, `secondary`, `error`, `success.main`, `text.secondary`
 
 ## 🏗️ Layout & Spacing
 
-### Container System (Material-UI)
-```typescript
-import { Container, Box } from '@mui/material';
+### Container System
+- **Container**: `maxWidth="xl"` (1536px), responsive padding with `px/py` props
+- **Box**: Custom containers with `maxWidth`, `padding`, `margin` properties
+- **Responsive**: Use breakpoint objects `{ xs: 2, sm: 3, md: 4 }`
 
-// Main container
-<Container maxWidth="xl">
-  {/* Maximum width 1536px */}
-</Container>
+### Grid System
+- **Grid Container**: `spacing={2|3}` for consistent gaps
+- **Grid Items**: `xs={12} sm={6} md={4}` for responsive columns
+- **Common Patterns**: 4-column stats, 3-column services, responsive layouts
 
-// Custom container
-<Box
-  sx=\{{
-    maxWidth: 1200,
-    padding: 3,
-    margin: '0 auto',
-  }}
->
-  {/* Content */}
-</Box>
+## 🎴 Component Styles
 
-// Responsive padding
-<Container
-  sx=\{{
-    px: { xs: 2, sm: 3, md: 4 },
-    py: { xs: 2, md: 3 },
-  }}
->
-  {/* Responsive padding content */}
-</Container>
-```
+### Cards
+- **Basic**: `elevation={2}`, `sx={{ p: 2, borderRadius: 2 }}`
+- **Hover Effects**: `transform: 'translateY(-2px)'`, `transition: 'all 0.2s ease'`
 
-### Grid System (Material-UI Grid)
-```typescript
-import { Grid } from '@mui/material';
+### Buttons
+- **Primary**: `variant="contained" color="primary"` with `startIcon`
+- **Secondary**: `variant="outlined" color="inherit"`
+- **Text**: `variant="text" color="primary"`
+- **Sizes**: `small`, `medium`, `large`
 
-// Statistics card grid (4 columns)
-<Grid container spacing={2}>
-  <Grid item xs={12} sm={6} md={3}>
-    {/* Responsive 4-column grid */}
-  </Grid>
-  <Grid item xs={12} sm={6} md={3}>
-    {/* Card content */}
-  </Grid>
-</Grid>
+### Avatars & Chips
+- **Avatar**: `sx={{ bgcolor: 'primary.main', width: 56, height: 56 }}`
+- **Status Chips**: `color="success|warning|error"`, `variant="filled"`, `size="small"`
 
-// Service card grid (3 columns)
-<Grid container spacing={3}>
-  <Grid item xs={12} md={4}>
-    {/* Responsive 3-column grid */}
-  </Grid>
-</Grid>
+## 📊 Data Tables
 
-// Equal split grid
-<Grid container spacing={2}>
-  {Array.from({ length: 3 }).map((_, index) => (
-    <Grid item xs={12} sm={6} md={4} key={index}>
-      {/* 3 columns → 2 columns → 1 column responsive */}
-    </Grid>
-  ))}
-</Grid>
-```
+### Material-UI Table
+- **Container**: Wrap in `Card` → `CardContent` → `TableContainer`
+- **Styling**: Header with `bgcolor: 'grey.50'`, hover effects on rows
+- **Actions**: IconButton with `Edit`/`Delete` icons, Status with Chips
 
-## 🎴 Component Style Guide
-
-### Card Styles (Material-UI Card)
-```typescript
-import { Card, CardContent, CardActions } from '@mui/material';
-
-// Basic card
-<Card elevation={2} sx=\{{ p: 2, borderRadius: 2 }}>
-  <CardContent>
-    {/* Card content */}
-  </CardContent>
-</Card>
-
-// Card with hover effect
-<Card
-  elevation={2}
-  sx=\{{
-    p: 2,
-    borderRadius: 2,
-    border: 1,
-    borderColor: 'divider',
-    transition: 'all 0.2s ease',
-    cursor: 'pointer',
-    '&:hover': {
-      transform: 'translateY(-2px)',
-      elevation: 8,
-    },
-  }}
->
-  <CardContent>
-    {/* Card content */}
-  </CardContent>
-</Card>
-```
-
-### Button Styles (Material-UI Button)
-```typescript
-import { Button } from '@mui/material';
-import { Add } from '@mui/icons-material';
-
-// Primary button
-<Button 
-  variant="contained" 
-  color="primary" 
-  size="large" 
-  startIcon={<Add />}
->
-  Primary Action
-</Button>
-
-// Secondary button
-<Button variant="outlined" color="inherit" size="large">
-  Secondary Action
-</Button>
-
-// Text button
-<Button variant="text" color="primary">
-  Text Action
-</Button>
-
-// Gradient button
-<Button
-  variant="contained"
-  sx=\{{
-    background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-    '&:hover': {
-      background: 'linear-gradient(45deg, #1976D2 30%, #0097A7 90%)',
-    },
-  }}
->
-  Gradient Button
-</Button>
-```
-
-### Avatar (Material-UI Avatar)
-```typescript
-import { Avatar } from '@mui/material';
-import { Person } from '@mui/icons-material';
-
-<Avatar sx=\{{ bgcolor: 'primary.main', width: 56, height: 56 }}>
-  <Person />
-</Avatar>
-
-// Avatar with image
-<Avatar 
-  src="/user-image.jpg" 
-  sx=\{{ width: 56, height: 56 }}
-  alt="User"
-/>
-
-// Initial avatar
-<Avatar sx=\{{ bgcolor: 'primary.main', width: 56, height: 56 }}>
-  JD
-</Avatar>
-```
-
-### Status Chips (Material-UI Chip)
-```typescript
-import { Chip } from '@mui/material';
-
-// Success status
-<Chip 
-  label="Active" 
-  color="success" 
-  variant="filled" 
-  size="small" 
-/>
-
-// Warning status
-<Chip 
-  label="Pending" 
-  color="warning" 
-  variant="filled" 
-  size="small" 
-/>
-
-// Error status
-<Chip 
-  label="Stopped" 
-  color="error" 
-  variant="filled" 
-  size="small" 
-/>
-
-// Badge with dot indicator
-<Chip 
-  label="New Notification" 
-  color="primary" 
-  variant="outlined" 
-  size="small"
-  sx=\{{ '&::before': { content: '"•"', marginRight: 1 } }}
-/>
-```
-
-## 📊 Data Table Styles
-
-### Table Container (Material-UI Table)
-```typescript
-import { 
-  Card, CardContent, Table, TableBody, TableCell, 
-  TableContainer, TableHead, TableRow, IconButton, 
-  Chip, Box 
-} from '@mui/material';
-import { Edit, Delete } from '@mui/icons-material';
-
-<Card elevation={2}>
-  <CardContent>
-    <TableContainer>
-      <Table sx=\{{ '& .MuiTableRow-hover:hover': { bgcolor: 'action.hover' } }}>
-        <TableHead>
-          <TableRow sx=\{{ bgcolor: 'grey.50' }}>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {items.map((item) => (
-            <TableRow key={item.id} hover>
-              <TableCell>{item.id}</TableCell>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>
-                <Chip 
-                  label={item.status} 
-                  color={getStatusColor(item.status)}
-                  size="small"
-                />
-              </TableCell>
-              <TableCell>
-                <Box sx=\{{ display: 'flex', gap: 1 }}>
-                  <IconButton color="primary" size="small">
-                    <Edit fontSize="small" />
-                  </IconButton>
-                  <IconButton color="error" size="small">
-                    <Delete fontSize="small" />
-                  </IconButton>
-                </Box>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  </CardContent>
-</Card>
-```
-
-### Advanced Data Table (MUI X DataGrid)
-```typescript
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90, sortable: true },
-  { field: 'name', headerName: 'Name', width: 150, sortable: true },
-  { 
-    field: 'status', 
-    headerName: 'Status', 
-    width: 110,
-    renderCell: (params) => (
-      <Chip label={params.value} color="primary" size="small" />
-    )
-  },
-  {
-    field: 'actions',
-    headerName: 'Actions',
-    width: 120,
-    renderCell: (params) => (
-      <Box>
-        <IconButton size="small" onClick={() => handleEdit(params.row)}>
-          <Edit />
-        </IconButton>
-        <IconButton size="small" onClick={() => handleDelete(params.row)}>
-          <Delete />
-        </IconButton>
-      </Box>
-    )
-  }
-];
-
-<DataGrid
-  rows={tableData}
-  columns={columns}
-  pageSize={pageSize}
-  page={currentPage}
-  rowCount={totalItems}
-  pagination
-  onPageChange={handlePageChange}
-  onSortModelChange={handleSort}
-  autoHeight
-/>
-```
+### MUI X DataGrid
+- **Columns**: Define `GridColDef[]` with field, headerName, width, sortable
+- **Custom Cells**: Use `renderCell` for Chips, Icons, custom content
+- **Features**: Pagination, sorting, filtering with `autoHeight`
 
 ## 🎭 Animation & Interaction
 
-### React Animations (Framer Motion)
+### Framer Motion
+- **Fade**: `initial={{ opacity: 0 }}`, `animate={{ opacity: 1 }}`, `transition={{ duration: 0.3 }}`
+- **Slide**: Add `x: -50` to `x: 0` for entrance effects
+- **Material-UI**: Use `Fade`, `Slide`, `Grow` components with `timeout` prop
+
+### Loading States
+- **Skeleton**: `variant="rectangular"` with `height`, `width`, `borderRadius`
+- **Progress**: `CircularProgress` with `color="primary"`, `size={40}`
+- **Backdrop**: Full-screen overlay with `zIndex: 9999`
+
+## 🌙 Dark Mode & Responsive Design
+
+### Theme Toggle
+- Create `ThemeContext` with `mode: 'light' | 'dark'` and `toggleMode` function
+- Use `ThemeProvider` with dynamic theme switching
+- Toggle button with `LightMode`/`DarkMode` icons
+
+### Responsive Breakpoints
+- **Breakpoints**: `xs`, `sm`, `md`, `lg`, `xl`
+- **useMediaQuery**: `theme.breakpoints.down('md')` for mobile detection
+- **Responsive Props**: `{ xs: 2, md: 3 }` for spacing, display, etc.
+
+## 🔄 Navigation & Accessibility
+
+### Navigation Structure
+- **AppBar**: Fixed position with `Toolbar` and brand title
+- **Drawer**: Permanent sidebar (240px width) with `List` navigation
+- **Menu Items**: Icons with `ListItemIcon` and text with `ListItemText`
+
+### Accessibility Guidelines
+- **Color Contrast**: Minimum 4.5:1 ratio, use icons + text for important info
+- **Keyboard Navigation**: Tab order and focus indicators
+- **Screen Reader**: `aria-label`, `VisuallyHidden` component for screen readers
+
+## 🚀 Implementation Guidelines
+
+### Page Structure
 ```typescript
-import { motion, AnimatePresence } from 'framer-motion';
-import { Fade, Slide, Grow } from '@mui/material';
-
-// Fade in/out
-<AnimatePresence>
-  {visible && (
-    <motion.div
-      initial=\{{ opacity: 0 }}
-      animate=\{{ opacity: 1 }}
-      exit=\{{ opacity: 0 }}
-      transition=\{{ duration: 0.3 }}
-    >
-      Content
-    </motion.div>
-  )}
-</AnimatePresence>
-
-// Slide effect
-{items.map((item) => (
-  <motion.div
-    key={item.id}
-    layout
-    initial=\{{ opacity: 0, x: -50 }}
-    animate=\{{ opacity: 1, x: 0 }}
-    exit=\{{ opacity: 0, x: 50 }}
-    transition=\{{ duration: 0.3 }}
-  >
-    {item.name}
-  </motion.div>
-))}
-
-// Material-UI transitions
-<Grow in={visible} timeout={300}>
-  <Card>Card content</Card>
-</Grow>
-```
-
-### Loading States (Material-UI)
-```typescript
-import { Skeleton, CircularProgress, Backdrop } from '@mui/material';
-
-// Skeleton loader
-<Skeleton variant="rectangular" height={20} sx=\{{ borderRadius: 2 }} />
-<Skeleton variant="rectangular" height={20} width="70%" sx=\{{ mt: 1, borderRadius: 2 }} />
-
-// Spinner
-<CircularProgress color="primary" size={40} />
-
-// Loading overlay
-<Backdrop open={loading} sx=\{{ zIndex: 9999 }}>
-  <CircularProgress color="inherit" />
-</Backdrop>
-```
-
-## 🌙 Dark Mode Support
-
-### Material-UI Theme Toggle
-```typescript
-import { ThemeProvider, IconButton } from '@mui/material';
-import { LightMode, DarkMode } from '@mui/icons-material';
-import { createContext, useContext, useState } from 'react';
-
-const ThemeContext = createContext<{
-  mode: 'light' | 'dark';
-  toggleMode: () => void;
-}>({
-  mode: 'light',
-  toggleMode: () => {},
-});
-
-export const useTheme = () => useContext(ThemeContext);
-
-export const ThemeToggleButton = () => {
-  const { mode, toggleMode } = useTheme();
-  
-  return (
-    <IconButton onClick={toggleMode} color="inherit">
-      {mode === 'light' ? <DarkMode /> : <LightMode />}
-    </IconButton>
-  );
-};
-
-// Theme provider
-export const CustomThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
-  
-  const toggleMode = () => {
-    setMode(prev => prev === 'light' ? 'dark' : 'light');
-  };
-  
-  const theme = mode === 'light' ? lightTheme : darkTheme;
-  
-  return (
-    <ThemeContext.Provider value=\{{ mode, toggleMode }}>
-      <ThemeProvider theme={theme}>
-        {children}
-      </ThemeProvider>
-    </ThemeContext.Provider>
-  );
-};
-```
-
-## 📱 Responsive Design
-
-### Material-UI Breakpoints
-```typescript
-import { useMediaQuery, useTheme, Box } from '@mui/material';
-
-const ResponsiveComponent = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  
-  return (
-    <Box>
-      {isMobile ? (
-        <Typography variant="h6">Mobile View</Typography>
-      ) : (
-        <Typography variant="h4">Desktop View</Typography>
-      )}
-    </Box>
-  );
-};
-
-// Responsive Grid
-<Grid container spacing=\{{ xs: 2, md: 3 }}>
-  <Grid item xs={12} sm={6} md={4} lg={3}>
-    {/* Responsive columns: 12 → 6 → 4 → 3 */}
-  </Grid>
-</Grid>
-
-// Responsive styles with sx props
-<Box
-  sx=\{{
-    display: { xs: 'block', md: 'flex' },
-    gap: { xs: 1, md: 2 },
-    p: { xs: 2, md: 3 },
-  }}
->
-  {/* Responsive layout */}
+// Basic page pattern
+<Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+  <Container maxWidth="xl" sx={{ p: 3 }}>
+    <Typography variant="h3" component="h1" gutterBottom>Page Title</Typography>
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Card elevation={2}>
+          <CardContent>{/* Content */}</CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  </Container>
 </Box>
 ```
 
-## 🔄 Navigation System
+### Component Patterns
+- **Card Components**: Avatar + Typography + Chip + IconButton layout
+- **TypeScript**: Define interfaces for all component props
+- **Responsive**: Use breakpoint objects for all spacing and layout
 
-### Material-UI Navigation
-```typescript
-import { 
-  AppBar, Toolbar, Drawer, List, ListItem, 
-  ListItemIcon, ListItemText, Typography 
-} from '@mui/material';
-import { Home, ShoppingCart, Person } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+## 📋 Design System Checklist
 
-const Navigation = () => {
-  const navigate = useNavigate();
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  
-  const menuItems = [
-    { text: 'Home', icon: <Home />, path: '/' },
-    { text: 'Orders', icon: <ShoppingCart />, path: '/orders' },
-    { text: 'Users', icon: <Person />, path: '/users' },
-  ];
-  
-  return (
-    <>
-      <AppBar position="fixed">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx=\{{ flexGrow: 1 }}>
-            OrderPage
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      
-      <Drawer
-        variant="permanent"
-        sx=\{{
-          width: 240,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: 240,
-            boxSizing: 'border-box',
-            top: 64, // AppBar height
-          },
-        }}
-      >
-        <List>
-          {menuItems.map((item) => (
-            <ListItem 
-              key={item.text}
-              button 
-              onClick={() => navigate(item.path)}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-    </>
-  );
-};
-```
+### Essential Requirements
+- [x] **Material-UI Components**: Use Typography, Grid, Container, Box for layout
+- [x] **Theme System**: Implement dark/light mode with ThemeProvider
+- [x] **Responsive Design**: Apply breakpoint objects and useMediaQuery
+- [x] **TypeScript**: Complete type definitions for all components
+- [x] **Accessibility**: aria-labels, keyboard navigation, color contrast 4.5:1
 
-## ♿ Accessibility Guidelines
-
-### Color Contrast
-- Maintain minimum 4.5:1 contrast ratio between text and background
-- Express important information with icons/text in addition to color
-
-### Keyboard Navigation
-- Apply tab order to all interactive elements
-- Provide focus indicators
-
-### Screen Reader Support (Material-UI)
-```typescript
-import { IconButton, Typography, VisuallyHidden } from '@mui/material';
-import { Menu, Check } from '@mui/icons-material';
-
-// Using aria-label
-<IconButton aria-label="Open menu">
-  <Menu />
-</IconButton>
-
-// Providing alternative text
-<Typography>
-  <Check aria-hidden="true" />
-  <VisuallyHidden>Completed</VisuallyHidden>
-</Typography>
-
-// Visually hidden text
-<VisuallyHidden>Screen reader only text</VisuallyHidden>
-```
-
-## 🚀 Usage Examples
-
-### Creating New Pages (React + TypeScript)
-```typescript
-import React from 'react';
-import { Container, Typography, Card, CardContent, Grid, Box } from '@mui/material';
-
-const NewPage: React.FC = () => {
-  return (
-    <Box sx=\{{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      <Container maxWidth="xl" sx=\{{ p: 3 }}>
-        {/* Page header */}
-        <Box sx=\{{ mb: 4 }}>
-          <Typography variant="h3" component="h1" gutterBottom>
-            Page Title
-          </Typography>
-          <Typography variant="h6" color="text.secondary">
-            Page description
-          </Typography>
-        </Box>
-        
-        {/* Main content */}
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Card elevation={2}>
-              <CardContent>
-                {/* Card content */}
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
-  );
-};
-
-export default NewPage;
-```
-
-### Creating New Card Components (React + TypeScript)
-```typescript
-import React from 'react';
-import { 
-  Card, CardContent, Avatar, Typography, 
-  Chip, Box, IconButton 
-} from '@mui/material';
-import { ArrowForward, LocalShipping } from '@mui/icons-material';
-
-interface CustomCardProps {
-  title: string;
-  description: string;
-  status: string;
-  content: string;
-}
-
-const CustomCard: React.FC<CustomCardProps> = ({ 
-  title, description, status, content 
-}) => {
-  return (
-    <Card 
-      elevation={2} 
-      sx=\{{ 
-        p: 2, 
-        borderRadius: 2,
-        '&:hover': { 
-          transform: 'translateY(-2px)',
-          transition: 'transform 0.2s ease' 
-        }
-      }}
-    >
-      <CardContent>
-        {/* Card header */}
-        <Box sx=\{{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Avatar sx=\{{ bgcolor: 'primary.main', mr: 2 }}>
-            <LocalShipping />
-          </Avatar>
-          <Box>
-            <Typography variant="h6" component="h3">
-              {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {description}
-            </Typography>
-          </Box>
-        </Box>
-        
-        {/* Card content */}
-        <Typography variant="body1" sx=\{{ mb: 2 }}>
-          {content}
-        </Typography>
-        
-        {/* Card actions */}
-        <Box sx=\{{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Chip 
-            label={status} 
-            color="success" 
-            variant="filled" 
-            size="small" 
-          />
-          <IconButton color="primary">
-            <ArrowForward />
-          </IconButton>
-        </Box>
-      </CardContent>
-    </Card>
-  );
-};
-
-export default CustomCard;
-```
-
-## 📋 Checklist
-
-When creating new components or pages, please check the following:
-
-### 🎨 Design (Material-UI)
-- [ ] Use Material-UI theme system
-- [ ] Apply consistent typography with Typography component
-- [ ] Style with sx props or styled components
-- [ ] Use layout components like Grid, Container, Box
-
-### 🔧 Functionality (React + TypeScript)
-- [ ] Complete TypeScript type definitions
-- [ ] Support dark mode with ThemeProvider
-- [ ] Implement responsive design with useMediaQuery
-- [ ] Add animations with Framer Motion or Material-UI transitions
-- [ ] Handle loading states with Skeleton, CircularProgress
-
-### ♿ Accessibility (Material-UI)
-- [ ] Follow Material-UI accessibility guidelines
-- [ ] Basic keyboard navigation support
-- [ ] Utilize VisuallyHidden component
-- [ ] Provide appropriate aria-labels for IconButton, Button, etc.
-
-Following this Material-UI based design system will help you build consistent and professional user interfaces.
-
-**Key Features:**
-- **Type Safety**: Built-in TypeScript support for safe development
-- **Built-in Accessibility**: Default accessibility support from Material-UI components
-- **Theme System**: Easy dark/light mode switching with ThemeProvider
-- **Responsive Design**: Perfect responsive implementation with sx props and useMediaQuery
-- **Performance Optimization**: React's virtual DOM and Material-UI's optimized components
+### Key Features
+- **Type Safety**: Built-in TypeScript support
+- **Accessibility**: Default Material-UI accessibility features
+- **Theme System**: Dark/light mode switching
+- **Responsive**: sx props and useMediaQuery
+- **Performance**: Optimized Material-UI components

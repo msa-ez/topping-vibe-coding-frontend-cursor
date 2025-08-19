@@ -1,10 +1,7 @@
 ---
-
-
 description: Defines advanced technology stack configurations and metadata integration patterns for React + TypeScript + Vite projects. Focuses on optimization and DDD-based development beyond basic setup.
 alwaysApply: false
 ---
-
 
 # Advanced Frontend Technology Stack & Metadata Integration
 
@@ -14,498 +11,73 @@ This rule defines the technology stack configuration for advanced features and m
 
 ## Metadata Integration Technologies
 
-### Event Storming Metadata Integration
-- **OpenAPI Integration**: Automatic type generation based on Swagger/OpenAPI specifications
+### Event Storming & DDD Integration
+- **OpenAPI Integration**: Automatic type generation from Swagger/OpenAPI specs
 - **Code Generation**: Metadata-based automatic component generation
-- **Type Safety**: Synchronization between domain models and UI types
-
-### DDD Pattern Support Technologies
 - **CQRS Support**: Command/Query separation pattern
-- **Domain Events**: Event-driven architecture support
 - **Aggregate Patterns**: Aggregate-based component structure
 
-## Metadata-Based Store Pattern (Zustand)
+## State Management (Zustand)
 
-### Domain-Specific Store Creation
-```typescript
-// src/store/[boundedContext]/[aggregate].store.ts
-import { create } from 'zustand'
-import { [Aggregate] } from '@/types/[boundedContext]/[aggregate].types'
+### Aggregate-Based Store Pattern
+- **Store Structure**: `items[]`, `selectedItem`, `loading`, `error` + setters
+- **File Pattern**: `src/store/[boundedContext]/[aggregate].store.ts`
+- **Zustand Usage**: `create<State>((set) => ({ ... }))` with TypeScript interfaces
 
-interface [Aggregate]State {
-  items: [Aggregate][]
-  selectedItem: [Aggregate] | null
-  loading: boolean
-  error: string | null
-  // Metadata-based state additions
-  setItems: (items: [Aggregate][]) => void
-  setSelectedItem: (item: [Aggregate] | null) => void
-  setLoading: (loading: boolean) => void
-  setError: (error: string | null) => void
-}
-
-export const use[Aggregate]Store = create<[Aggregate]State>((set) => ({
-  items: [],
-  selectedItem: null,
-  loading: false,
-  error: null,
-  setItems: (items) => set({ items }),
-  setSelectedItem: (selectedItem) => set({ selectedItem }),
-  setLoading: (loading) => set({ loading }),
-  setError: (error) => set({ error }),
-}))
-```
-
-## Advanced Router Configuration (Metadata-Based)
+## Router Configuration (React Router + Metadata)
 
 ### Dynamic Route Generation
-```typescript
-// src/utils/route-generator.ts
-import { BoundedContext, Aggregate, View } from '@/types/metadata.types'
+- **Route Structure**: BoundedContext (`/${bc.name}`) → Aggregate (`/${bc.name}/${agg.namePlural}`) → Views (CQRS only)
+- **File Pattern**: `src/utils/route-generator.ts` with metadata-based route generation
+- **App Setup**: QueryClient + ThemeProvider + Router with generated routes
 
-export const generateRoutes = (metadata: {
-  boundedContexts: BoundedContext[]
-  aggregates: Aggregate[]
-  views: View[]
-}) => {
-  const routes = []
-  
-  // Generate BoundedContext-based routes
-  metadata.boundedContexts.forEach(bc => {
-    routes.push({
-      path: `/${bc.name.toLowerCase()}`,
-      element: `${bc.name}Page`,
-      children: []
-    })
-    
-    // Generate Aggregate-based sub-routes
-    metadata.aggregates
-      .filter(agg => agg.boundedContext === bc.name)
-      .forEach(agg => {
-        routes.push({
-          path: `/${bc.name.toLowerCase()}/${agg.namePlural.toLowerCase()}`,
-          element: `${agg.name}Page`
-        })
-      })
-  })
-  
-  // Generate View-based routes (CQRS)
-  metadata.views
-    .filter(view => view.dataProjection === 'cqrs')
-    .forEach(view => {
-      routes.push({
-        path: `/${view.namePlural.toLowerCase()}`,
-        element: `${view.name}Page`
-      })
-    })
-  
-  return routes
-}
-```
+## React Hook Patterns (React Query + Zustand)
 
-### Metadata-Driven App Configuration
-```typescript
-// src/App.tsx (Metadata Integration)
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ThemeProvider } from '@mui/material/styles'
-import { CssBaseline } from '@mui/material'
-import { generateRoutes } from '@/utils/route-generator'
-import { metadata } from '@/metadata' // Metadata file
-import Layout from '@/components/common/Layout'
-import HomePage from '@/pages/HomePage'
+### Hook Architecture
+- **Aggregate Hooks**: `useQuery` for lists, `useMutation` for CRUD operations
+- **Command Hooks**: `useMutation` for non-REST commands with query invalidation
+- **ReadModel Hooks**: `useQuery` with search params for CQRS views
+- **File Pattern**: `src/hooks/[boundedContext]/use[Entity].ts`
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 5, // 5 minutes
-        cacheTime: 1000 * 60 * 10, // 10 minutes
-        retry: 3,
-        refetchOnWindowFocus: false,
-      },
-    },
-  })
+### Query Configuration
+- **Cache Settings**: 5min staleTime, 10min cacheTime, 3 retries
+- **Error Handling**: Integration with Zustand store for error state
+- **Invalidation**: Automatic query invalidation on mutations
 
-function App() {
-  const routes = generateRoutes(metadata)
-  
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              {routes.map(route => (
-                <Route 
-                  key={route.path} 
-                  path={route.path} 
-                  element={route.element} 
-                />
-              ))}
-            </Routes>
-          </Layout>
-        </Router>
-      </ThemeProvider>
-    </QueryClientProvider>
-  )
-}
+## API Service Patterns (Axios + Gateway)
 
-export default App
-```
+### Service Architecture
+- **Aggregate Services**: Full CRUD with HAL JSON transformation (`/{namePlural}`)
+- **Command Services**: Custom endpoints (`/{aggregates.namePlural}/{id}/{command.name}`)
+- **Query Services**: Search with parameters (`/{views.namePlural}`)
+- **File Pattern**: `src/services/[boundedContext]/[entity].service.ts`
 
-## Advanced React Hook Patterns (Metadata-Based)
+### Gateway Integration
+- **Base URL**: Always use Gateway URL (`http://localhost:8088`)
+- **HAL JSON**: Automatic transformation for Spring Data REST format
+- **Error Handling**: Unified error handling with interceptors
 
-### Aggregate-Based Hooks
-```typescript
-// src/hooks/[boundedContext]/use[Aggregate].ts
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { [aggregate]Service } from '@/services/[boundedContext]/[aggregate].service'
-import { use[Aggregate]Store } from '@/store/[boundedContext]/[aggregate].store'
-import type { [Aggregate], Create[Aggregate]Request } from '@/types/[boundedContext]/[aggregate].types'
-
-export const use[Aggregate] = () => {
-  const queryClient = useQueryClient()
-  const { setLoading, setError } = use[Aggregate]Store()
-
-  // Query for list
-  const use[Aggregate]List = useQuery({
-    queryKey: ['[aggregates]'],
-    queryFn: [aggregate]Service.getAll,
-    onError: (error) => setError(error.message),
-  })
-
-  // Mutation for create
-  const create[Aggregate] = useMutation({
-    mutationFn: (data: Create[Aggregate]Request) => [aggregate]Service.create(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['[aggregates]'])
-      setError(null)
-    },
-    onError: (error) => setError(error.message),
-  })
-
-  // Mutation for update
-  const update[Aggregate] = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<[Aggregate]> }) => 
-      [aggregate]Service.update(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['[aggregates]'])
-      setError(null)
-    },
-    onError: (error) => setError(error.message),
-  })
-
-  // Mutation for delete
-  const delete[Aggregate] = useMutation({
-    mutationFn: (id: string) => [aggregate]Service.delete(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['[aggregates]'])
-      setError(null)
-    },
-    onError: (error) => setError(error.message),
-  })
-
-  return {
-    // Queries
-    [aggregates]: use[Aggregate]List.data || [],
-    isLoading: use[Aggregate]List.isLoading,
-    error: use[Aggregate]List.error,
-    
-    // Mutations
-    create[Aggregate],
-    update[Aggregate],
-    delete[Aggregate],
-    
-    // Loading states
-    isCreating: create[Aggregate].isLoading,
-    isUpdating: update[Aggregate].isLoading,
-    isDeleting: delete[Aggregate].isLoading,
-  }
-}
-```
-
-### Command-Based Hooks (for non-REST commands)
-```typescript
-// src/hooks/[boundedContext]/use[Command].ts
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { [command]Service } from '@/services/[boundedContext]/[command].service'
-import type { [Command]Request } from '@/types/[boundedContext]/[command].types'
-
-export const use[Command] = () => {
-  const queryClient = useQueryClient()
-
-  const execute[Command] = useMutation({
-    mutationFn: (request: [Command]Request) => [command]Service.execute(request),
-    onSuccess: () => {
-      // Invalidate Aggregate-related queries
-      queryClient.invalidateQueries(['[aggregates]'])
-    },
-  })
-
-  return {
-    execute[Command],
-    isExecuting: execute[Command].isLoading,
-    error: execute[Command].error,
-  }
-}
-```
-
-### ReadModel-Based Hooks (for CQRS views)
-```typescript
-// src/hooks/[boundedContext]/use[ReadModel].ts
-import { useQuery } from '@tanstack/react-query'
-import { [query]Service } from '@/services/[boundedContext]/[query].service'
-import type { [ReadModel], [ReadModel]SearchParams } from '@/types/[boundedContext]/[query].types'
-
-export const use[ReadModel] = (searchParams?: [ReadModel]SearchParams) => {
-  const [readModels] = useQuery({
-    queryKey: ['[readModels]', searchParams],
-    queryFn: () => [query]Service.search(searchParams),
-    keepPreviousData: true,
-  })
-
-  return {
-    [readModels]: [readModels]?.data || [],
-    totalElements: [readModels]?.totalElements || 0,
-    totalPages: [readModels]?.totalPages || 0,
-    isLoading: [readModels].isLoading,
-    error: [readModels].error,
-  }
-}
-```
-
-## Advanced API Service Patterns (Metadata-Based)
-
-### Aggregate-Based API Service
-```typescript
-// src/services/[boundedContext]/[aggregate].service.ts
-import apiClient from '../api/client'
-import type { 
-  [Aggregate], 
-  Create[Aggregate]Request,
-  Update[Aggregate]Request,
-  [Aggregate]ListResponse 
-} from '@/types/[boundedContext]/[aggregate].types'
-
-export class [Aggregate]Service {
-  private readonly basePath = '/[aggregates.namePlural]' // use namePlural from metadata
-
-  // GET /{namePlural} - including HAL JSON processing
-  async getAll(params?: any): Promise<[Aggregate]ListResponse> {
-    const response = await apiClient.get(this.basePath, { params })
-    
-    // Spring Data REST HAL JSON transformation
-    if (response.data._embedded && response.data._embedded.[aggregates]) {
-      return {
-        content: response.data._embedded.[aggregates],
-        totalElements: response.data.page?.totalElements || 0,
-        totalPages: response.data.page?.totalPages || 0,
-        size: response.data.page?.size || 20,
-        number: response.data.page?.number || 0,
-      }
-    }
-    
-    return response.data
-  }
-
-  // GET /{namePlural}/{id}
-  async getById(id: string): Promise<[Aggregate]> {
-    const response = await apiClient.get(`${this.basePath}/${id}`)
-    return response.data
-  }
-
-  // POST /{namePlural}
-  async create(data: Create[Aggregate]Request): Promise<[Aggregate]> {
-    const response = await apiClient.post(this.basePath, data)
-    return response.data
-  }
-
-  // PUT /{namePlural}/{id}
-  async update(id: string, data: Update[Aggregate]Request): Promise<[Aggregate]> {
-    const response = await apiClient.put(`${this.basePath}/${id}`, data)
-    return response.data
-  }
-
-  // DELETE /{namePlural}/{id}
-  async delete(id: string): Promise<void> {
-    await apiClient.delete(`${this.basePath}/${id}`)
-  }
-}
-
-export const [aggregate]Service = new [Aggregate]Service()
-```
-
-### Command-Based API Service (for isRestRepository: false)
-```typescript
-// src/services/[boundedContext]/[command].service.ts
-import apiClient from '../api/client'
-import type { [Command]Request, [Command]Response } from '@/types/[boundedContext]/[command].types'
-
-export class [Command]Service {
-  private readonly basePath = '/[aggregates.namePlural]' // Command's target aggregate path
-
-  // POST /{aggregates.namePlural}/{id}/[command.name]
-  async execute(request: [Command]Request): Promise<[Command]Response> {
-    const response = await apiClient.post(
-      `${this.basePath}/${request.targetId}/[command.name]`,
-      request
-    )
-    return response.data
-  }
-}
-
-export const [command]Service = new [Command]Service()
-```
-
-### Query-Based API Service (for ReadModels)
-```typescript
-// src/services/[boundedContext]/[query].service.ts
-import apiClient from '../api/client'
-import type { 
-  [ReadModel], 
-  [ReadModel]SearchParams,
-  [ReadModel]ListResponse 
-} from '@/types/[boundedContext]/[query].types'
-
-export class [Query]Service {
-  private readonly basePath = '/[views.namePlural]' // use views.namePlural from metadata
-
-  // GET /{views.namePlural} with search parameters
-  async search(params?: [ReadModel]SearchParams): Promise<[ReadModel]ListResponse> {
-    const response = await apiClient.get(this.basePath, { params })
-    
-    // HAL JSON processing
-    if (response.data._embedded && response.data._embedded.[readModels]) {
-      return {
-        content: response.data._embedded.[readModels],
-        totalElements: response.data.page?.totalElements || 0,
-        totalPages: response.data.page?.totalPages || 0,
-        size: response.data.page?.size || 20,
-        number: response.data.page?.number || 0,
-      }
-    }
-    
-    return response.data
-  }
-
-  // GET /{views.namePlural}/{id}
-  async getById(id: string): Promise<[ReadModel]> {
-    const response = await apiClient.get(`${this.basePath}/${id}`)
-    return response.data
-  }
-}
-
-export const [query]Service = new [Query]Service()
-```
-
-## Metadata-Based Component Development Guidelines
+## Development Guidelines & Integration
 
 ### Component Development Principles
-1. **Metadata Driven**: All components are generated based on Event Storming metadata
+1. **Metadata Driven**: All components generated from Event Storming metadata
 2. **Type Safety**: Complete synchronization between domain models and UI types
 3. **Domain Separation**: Component separation by BoundedContext
 4. **CQRS Pattern**: Command/Query responsibility separation
 
-### Performance Optimization (Metadata-Based)
-```typescript
-// Metadata-based lazy loading
-const LazyAggregateComponent = React.lazy(() => 
-  import(`@/components/${boundedContext}/${aggregate}Page`)
-)
+### Performance Optimization
+- **Lazy Loading**: Dynamic imports for metadata-based components
+- **Memoization**: React.memo with metadata fieldDescriptor comparison
+- **Code Splitting**: Route-based splitting for BoundedContext modules
 
-// Metadata-based memoization
-const Memo[Aggregate]Card = React.memo([Aggregate]Card, (prev, next) => {
-  // Comparison based on metadata fieldDescriptors
-  return prev.[aggregateId] === next.[aggregateId] && 
-         prev.[lastModified] === next.[lastModified]
-})
-```
+### TypeScript & Environment Setup
+- **Metadata Types**: AggregateMetadata, CommandMetadata, ViewMetadata interfaces
+- **Environment Variables**: `VITE_GATEWAY_URL`, `VITE_API_BASE_URL`, `VITE_OPENAPI_URL`
+- **OpenAPI Integration**: Auto-generated types from OpenAPI specifications
 
-### TypeScript Integration with Metadata
-```typescript
-// src/types/metadata.types.ts - Metadata type definitions
-export interface AggregateMetadata {
-  name: string
-  namePlural: string
-  fieldDescriptors: FieldDescriptor[]
-  boundedContext: string
-}
+### API Integration Patterns
+- **Endpoint Generation**: Metadata-based API endpoint mapping
+- **Spring Gateway**: Use port 8088 with HAL JSON transformation
+- **Type Generation**: Automatic type generation from OpenAPI specs
 
-export interface CommandMetadata {
-  name: string
-  namePascalCase: string
-  isRestRepository: boolean
-  targetAggregate: string
-}
-
-export interface ViewMetadata {
-  name: string
-  namePlural: string
-  dataProjection: 'cqrs' | 'query-for-aggregate'
-  queryParameters?: QueryParameter[]
-  fieldDescriptors?: FieldDescriptor[]
-}
-```
-
-### Environment Variables for Metadata Integration
-```typescript
-// src/vite-env.d.ts
-/// <reference types="vite/client" />
-
-interface ImportMetaEnv {
-  readonly VITE_API_BASE_URL: string
-  readonly VITE_GATEWAY_URL: string
-  readonly VITE_METADATA_URL: string
-  readonly VITE_OPENAPI_URL: string
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv
-}
-```
-
-## Advanced API Integration Patterns
-
-### Gateway Integration
-- **Base URL**: Always use Gateway URL (`http://localhost:8088`)
-- **Routing**: Follow Spring Cloud Gateway routing patterns
-- **HAL JSON**: Automatic transformation of Spring Data REST HAL JSON format
-
-### Metadata-Based API Generation
-```typescript
-// src/utils/api-generator.ts
-export const generateApiEndpoints = (metadata: AggregateMetadata[]) => {
-  return metadata.reduce((endpoints, aggregate) => {
-    endpoints[aggregate.name] = {
-      list: `/${aggregate.namePlural}`,
-      get: `/${aggregate.namePlural}/{id}`,
-      create: `/${aggregate.namePlural}`,
-      update: `/${aggregate.namePlural}/{id}`,
-      delete: `/${aggregate.namePlural}/{id}`,
-    }
-    return endpoints
-  }, {})
-}
-```
-
-### OpenAPI Integration
-```typescript
-// src/types/openapi.types.ts - Auto-generated types based on OpenAPI spec
-// This file is automatically generated by openapi-typescript-codegen
-export interface paths {
-  "/[aggregates.namePlural]": {
-    get: operations["get[Aggregates]"]
-    post: operations["create[Aggregate]"]
-  }
-  "/[aggregates.namePlural]/{id}": {
-    get: operations["get[Aggregate]ById"]
-    put: operations["update[Aggregate]"]
-    delete: operations["delete[Aggregate]"]
-  }
-}
-```
-
-**Important**: All API configurations must be automatically generated based on metadata and OpenAPI specifications, and should not be written manually.
+**Important**: All configurations must be automatically generated based on metadata and OpenAPI specifications.
