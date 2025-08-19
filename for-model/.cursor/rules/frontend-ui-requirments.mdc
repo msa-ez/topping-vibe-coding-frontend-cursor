@@ -105,21 +105,21 @@ const ModifyOrderModal: React.FC<ModifyOrderModalProps> = ({
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ textAlign: 'center', pb: 1 }}>
+      <DialogTitle sx=\{{ textAlign: 'center', pb: 1 }}>
         <Typography variant="h5" component="h2" fontWeight={600}>
           Modify Order
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+        <Typography variant="body2" color="text.secondary" sx=\{{ mt: 1 }}>
           Modify order information.
         </Typography>
       </DialogTitle>
 
-      <DialogContent sx={{ px: 3, py: 2 }}>
+      <DialogContent sx=\{{ px: 3, py: 2 }}>
         {result ? (
-          <Box sx={{ textAlign: 'center' }}>
+          <Box sx=\{{ textAlign: 'center' }}>
             <Alert 
               severity={result.success ? 'success' : 'error'} 
-              sx={{ mb: 2 }}
+              sx=\{{ mb: 2 }}
             >
               {result.message}
             </Alert>
@@ -144,7 +144,7 @@ const ModifyOrderModal: React.FC<ModifyOrderModalProps> = ({
                   error={!!errors.address}
                   helperText={errors.address?.message}
                   disabled={loading}
-                  sx={{ mb: 2 }}
+                  sx=\{{ mb: 2 }}
                 />
               )}
             />
@@ -152,7 +152,7 @@ const ModifyOrderModal: React.FC<ModifyOrderModalProps> = ({
         )}
       </DialogContent>
 
-      <DialogActions sx={{ px: 3, pb: 3 }}>
+      <DialogActions sx=\{{ px: 3, pb: 3 }}>
         {result ? (
           <Button onClick={handleClose} variant="contained" fullWidth>
             OK
@@ -245,13 +245,13 @@ const OrderSearchTable: React.FC<OrderSearchTableProps> = ({ onOrderSelect }) =>
   };
 
   return (
-    <Card elevation={1} sx={{ bgcolor: '#f8f9fa' }}>
-      <CardContent sx={{ p: 3 }}>
+    <Card elevation={1} sx=\{{ bgcolor: '#f8f9fa' }}>
+      <CardContent sx=\{{ p: 3 }}>
         {/* Search form */}
         <Box
           component="form"
           onSubmit={handleSearch}
-          sx={{
+          sx=\{{
             display: 'flex',
             alignItems: 'flex-end',
             gap: 2,
@@ -266,8 +266,8 @@ const OrderSearchTable: React.FC<OrderSearchTableProps> = ({ onOrderSelect }) =>
             onChange={(e) => setSearchQuery(e.target.value)}
             variant="outlined"
             size="small"
-            sx={{ minWidth: 200 }}
-            InputProps={{
+            sx=\{{ minWidth: 200 }}
+            InputProps=\{{
               endAdornment: (
                 <InputAdornment position="end">
                   <Search />
@@ -278,7 +278,7 @@ const OrderSearchTable: React.FC<OrderSearchTableProps> = ({ onOrderSelect }) =>
           <Button
             type="submit"
             variant="contained"
-            sx={{
+            sx=\{{
               px: 3,
               py: 1,
               '&:hover': {
@@ -291,20 +291,20 @@ const OrderSearchTable: React.FC<OrderSearchTableProps> = ({ onOrderSelect }) =>
         </Box>
 
         {/* Results table */}
-        <TableContainer component={Paper} sx={{ bgcolor: '#fff' }}>
-          <Table sx={{ minWidth: 500 }}>
+        <TableContainer component={Paper} sx=\{{ bgcolor: '#fff' }}>
+          <Table sx=\{{ minWidth: 500 }}>
             <TableHead>
-              <TableRow sx={{ bgcolor: '#f1f3f5' }}>
-                <TableCell sx={{ fontWeight: 600, color: '#343a40' }}>
+              <TableRow sx=\{{ bgcolor: '#f1f3f5' }}>
+                <TableCell sx=\{{ fontWeight: 600, color: '#343a40' }}>
                   Order ID
                 </TableCell>
-                <TableCell sx={{ fontWeight: 600, color: '#343a40' }}>
+                <TableCell sx=\{{ fontWeight: 600, color: '#343a40' }}>
                   User ID
                 </TableCell>
-                <TableCell sx={{ fontWeight: 600, color: '#343a40' }}>
+                <TableCell sx=\{{ fontWeight: 600, color: '#343a40' }}>
                   Product Name
                 </TableCell>
-                <TableCell sx={{ fontWeight: 600, color: '#343a40' }}>
+                <TableCell sx=\{{ fontWeight: 600, color: '#343a40' }}>
                   Address
                 </TableCell>
               </TableRow>
@@ -316,20 +316,20 @@ const OrderSearchTable: React.FC<OrderSearchTableProps> = ({ onOrderSelect }) =>
                     key={order.id}
                     hover
                     onClick={() => handleRowClick(order)}
-                    sx={{
+                    sx=\{{
                       cursor: 'pointer',
                       '&:hover': { bgcolor: 'action.hover' },
                     }}
                   >
-                    <TableCell sx={{ color: '#495057' }}>{order.id}</TableCell>
-                    <TableCell sx={{ color: '#495057' }}>{order.userId}</TableCell>
-                    <TableCell sx={{ color: '#495057' }}>{order.productName}</TableCell>
-                    <TableCell sx={{ color: '#495057' }}>{order.address}</TableCell>
+                    <TableCell sx=\{{ color: '#495057' }}>{order.id}</TableCell>
+                    <TableCell sx=\{{ color: '#495057' }}>{order.userId}</TableCell>
+                    <TableCell sx=\{{ color: '#495057' }}>{order.productName}</TableCell>
+                    <TableCell sx=\{{ color: '#495057' }}>{order.address}</TableCell>
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={4} sx={{ textAlign: 'center', py: 3 }}>
+                  <TableCell colSpan={4} sx=\{{ textAlign: 'center', py: 3 }}>
                     <Typography variant="body1" color="text.secondary">
                       No search results found.
                     </Typography>
@@ -410,17 +410,17 @@ const MyPageDashboard: React.FC<MyPageDashboardProps> = ({ userId }) => {
   };
 
   return (
-    <Card elevation={1} sx={{ bgcolor: '#f9fafb', minWidth: 280 }}>
-      <CardContent sx={{ p: 3 }}>
+    <Card elevation={1} sx=\{{ bgcolor: '#f9fafb', minWidth: 280 }}>
+      <CardContent sx=\{{ p: 3 }}>
         {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+        <Box sx=\{{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
           <Typography variant="h5" component="h2" fontWeight={700}>
             My Page
           </Typography>
           <Chip
             label="CQRS View"
             size="small"
-            sx={{
+            sx=\{{
               bgcolor: '#e9ecef',
               color: '#495057',
               fontSize: '0.9em',
@@ -429,13 +429,13 @@ const MyPageDashboard: React.FC<MyPageDashboardProps> = ({ userId }) => {
         </Box>
 
         {/* Query button */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2.5 }}>
+        <Box sx=\{{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2.5 }}>
           <Button
             variant="contained"
             onClick={handleRefresh}
             disabled={isLoading}
             startIcon={isLoading ? <CircularProgress size={16} /> : <Refresh />}
-            sx={{
+            sx=\{{
               px: 2.5,
               py: 1,
               fontWeight: 500,
@@ -448,30 +448,30 @@ const MyPageDashboard: React.FC<MyPageDashboardProps> = ({ userId }) => {
         {/* Data table */}
         <Paper
           elevation={1}
-          sx={{
+          sx=\{{
             bgcolor: '#fff',
             borderRadius: 1.5,
             border: '1px solid #dee2e6',
             overflow: 'hidden',
           }}
         >
-          <TableContainer sx={{ overflowX: 'auto' }}>
-            <Table sx={{ minWidth: 540 }}>
+          <TableContainer sx=\{{ overflowX: 'auto' }}>
+            <Table sx=\{{ minWidth: 540 }}>
               <TableHead>
-                <TableRow sx={{ bgcolor: '#f1f3f5' }}>
-                  <TableCell sx={{ fontWeight: 600, color: '#333', p: 1.5 }}>
+                <TableRow sx=\{{ bgcolor: '#f1f3f5' }}>
+                  <TableCell sx=\{{ fontWeight: 600, color: '#333', p: 1.5 }}>
                     id
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: '#333', p: 1.5 }}>
+                  <TableCell sx=\{{ fontWeight: 600, color: '#333', p: 1.5 }}>
                     orderId
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: '#333', p: 1.5 }}>
+                  <TableCell sx=\{{ fontWeight: 600, color: '#333', p: 1.5 }}>
                     userId
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: '#333', p: 1.5 }}>
+                  <TableCell sx=\{{ fontWeight: 600, color: '#333', p: 1.5 }}>
                     productName
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 600, color: '#333', p: 1.5 }}>
+                  <TableCell sx=\{{ fontWeight: 600, color: '#333', p: 1.5 }}>
                     address
                   </TableCell>
                 </TableRow>
@@ -481,24 +481,24 @@ const MyPageDashboard: React.FC<MyPageDashboardProps> = ({ userId }) => {
                   data.map((row) => (
                     <TableRow
                       key={row.id}
-                      sx={{
+                      sx=\{{
                         '&:hover': { bgcolor: 'action.hover' },
                         borderBottom: '1px solid #dee2e6',
                       }}
                     >
-                      <TableCell sx={{ color: '#222', p: 1.5 }}>
+                      <TableCell sx=\{{ color: '#222', p: 1.5 }}>
                         {row.id}
                       </TableCell>
-                      <TableCell sx={{ color: '#222', p: 1.5 }}>
+                      <TableCell sx=\{{ color: '#222', p: 1.5 }}>
                         {row.orderId}
                       </TableCell>
-                      <TableCell sx={{ color: '#222', p: 1.5 }}>
+                      <TableCell sx=\{{ color: '#222', p: 1.5 }}>
                         {row.userId}
                       </TableCell>
-                      <TableCell sx={{ color: '#222', p: 1.5 }}>
+                      <TableCell sx=\{{ color: '#222', p: 1.5 }}>
                         {row.productName}
                       </TableCell>
-                      <TableCell sx={{ color: '#222', p: 1.5 }}>
+                      <TableCell sx=\{{ color: '#222', p: 1.5 }}>
                         {row.address}
                       </TableCell>
                     </TableRow>
@@ -507,7 +507,7 @@ const MyPageDashboard: React.FC<MyPageDashboardProps> = ({ userId }) => {
                   <TableRow>
                     <TableCell
                       colSpan={5}
-                      sx={{
+                      sx=\{{
                         textAlign: 'center',
                         py: 2.5,
                         color: '#6c757d',

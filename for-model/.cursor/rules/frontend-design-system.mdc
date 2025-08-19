@@ -166,7 +166,7 @@ import { Typography } from '@mui/material';
 <Typography color="success.main">Green text</Typography>
 
 // Custom color
-<Typography sx={{ color: 'grey.600' }}>
+<Typography sx=\{{ color: 'grey.600' }}>
   Custom color text
 </Typography>
 ```
@@ -184,7 +184,7 @@ import { Container, Box } from '@mui/material';
 
 // Custom container
 <Box
-  sx={{
+  sx=\{{
     maxWidth: 1200,
     padding: 3,
     margin: '0 auto',
@@ -195,7 +195,7 @@ import { Container, Box } from '@mui/material';
 
 // Responsive padding
 <Container
-  sx={{
+  sx=\{{
     px: { xs: 2, sm: 3, md: 4 },
     py: { xs: 2, md: 3 },
   }}
@@ -242,7 +242,7 @@ import { Grid } from '@mui/material';
 import { Card, CardContent, CardActions } from '@mui/material';
 
 // Basic card
-<Card elevation={2} sx={{ p: 2, borderRadius: 2 }}>
+<Card elevation={2} sx=\{{ p: 2, borderRadius: 2 }}>
   <CardContent>
     {/* Card content */}
   </CardContent>
@@ -251,7 +251,7 @@ import { Card, CardContent, CardActions } from '@mui/material';
 // Card with hover effect
 <Card
   elevation={2}
-  sx={{
+  sx=\{{
     p: 2,
     borderRadius: 2,
     border: 1,
@@ -298,7 +298,7 @@ import { Add } from '@mui/icons-material';
 // Gradient button
 <Button
   variant="contained"
-  sx={{
+  sx=\{{
     background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
     '&:hover': {
       background: 'linear-gradient(45deg, #1976D2 30%, #0097A7 90%)',
@@ -314,19 +314,19 @@ import { Add } from '@mui/icons-material';
 import { Avatar } from '@mui/material';
 import { Person } from '@mui/icons-material';
 
-<Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56 }}>
+<Avatar sx=\{{ bgcolor: 'primary.main', width: 56, height: 56 }}>
   <Person />
 </Avatar>
 
 // Avatar with image
 <Avatar 
   src="/user-image.jpg" 
-  sx={{ width: 56, height: 56 }}
+  sx=\{{ width: 56, height: 56 }}
   alt="User"
 />
 
 // Initial avatar
-<Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56 }}>
+<Avatar sx=\{{ bgcolor: 'primary.main', width: 56, height: 56 }}>
   JD
 </Avatar>
 ```
@@ -365,7 +365,7 @@ import { Chip } from '@mui/material';
   color="primary" 
   variant="outlined" 
   size="small"
-  sx={{ '&::before': { content: '"•"', marginRight: 1 } }}
+  sx=\{{ '&::before': { content: '"•"', marginRight: 1 } }}
 />
 ```
 
@@ -383,9 +383,9 @@ import { Edit, Delete } from '@mui/icons-material';
 <Card elevation={2}>
   <CardContent>
     <TableContainer>
-      <Table sx={{ '& .MuiTableRow-hover:hover': { bgcolor: 'action.hover' } }}>
+      <Table sx=\{{ '& .MuiTableRow-hover:hover': { bgcolor: 'action.hover' } }}>
         <TableHead>
-          <TableRow sx={{ bgcolor: 'grey.50' }}>
+          <TableRow sx=\{{ bgcolor: 'grey.50' }}>
             <TableCell>ID</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Status</TableCell>
@@ -405,7 +405,7 @@ import { Edit, Delete } from '@mui/icons-material';
                 />
               </TableCell>
               <TableCell>
-                <Box sx={{ display: 'flex', gap: 1 }}>
+                <Box sx=\{{ display: 'flex', gap: 1 }}>
                   <IconButton color="primary" size="small">
                     <Edit fontSize="small" />
                   </IconButton>
@@ -479,10 +479,10 @@ import { Fade, Slide, Grow } from '@mui/material';
 <AnimatePresence>
   {visible && (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      initial=\{{ opacity: 0 }}
+      animate=\{{ opacity: 1 }}
+      exit=\{{ opacity: 0 }}
+      transition=\{{ duration: 0.3 }}
     >
       Content
     </motion.div>
@@ -494,10 +494,10 @@ import { Fade, Slide, Grow } from '@mui/material';
   <motion.div
     key={item.id}
     layout
-    initial={{ opacity: 0, x: -50 }}
-    animate={{ opacity: 1, x: 0 }}
-    exit={{ opacity: 0, x: 50 }}
-    transition={{ duration: 0.3 }}
+    initial=\{{ opacity: 0, x: -50 }}
+    animate=\{{ opacity: 1, x: 0 }}
+    exit=\{{ opacity: 0, x: 50 }}
+    transition=\{{ duration: 0.3 }}
   >
     {item.name}
   </motion.div>
@@ -514,14 +514,14 @@ import { Fade, Slide, Grow } from '@mui/material';
 import { Skeleton, CircularProgress, Backdrop } from '@mui/material';
 
 // Skeleton loader
-<Skeleton variant="rectangular" height={20} sx={{ borderRadius: 2 }} />
-<Skeleton variant="rectangular" height={20} width="70%" sx={{ mt: 1, borderRadius: 2 }} />
+<Skeleton variant="rectangular" height={20} sx=\{{ borderRadius: 2 }} />
+<Skeleton variant="rectangular" height={20} width="70%" sx=\{{ mt: 1, borderRadius: 2 }} />
 
 // Spinner
 <CircularProgress color="primary" size={40} />
 
 // Loading overlay
-<Backdrop open={loading} sx={{ zIndex: 9999 }}>
+<Backdrop open={loading} sx=\{{ zIndex: 9999 }}>
   <CircularProgress color="inherit" />
 </Backdrop>
 ```
@@ -565,7 +565,7 @@ export const CustomThemeProvider = ({ children }: { children: React.ReactNode })
   const theme = mode === 'light' ? lightTheme : darkTheme;
   
   return (
-    <ThemeContext.Provider value={{ mode, toggleMode }}>
+    <ThemeContext.Provider value=\{{ mode, toggleMode }}>
       <ThemeProvider theme={theme}>
         {children}
       </ThemeProvider>
@@ -596,7 +596,7 @@ const ResponsiveComponent = () => {
 };
 
 // Responsive Grid
-<Grid container spacing={{ xs: 2, md: 3 }}>
+<Grid container spacing=\{{ xs: 2, md: 3 }}>
   <Grid item xs={12} sm={6} md={4} lg={3}>
     {/* Responsive columns: 12 → 6 → 4 → 3 */}
   </Grid>
@@ -604,7 +604,7 @@ const ResponsiveComponent = () => {
 
 // Responsive styles with sx props
 <Box
-  sx={{
+  sx=\{{
     display: { xs: 'block', md: 'flex' },
     gap: { xs: 1, md: 2 },
     p: { xs: 2, md: 3 },
@@ -639,7 +639,7 @@ const Navigation = () => {
     <>
       <AppBar position="fixed">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx=\{{ flexGrow: 1 }}>
             OrderPage
           </Typography>
         </Toolbar>
@@ -647,7 +647,7 @@ const Navigation = () => {
       
       <Drawer
         variant="permanent"
-        sx={{
+        sx=\{{
           width: 240,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
@@ -714,10 +714,10 @@ import { Container, Typography, Card, CardContent, Grid, Box } from '@mui/materi
 
 const NewPage: React.FC = () => {
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      <Container maxWidth="xl" sx={{ p: 3 }}>
+    <Box sx=\{{ minHeight: '100vh', bgcolor: 'background.default' }}>
+      <Container maxWidth="xl" sx=\{{ p: 3 }}>
         {/* Page header */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx=\{{ mb: 4 }}>
           <Typography variant="h3" component="h1" gutterBottom>
             Page Title
           </Typography>
@@ -766,7 +766,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
   return (
     <Card 
       elevation={2} 
-      sx={{ 
+      sx=\{{ 
         p: 2, 
         borderRadius: 2,
         '&:hover': { 
@@ -777,8 +777,8 @@ const CustomCard: React.FC<CustomCardProps> = ({
     >
       <CardContent>
         {/* Card header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Avatar sx={{ bgcolor: 'primary.main', mr: 2 }}>
+        <Box sx=\{{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <Avatar sx=\{{ bgcolor: 'primary.main', mr: 2 }}>
             <LocalShipping />
           </Avatar>
           <Box>
@@ -792,12 +792,12 @@ const CustomCard: React.FC<CustomCardProps> = ({
         </Box>
         
         {/* Card content */}
-        <Typography variant="body1" sx={{ mb: 2 }}>
+        <Typography variant="body1" sx=\{{ mb: 2 }}>
           {content}
         </Typography>
         
         {/* Card actions */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx=\{{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Chip 
             label={status} 
             color="success" 

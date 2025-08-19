@@ -44,14 +44,14 @@ const [Aggregate]Page: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx=\{{ p: 3 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         [Aggregate] Management
       </Typography>
       
       <Card>
         <CardContent>
-          <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
+          <Box sx=\{{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
             <Button
               variant="contained"
               startIcon={<Add />}
@@ -174,8 +174,8 @@ const [ReadModel]Dashboard: React.FC = () => {
   });
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+    <Box sx=\{{ p: 3 }}>
+      <Box sx=\{{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
         <Typography variant="h4" component="h1">
           [ReadModel] Dashboard
         </Typography>
@@ -231,7 +231,7 @@ const HomePage: React.FC = () => {
   ];
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx=\{{ p: 3 }}>
       <Typography variant="h3" component="h1" gutterBottom>
         OrderPage Management System
       </Typography>
