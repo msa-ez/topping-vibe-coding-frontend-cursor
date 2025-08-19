@@ -32,161 +32,22 @@ Frontend folder creation → Frontend subfolder structure creation → React + V
 mkdir frontend
 cd frontend
 
-# Initialize Vite + React + TypeScript project
+# Initialize Vite + React + TypeScript project and install packages
+# Refer to @frontend-technical-stack for detailed package list and versions
 npm create vite@latest . -- --template react-ts
-
-# Install additional required packages
-npm install @mui/material @emotion/react @emotion/styled
-npm install @mui/icons-material
-npm install react-router-dom
-npm install @types/react-router-dom
-npm install axios
-npm install @tanstack/react-query
-npm install framer-motion
 ```
 
 ### Step 2: TypeScript Configuration Optimization
-```json
-// tsconfig.json update
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@/components/*": ["src/components/*"],
-      "@/services/*": ["src/services/*"],
-      "@/types/*": ["src/types/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/utils/*": ["src/utils/*"]
-    }
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
-}
-```
+Refer to `@frontend-technical-stack` for detailed TypeScript configuration.
 
 ### Step 3: Vite Configuration Optimization
-```typescript
-// vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
-
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
-  server: {
-    port: 3000,
-    host: true,
-    open: true,
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          mui: ['@mui/material', '@mui/icons-material'],
-          router: ['react-router-dom'],
-        },
-      },
-    },
-  },
-})
-```
+Refer to `@frontend-technical-stack` for detailed Vite configuration.
 
 ### Step 4: Material-UI Theme Setup
-```typescript
-// src/theme/index.ts creation
-import { createTheme } from '@mui/material/styles';
-
-export const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#2196f3',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-  },
-  typography: {
-    fontFamily: 'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif',
-  },
-});
-
-export const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#90caf9',
-    },
-    secondary: {
-      main: '#f48fb1',
-    },
-  },
-  typography: {
-    fontFamily: 'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif',
-  },
-});
-```
+Refer to `@frontend-technical-stack` for detailed Material-UI theme configuration.
 
 ### Step 5: Router Setup
-```typescript
-// src/App.tsx update
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { lightTheme } from './theme';
-
-// Pages
-import HomePage from './pages/HomePage';
-import OrderPage from './pages/order/OrderPage';
-import CustomerCenterPage from './pages/customercenter/CustomerCenterPage';
-
-const queryClient = new QueryClient();
-
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={lightTheme}>
-        <CssBaseline />
-        <Router>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/orders" element={<OrderPage />} />
-            <Route path="/customercenter" element={<CustomerCenterPage />} />
-          </Routes>
-        </Router>
-      </ThemeProvider>
-    </QueryClientProvider>
-  );
-}
-
-export default App;
-```
+Refer to `@frontend-technical-stack` for detailed React Router configuration and App.tsx setup.
 
 ### Step 6: Environment Variables Setup
 ```env
@@ -217,45 +78,10 @@ Review the following files to ensure endpoint consistency:
 - Frontend: API service files and axios configuration
 
 #### 7.4 Axios Client Configuration Update
+Refer to `@frontend-technical-stack` for detailed Axios client configuration. Ensure the baseURL is set to Gateway URL without `/api` prefix:
 ```typescript
-// src/services/api/client.ts - Ensure proper endpoint configuration
-import axios from 'axios';
-
-// Primary API client for backend services
-export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8088',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  },
-});
-
-// Request interceptor for authentication
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// Response interceptor for error handling
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
-
-export default apiClient;
+// Key Gateway Configuration
+baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8088', // No /api prefix
 ```
 
 #### 7.5 Service-Specific API Configuration
@@ -463,59 +289,18 @@ server:
 ```
 
 #### Vite Configuration for Gateway Integration
-Update the frontend `vite.config.ts` to work with the gateway:
+Update the frontend `vite.config.ts` to proxy API requests to Gateway. Refer to `@frontend-technical-stack` for base configuration and add the following proxy settings:
 
 ```typescript
-// vite.config.ts - Gateway integration
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
-
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
-  server: {
-    port: 3000,
-    host: true,
-    proxy: {
-      // Proxy API requests to gateway (direct namePlural routing)
-      '/orders': {
-        target: 'http://localhost:8088',
-        changeOrigin: true,
-        secure: false,
-      },
-      '/deliveries': {
-        target: 'http://localhost:8088',
-        changeOrigin: true,
-        secure: false,
-      },
-      '/products': {
-        target: 'http://localhost:8088',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          mui: ['@mui/material', '@mui/icons-material'],
-          router: ['react-router-dom'],
-        },
-      },
-    },
-  },
-  // Configure base path for gateway deployment
-  base: '/',
-})
+// Add to vite.config.ts server.proxy configuration
+server: {
+  proxy: {
+    // Proxy API requests to gateway (direct namePlural routing)
+    '/orders': { target: 'http://localhost:8088', changeOrigin: true },
+    '/deliveries': { target: 'http://localhost:8088', changeOrigin: true },
+    '/products': { target: 'http://localhost:8088', changeOrigin: true },
+  }
+}
 ```
 
 #### Frontend Development vs Production Configuration
@@ -530,21 +315,7 @@ VITE_GATEWAY_URL=http://localhost:8088
 ```
 
 ### Step 9: Package Scripts Optimization
-```json
-// package.json scripts section
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext ts,tsx --fix",
-    "preview": "vite preview",
-    "type-check": "tsc --noEmit",
-    "test": "vitest",
-    "test:ui": "vitest --ui"
-  }
-}
-```
+Refer to `@frontend-technical-stack` for detailed package.json configuration and scripts.
 
 ## Metadata-Based Component Creation Rules
 

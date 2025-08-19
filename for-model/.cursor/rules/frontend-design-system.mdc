@@ -75,11 +75,15 @@ export const semanticColors = {
 ```
 
 ### Material-UI Theme Configuration
-```typescript
-// themes/theme.ts
-import { createTheme } from '@mui/material/styles';
+For basic theme setup and ThemeProvider configuration, refer to `@frontend-technical-stack`.
+The following extends the base configuration with design system specific colors:
 
-export const lightTheme = createTheme({
+```typescript
+// themes/theme.ts - Extended theme configuration
+import { createTheme } from '@mui/material/styles';
+// Base theme setup - refer to @frontend-technical-stack
+
+export const extendedLightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
@@ -92,22 +96,7 @@ export const lightTheme = createTheme({
       default: '#fafafa',
       paper: '#ffffff',
     },
-  },
-});
-
-export const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#90caf9',
-    },
-    secondary: {
-      main: '#f48fb1',
-    },
-    background: {
-      default: '#121212',
-      paper: '#1e1e1e',
-    },
+    // Extended color palette from design system
   },
 });
 ```

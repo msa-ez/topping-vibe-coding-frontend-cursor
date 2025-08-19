@@ -3,6 +3,12 @@ description: This document contains React component examples for UI elements (bu
 alwaysApply: false
 ---
 
+## Cross-References
+For implementation details, refer to:
+- **Component Structure**: `@frontend-sticker-based-generation-rules`
+- **Styling Guidelines**: `@frontend-design-system`
+- **Technical Setup**: `@frontend-technical-stack`
+
 ## Implementation Guidelines
 When creating components with file names matching the names below, refer to the provided React component examples and implement them based on Material-UI.
 

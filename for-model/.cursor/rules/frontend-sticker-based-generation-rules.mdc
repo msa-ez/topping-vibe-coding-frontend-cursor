@@ -7,10 +7,9 @@ Please configure React component files by referring to the UI that should be gen
 Important: Must be generated based only on Metadata, and should not arbitrarily create data not in Metadata.
 
 ## API Endpoint Configuration
-All API calls in the generated React components must use the following endpoint configuration:
-- **Base URL**: `http://localhost:8088/api`
-- **Environment Variable**: `VITE_API_BASE_URL=http://localhost:8088/api`
-- Components must utilize the configured base URL through axios client or environment variables
+All API calls must follow the configuration defined in `@frontend-technical-stack` and `@frontend-generation-rules`:
+- **Base URL**: Refer to `@frontend-technical-stack` for axios client configuration
+- **Environment Variables**: Refer to `@frontend-generation-rules` for Gateway integration setup
 
 1. Aggregate
 
@@ -34,7 +33,7 @@ Included Elements
 3) Identify className to create type-specific input forms (TextField, Select, DatePicker, Switch...)
 4) Implement form validation using React Hook Form and Yup
 5) For styles, refer to `@frontend-design-system` and utilize Material-UI theme system
-6) **API Configuration**: All API calls must use `http://localhost:8088/api` as base URL
+6) **API Configuration**: Follow `@frontend-technical-stack` axios client setup
 
 React Component Example:
 ```typescript
@@ -95,10 +94,10 @@ File names: [commands.namePascalCase]Button.tsx, [commands.namePascalCase]Modal.
 
 Included Elements
 1) When Metadata isRestRepository is false, create additional Material-UI Button in [Aggregate]Page.tsx excluding CUD action buttons
-2) Generate basic Material-UI Button, Dialog UI, styles by converting html code from `@frontend-ui-requirments` to React
+2) Generate basic Material-UI Button, Dialog UI, styles by converting html code from `@frontend-ui-requirements` to React
 3) APIs according to commands must reference openapi.yaml under boundedContext.
 4) Implement command execution logic using React Hook pattern
-5) **API Configuration**: All command API calls must use `http://localhost:8088/api` as base URL
+5) **API Configuration**: Follow `@frontend-technical-stack` axios client setup
 
 React Component Example:
 ```typescript
@@ -159,15 +158,15 @@ File names: [views.namePascalCase]Search.tsx, [views.namePascalCase]Dashboard.ts
 2) Implement SearchBar using Material-UI TextField searchable in [Aggregate]Page.tsx
 3) Set search conditions based on views.queryParameters
 4) Process so that conditions matching search conditions appear in Material-UI Table during search
-5) Generate UI, styles by converting html code from `@frontend-ui-requirments` to React
-6) **API Configuration**: All search API calls must use `http://localhost:8088/api` as base URL
+5) Generate UI, styles by converting html code from `@frontend-ui-requirements` to React
+6) **API Configuration**: Follow `@frontend-technical-stack` axios client setup
 
 [ReadModel]Dashboard.tsx - Dashboard UI that can view properties registered in ReadModel
 Router: /[views.namePlural] (React Router-based routing)
 1) Generate only when Metadata views.dataProjection: cqrs (absolutely should not be generated otherwise)
 2) Implement view UI using Material-UI components based on data declared in fieldDescriptors
-3) Generate UI, styles by converting html code from `@frontend-ui-requirments` to React
-4) **API Configuration**: All dashboard API calls must use `http://localhost:8088/api` as base URL
+3) Generate UI, styles by converting html code from `@frontend-ui-requirements` to React
+4) **API Configuration**: Follow `@frontend-technical-stack` axios client setup
 
 React Component Example:
 ```typescript
@@ -282,19 +281,10 @@ interface [Component]Props {
 ```
 
 ### 2. State Management
-Utilize React Hook(useState, useEffect) and React Query:
-```typescript
-const { data, isLoading, error } = useQuery({
-  queryKey: ['key'],
-  queryFn: apiFunction,
-});
-```
+Refer to `@frontend-technical-stack` for React Hooks and React Query patterns.
 
 ### 3. Form Handling
-Use React Hook Form combined with Material-UI:
-```typescript
-const { control, handleSubmit, formState: { errors } } = useForm();
-```
+Refer to `@frontend-technical-stack` for React Hook Form examples and patterns.
 
 ### 4. Error Handling
 Implement error handling using ErrorBoundary and try-catch.
@@ -303,26 +293,7 @@ Implement error handling using ErrorBoundary and try-catch.
 Utilize Material-UI's basic accessibility features and add aria-labels.
 
 ### 6. API Service Configuration
-All generated API services must use the following configuration:
-```typescript
-// src/services/api/client.ts
-import axios from 'axios'
-
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8088/api',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
-
-export default apiClient
-```
+Use the API client configuration defined in `@frontend-technical-stack`.
 
 ### 7. Environment Variables
-All projects must include the following environment variables:
-```env
-# .env
-VITE_API_BASE_URL=http://localhost:8088/api
-VITE_APP_TITLE=OrderPage
-```
+Refer to `@frontend-generation-rules` for environment variable configuration.

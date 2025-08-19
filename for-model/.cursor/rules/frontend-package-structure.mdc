@@ -9,6 +9,13 @@ React + TypeScript Frontend Project Structure Requirements
 Please create files following the structure and file descriptions below according to the provided metadata.
 BoundedContext-specific frontend based on PRD is integrated under a single frontend folder.
 
+For detailed implementation of each component type, refer to:
+- **Technology Stack**: `@frontend-technical-stack`
+- **Component Generation**: `@frontend-sticker-based-generation-rules`  
+- **Design System**: `@frontend-design-system`
+- **Development Process**: `@frontend-generation-rules`
+- **UI Examples**: `@frontend-ui-requirements`
+
 ```
 /frontend                  # Integrated frontend project (React + Vite + TypeScript)
   /public
