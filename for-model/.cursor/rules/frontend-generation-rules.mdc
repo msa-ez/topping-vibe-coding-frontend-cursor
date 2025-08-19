@@ -317,42 +317,16 @@ const generateRouting = (metadata: EventStormingMetadata) => {
 }
 ```
 
-## Component Generation Validation & Quality Assurance
+## Generation Guidelines
 
-### Metadata Validation Checklist
-- [ ] **Aggregates**: name, namePlural, fieldDescriptors are defined for all aggregates
-- [ ] **Commands**: isRestRepository value is clearly defined
-- [ ] **Views**: dataProjection value is set to either 'cqrs' or 'query-for-aggregate'
-- [ ] **BoundedContexts**: All BCs have unique names
+### Key Requirements
+- All component generation must be based strictly on metadata
+- Generate components only when required metadata fields are present
+- Follow dependency order: Types → Services → Hooks → Components
 
-### Component Generation Validation
-- [ ] **Aggregate Components**: All Page, Form, Table, Card components are generated
-- [ ] **Command Components**: Button, Modal generated only for Commands with isRestRepository: false
-- [ ] **Search Components**: Search generated only for Views with queryParameters
-- [ ] **Dashboard Components**: Dashboard generated only for CQRS Views with fieldDescriptors
-
-### File Structure Validation
-- [ ] **Folder Structure**: components, pages, hooks, services, store, types folders created for each BoundedContext
-- [ ] **Naming Convention**: File names follow metadata's PascalCase, camelCase, namePlural rules
-- [ ] **Import Paths**: All components import with correct relative paths
-
-### API Integration Validation
-- [ ] **Service Files**: Service files generated for each aggregate, command, view
-- [ ] **Type Definitions**: TypeScript types defined based on metadata's fieldDescriptors
-- [ ] **HAL JSON**: Spring Data REST response format correctly transformed
-
-### Routing Validation
-- [ ] **BoundedContext Routes**: Generated in /{boundedContext} format
-- [ ] **Aggregate Routes**: Generated in /{boundedContext}/{aggregates.namePlural} format
-- [ ] **View Routes**: Generated in /{views.namePlural} format for CQRS views
-
-### Error Prevention Guidelines
-1. **Missing Metadata**: Skip component generation for metadata lacking required fields
-2. **Duplicate Prevention**: Confirm overwrite when components with same name already exist
-3. **Dependency Order**: Generate in order: Type definitions → Services → Hooks → Components
-4. **Import Check**: Validate that all generated files have valid import paths
-
-**Important**: All component generation must be based strictly on metadata, and no content not defined in metadata should be generated.
+### Error Handling
+- Skip generation for incomplete metadata
+- Confirm overwrite for existing components
 
 ## Step 7: Integration Testing & Access Verification
 
@@ -408,30 +382,21 @@ const runBasicIntegrationTests = async (metadata: EventStormingMetadata) => {
 }
 ```
 
-### Integration Testing Checklist
-
-#### Basic Validation Requirements
-- [ ] **Route Access**: All BoundedContext and Aggregate routes are accessible without 404 errors
-- [ ] **Component Rendering**: Page, Form, Table components render without console errors
-- [ ] **API Integration**: Basic GET requests work with HAL+JSON format
-- [ ] **Navigation**: Links between pages work correctly
-
-#### Testing Commands
+### Quick Verification
 ```bash
 # Start development server
 npm run dev
 
-# Build verification
+# Build verification  
 npm run build
 
 # Production preview test
 npm run preview
 ```
 
-#### Quick Manual Testing Steps
-1. **Route Testing**: Visit all generated routes and verify they load
-2. **Component Testing**: Check that forms submit and tables display data
-3. **API Testing**: Verify GET requests return expected data format
-4. **Basic Flow**: Test create → view → edit → delete operations
+### Manual Testing
+1. Visit generated routes and verify they load
+2. Test basic CRUD operations
+3. Verify API integration works
 
-**Validation Complete**: Integration testing ensures all generated components are accessible and functional before considering the generation process complete.
+**Complete**: Ensure all generated components are accessible and functional.
