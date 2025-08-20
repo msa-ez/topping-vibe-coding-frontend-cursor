@@ -21,6 +21,7 @@ The following template processes HTML wireframes for each Command within Bounded
 ```
 {{#changeData ../runTimeTemplateHtml}}{{/changeData}}
 ```
+
 {{/attached}}
 {{#attached 'View'this}}
 **BoundedContext**: {{boundedContext.name}}

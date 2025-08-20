@@ -1,6 +1,4 @@
 ---
-
-
 description: Defines metadata-based dynamic component structure for React + TypeScript projects. Focuses on DDD Event Storming sticker-based file generation beyond basic project setup.
 alwaysApply: false
 ---

@@ -1,10 +1,7 @@
 ---
-
 description: Guidelines for configuring React components based on Metadata generated through DDD-based Event Storming.
 alwaysApply: false
 ---
-
-
 Please configure React component files by referring to the UI that should be generated for each Event Storming sticker below.
 Important: Must be generated based only on Metadata, and should not arbitrarily create data not in Metadata.
 

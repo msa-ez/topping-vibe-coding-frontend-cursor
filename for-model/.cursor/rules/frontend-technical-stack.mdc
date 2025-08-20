@@ -2,7 +2,6 @@
 description: Defines advanced technology stack configurations and metadata integration patterns for React + TypeScript + Vite projects. Focuses on optimization and DDD-based development beyond basic setup.
 alwaysApply: false
 ---
-
 # Advanced Frontend Technology Stack & Metadata Integration
 
 This rule defines the technology stack configuration for advanced features and metadata-based development after the basic project setup is completed.
