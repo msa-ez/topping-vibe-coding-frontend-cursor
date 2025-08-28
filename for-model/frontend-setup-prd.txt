@@ -46,14 +46,14 @@ When creating the main page, it must be created in the following layout format:
 
 ### Full Window Layout
 - **Container**: When opened in browser, width and height should fill completely (no vh, vw 100 processing)
-- **Box**: `sx={{ display: 'flex', minHeight: '100vh' }}` for flex layout
-- **No Padding**: Remove default margins with `sx={{ m: 0, p: 0 }}`
+- **Box**: `sx=\{{ display: 'flex', minHeight: '100vh' }}` for flex layout
+- **No Padding**: Remove default margins with `sx=\{{ m: 0, p: 0 }}`
 
 ### Main Page Structure
 ```typescript
-<Box sx={{ display: 'flex', minHeight: '100vh', width: '100vw' }}>
+<Box sx=\{{ display: 'flex', minHeight: '100vh', width: '100vw' }}>
   <Sidebar />
-  <Box sx={{ flex: 1, p: 3 }}>
+  <Box sx=\{{ flex: 1, p: 3 }}>
     <Container maxWidth="xl">
       {/* Main content */}
     </Container>
@@ -80,8 +80,8 @@ When creating the main page, it must be created in the following layout format:
 
 ### Sidebar Components
 ```typescript
-<Drawer variant="permanent" sx={{ width: 240, '& .MuiDrawer-paper': { width: 240 } }}>
-  <Box sx={{ p: 2 }}>
+<Drawer variant="permanent" sx=\{{ width: 240, '& .MuiDrawer-paper': { width: 240 } }}>
+  <Box sx=\{{ p: 2 }}>
     <Typography variant="h6" color="primary">KT Library</Typography>
   </Box>
   <List>
@@ -96,12 +96,12 @@ When creating the main page, it must be created in the following layout format:
 ### Responsive Sidebar
 ```typescript
 // Mobile
-<Drawer variant="temporary" open={mobileOpen} sx={{ display: { xs: 'block', md: 'none' } }}>
+<Drawer variant="temporary" open={mobileOpen} sx=\{{ display: { xs: 'block', md: 'none' } }}>
   {/* Sidebar content */}
 </Drawer>
 
 // Desktop  
-<Drawer variant="permanent" sx={{ display: { xs: 'none', md: 'block' } }}>
+<Drawer variant="permanent" sx=\{{ display: { xs: 'none', md: 'block' } }}>
   {/* Sidebar content */}
 </Drawer>
 ```
