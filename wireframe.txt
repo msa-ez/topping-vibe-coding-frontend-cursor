@@ -6,16 +6,14 @@ Command는 Button, Model을 ReadModel은 Dashboard와 Search bar를 만들어야
 
 {{#attached 'UI' this}}
 {{#attached 'Command'this}}
-**name**: {{name}}
-
+Name: {{name}}
 ```
 {{#changeData ../runTimeTemplateHtml}}{{/changeData}}
 ```
 
 {{/attached}}
 {{#attached 'View'this}}
-**name**: {{name}}
-
+Name: {{name}}
 ```
 {{#changeData ../runTimeTemplateHtml}}{{/changeData}}
 ```
