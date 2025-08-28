@@ -47,6 +47,7 @@ This rule defines the technology stack configuration for advanced features and m
 
 ### Service Architecture
 - **Aggregate Services**: Full CRUD with HAL JSON transformation (`/{namePlural}`)
+- **Spring Data REST Response**: All API responses must be processed in Spring Data REST format (HAL JSON, _embedded, _links, page information, etc.)
 - **Command Services**: Custom endpoints (`/{aggregates.namePlural}/{id}/{command.name}`)
 - **Query Services**: Search with parameters (`/{views.namePlural}`)
 - **File Pattern**: `src/services/[boundedContext]/[entity].service.ts`

@@ -1,6 +1,3 @@
----
-description: Integrated design system based on React + TypeScript + Material-UI. Provides comprehensive guidelines for consistent UI/UX including colors, typography, component styles, and animations.
----
 
 # React Frontend Design System
 
@@ -41,7 +38,7 @@ Refer to `@frontend-technical-stack` for basic setup. Extended theme includes de
 ## 🎴 Component Styles
 
 ### Cards
-- **Basic**: `elevation={2}`, `sx=\{{ p: 2, borderRadius: 2 }}`
+- **Basic**: `elevation={2}`, `sx={{ p: 2, borderRadius: 2 }}`
 - **Hover Effects**: `transform: 'translateY(-2px)'`, `transition: 'all 0.2s ease'`
 
 ### Buttons
@@ -51,7 +48,7 @@ Refer to `@frontend-technical-stack` for basic setup. Extended theme includes de
 - **Sizes**: `small`, `medium`, `large`
 
 ### Avatars & Chips
-- **Avatar**: `sx=\{{ bgcolor: 'primary.main', width: 56, height: 56 }}`
+- **Avatar**: `sx={{ bgcolor: 'primary.main', width: 56, height: 56 }}`
 - **Status Chips**: `color="success|warning|error"`, `variant="filled"`, `size="small"`
 
 ## 📊 Data Tables
@@ -69,7 +66,7 @@ Refer to `@frontend-technical-stack` for basic setup. Extended theme includes de
 ## 🎭 Animation & Interaction
 
 ### Framer Motion
-- **Fade**: `initial=\{{ opacity: 0 }}`, `animate=\{{ opacity: 1 }}`, `transition=\{{ duration: 0.3 }}`
+- **Fade**: `initial={{ opacity: 0 }}`, `animate={{ opacity: 1 }}`, `transition={{ duration: 0.3 }}`
 - **Slide**: Add `x: -50` to `x: 0` for entrance effects
 - **Material-UI**: Use `Fade`, `Slide`, `Grow` components with `timeout` prop
 
@@ -90,12 +87,7 @@ Refer to `@frontend-technical-stack` for basic setup. Extended theme includes de
 - **useMediaQuery**: `theme.breakpoints.down('md')` for mobile detection
 - **Responsive Props**: `{ xs: 2, md: 3 }` for spacing, display, etc.
 
-## 🔄 Navigation & Accessibility
-
-### Navigation Structure
-- **AppBar**: Fixed position with `Toolbar` and brand title
-- **Drawer**: Permanent sidebar (240px width) with `List` navigation
-- **Menu Items**: Icons with `ListItemIcon` and text with `ListItemText`
+## 🔄 Accessibility
 
 ### Accessibility Guidelines
 - **Color Contrast**: Minimum 4.5:1 ratio, use icons + text for important info
@@ -107,8 +99,8 @@ Refer to `@frontend-technical-stack` for basic setup. Extended theme includes de
 ### Page Structure
 ```typescript
 // Basic page pattern
-<Box sx=\{{ minHeight: '100vh', bgcolor: 'background.default' }}>
-  <Container maxWidth="xl" sx=\{{ p: 3 }}>
+<Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+  <Container maxWidth="xl" sx={{ p: 3 }}>
     <Typography variant="h3" component="h1" gutterBottom>Page Title</Typography>
     <Grid container spacing={3}>
       <Grid item xs={12}>

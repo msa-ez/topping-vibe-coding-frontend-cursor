@@ -1,10 +1,10 @@
 Please create the basic package structure, common files, and configuration files for the Frontend based on the following requirements.
 
-Project Creation Order
+# Project Creation Order
 
-Create frontend folder → Create frontend sub-package structure → Create React + Vite-based configuration files → set up node version 22 → Run React
+Create frontend folder → Create frontend sub-package structure → Create React + Vite-based configuration files → Create main page → Set up Node version 22 → Run React
 
-Frontend Package Structure
+# Frontend Package Structure
 When creating the frontend sub-package structure, it should be created with the following structure:
 ```
 /frontend                  # Integrated frontend project (React + Vite + TypeScript)
@@ -39,6 +39,80 @@ When creating the frontend sub-package structure, it should be created with the 
   .gitignore              # Git ignore file
   ```
 
-Important Notes
+# Main Page Creation
+When creating the main page, it must be created in the following layout format:
+
+## 🏠 Main Page Layout
+
+### Full Window Layout
+- **Container**: When opened in browser, width and height should fill completely (no vh, vw 100 processing)
+- **Box**: `sx={{ display: 'flex', minHeight: '100vh' }}` for flex layout
+- **No Padding**: Remove default margins with `sx={{ m: 0, p: 0 }}`
+
+### Main Page Structure
+```typescript
+<Box sx={{ display: 'flex', minHeight: '100vh', width: '100vw' }}>
+  <Sidebar />
+  <Box sx={{ flex: 1, p: 3 }}>
+    <Container maxWidth="xl">
+      {/* Main content */}
+    </Container>
+  </Box>
+</Box>
+```
+
+## 🧭 Navigation & Routing
+
+### Route Cards System
+- **Card Layout**: `Grid container spacing={3}` with responsive columns
+- **Route Cards**: `Card` with `onClick` navigation, hover effects
+- **Card Content**: Icon + Title + Description + Action button
+- **Responsive**: `xs={12} sm={6} md={4} lg={3}` for different screen sizes
+
+## 📱 Sidebar Navigation
+
+### Sidebar Structure
+- **Fixed Width**: `width: 240px` for desktop, collapsible for mobile
+- **Position**: `position: 'fixed'` with `left: 0` and `top: 0`
+- **Height**: `height: '100vh'` for full viewport height
+- **Z-Index**: `zIndex: 1200` to stay above content
+- Toggle type: Must be toggleable and the main screen area should be adjusted according to the toggle.
+
+### Sidebar Components
+```typescript
+<Drawer variant="permanent" sx={{ width: 240, '& .MuiDrawer-paper': { width: 240 } }}>
+  <Box sx={{ p: 2 }}>
+    <Typography variant="h6" color="primary">KT Library</Typography>
+  </Box>
+  <List>
+    <ListItem button onClick={() => navigate('/dashboard')}>
+      <ListItemIcon><Dashboard /></ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItem>
+  </List>
+</Drawer>
+```
+
+### Responsive Sidebar
+```typescript
+// Mobile
+<Drawer variant="temporary" open={mobileOpen} sx={{ display: { xs: 'block', md: 'none' } }}>
+  {/* Sidebar content */}
+</Drawer>
+
+// Desktop  
+<Drawer variant="permanent" sx={{ display: { xs: 'none', md: 'block' } }}>
+  {/* Sidebar content */}
+</Drawer>
+```
+
+### Sidebar Navigation Items
+- **Active State**: `selected` prop with `bgcolor: 'action.selected'`
+- **Icons**: Material-UI icons with consistent sizing
+- **Nested Items**: Use `Collapse` for sub-navigation
+
+
+## Important Notes
 1. For basic file creation, a React-based project compatible with Node22 should be created at a level that does not cause execution errors.
-2. When creating files based on the package structure, HomePage.tsx should be created with only the initial basic configuration.
+2. All work must start with creating the frontend folder, and subsequent work must be conducted under the frontend subdirectory.
+3. When configuring the main page, full-window size must be strictly adhered to.
