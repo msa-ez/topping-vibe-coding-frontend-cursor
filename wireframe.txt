@@ -1,0 +1,24 @@
+구현 가이드라인
+Command와 ReadModel에 따른 컴포넌트를 생성할 때, 제공된 HTML 코드를 React로 변환해서 사용해야 하며,
+Command는 Button, Model을 ReadModel은 Dashboard와 Search bar를 만들어야 합니다.
+
+# HTML
+
+{{#attached 'UI' this}}
+{{#attached 'Command'this}}
+**name**: {{name}}
+
+```
+{{#changeData ../runTimeTemplateHtml}}{{/changeData}}
+```
+
+{{/attached}}
+{{#attached 'View'this}}
+**name**: {{name}}
+
+```
+{{#changeData ../runTimeTemplateHtml}}{{/changeData}}
+```
+{{/attached}}
+
+{{/attached}}
