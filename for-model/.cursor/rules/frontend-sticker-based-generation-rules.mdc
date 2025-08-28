@@ -94,14 +94,14 @@ File names: [commands.namePascalCase]Button.tsx, [commands.namePascalCase]Modal.
 
 Included Elements
 1) When command metadata isRestRepository is false, generate additional Material-UI buttons in [Aggregate]Page.tsx excluding CUD action buttons
-2) Convert code from `@frontend-ui-requirements` to React and use the default Material-UI button and dialog UI content as is
-3) APIs according to commands must use the same value as the path value in openapi.yaml under boundedContext. Values not in the path should not be generated
+2) Convert code from `wireframe.txt` to React and use the default Material-UI button and dialog UI content as is
+3) APIs according to commands must use the same value as the path value in openapi.yaml(ex. /orders/{id}cancelorder, /orders/{id}/acceptorder ...) under boundedContext. Values not in the path should not be generated
 4) Implement command execution logic using React Hook patterns
 5) **API Configuration**: Follow `@frontend-technical-stack` axios client configuration, and all API requests and responses should proceed in Spring Data REST API format
 
 Example: When Author Approval Command isRestRepository:false - required sequence
 Files to create and modify: AuthorPage.tsx, ApproveAuthorButton.tsx, ApproveAuthorModal.tsx
-1. Convert HTML code listed in ui-requirements to React
+1. Convert HTML code listed in wireframe.txt to React
 2. Generate button UI in CommandButton.tsx
 3. Generate Modal-related UI in CommandModal.tsx
 4. To call CommandButton.tsx, create a button in AggregatePage.tsx with the same style as the registration button, then connect it to CommandButton
@@ -126,14 +126,14 @@ File names: [views.namePascalCase]Search.tsx, [views.namePascalCase]Dashboard.ts
 2) Implement SearchBar using Material-UI TextField searchable in [Aggregate]Page.tsx
 3) Set search conditions based on views.queryParameters
 4) Process so that conditions matching search conditions appear in Material-UI Table during search
-5) Generate UI, styles by converting html code from `@frontend-ui-requirements` to React
+5) Generate UI, styles by converting html code from `wireframe.txt` to React
 6) **API Configuration**: Follow `@frontend-technical-stack` axios client setup
 
 [ReadModel]Dashboard.tsx - Dashboard UI that can view properties registered in ReadModel
 Router: /[views.namePlural] (React Router-based routing)
 1) Generate only when Metadata views.dataProjection: cqrs (absolutely should not be generated otherwise)
 2) Implement view UI using Material-UI components based on data declared in fieldDescriptors
-3) Generate UI, styles by converting html code from `@frontend-ui-requirements` to React
+3) Generate UI, styles by converting html code from `wireframe.txt` to React
 4) **API Configuration**: Follow `@frontend-technical-stack` axios client setup
 
 React Component Example:
@@ -268,4 +268,4 @@ Use the API client configuration defined in `@frontend-technical-stack`.
 Refer to `@frontend-generation-rules` for environment variable configuration.
 
 ### 8. Command
-When creating components based on commands metadata, if isRestRepository:false, you must follow the Command generation requirements.
+When creating components based on commands metadata, if isRestRepository:false, you must follow the Command generation requirements and openapi.yaml.

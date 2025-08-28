@@ -1,4 +1,4 @@
-Please implement React Frontend application code for an event storming model-based domain using React, TypeScript, Vite, Material-UI, and React Query state management. The code must be implemented strictly based on the metadata provided below, following Component-Based Architecture patterns and reactive design and @frontend-generation-rules:
+Please implement React Frontend application code for a domain based on an event storming model using the metadata below. The code must strictly follow the provided metadata and must comply with the wireframe.txt located in the same path and the @frontend-generation-rules located in the root.
 
 {{namePascalCase}} Metadata:
 {{{contexts.json}}}
