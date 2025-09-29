@@ -15,7 +15,7 @@ For detailed implementation of each component type, refer to:
 - **Component Generation**: `@frontend-sticker-based-generation-rules`  
 - **Design System**: `@frontend-design-system`
 - **Development Process**: `@frontend-generation-rules`
-- **UI Examples**: `wireframe.txt`
+- **UI Examples**: BoundedContext Name/Aggregate Name/AggregateWireframe.md
 
 ## Metadata-Based Dynamic Components Structure
 

@@ -95,7 +95,7 @@ File names: [commands.namePascalCase]Button.tsx, [commands.namePascalCase]Modal.
 
 Included Elements
 1) When command metadata isRestRepository is false, generate additional Material-UI buttons in [Aggregate]Page.tsx excluding CUD action buttons
-2) Convert code from `wireframe.txt` to React and use the default Material-UI button and dialog UI content as is
+2) Convert code from BoundedContext Name/Aggregate Name/AggregateWireframe.md to React and use the default Material-UI button and dialog UI content as is
 3) **API Endpoint Generation Priority**: For command-based APIs, follow this hierarchy to ensure frontend APIs match backend implementations:
    - **Primary Source**: If backend controller files exist (e.g., `infra/*Controller.java` under the boundedContext), generate frontend API calls that exactly match the controller's endpoint paths, HTTP methods, and parameter structures
    - **Fallback Source**: If no backend controller files exist, reference the `openapi.yaml` file under the boundedContext and use the exact path values defined there (e.g., `/orders/{id}/cancelorder`, `/orders/{id}/acceptorder`)
@@ -106,7 +106,7 @@ Included Elements
 Example: When Author Approval Command isRestRepository:false - required sequence
 Files to create and modify: AuthorPage.tsx, ApproveAuthorButton.tsx, ApproveAuthorModal.tsx
 1. **API Endpoint Discovery**: First, check if `infra/AuthorController.java` exists and look for approval-related endpoints (e.g., `@PostMapping("/authors/{id}/approve")`). If no controller exists, check `openapi.yaml` for author approval paths
-2. Convert HTML code listed in wireframe.txt to React
+2. Convert HTML code listed in BoundedContext Name/Aggregate Name/AggregateWireframe.md to React
 3. Generate button UI in CommandButton.tsx with API call matching the discovered endpoint
 4. Generate Modal-related UI in CommandModal.tsx
 5. To call CommandButton.tsx, create a button in AggregatePage.tsx with the same style as the registration button, then connect it to CommandButton
@@ -130,14 +130,14 @@ File names: [views.namePascalCase]Search.tsx, [views.namePascalCase]Dashboard.ts
 2) Implement SearchBar using Material-UI TextField searchable in [Aggregate]Page.tsx
 3) Set search conditions based on views.queryParameters
 4) Process so that conditions matching search conditions appear in Material-UI Table during search
-5) Generate UI, styles by converting html code from `wireframe.txt` to React
+5) Generate UI, styles by converting html code from BoundedContext Name/Aggregate Name/AggregateWireframe.md to React
 6) **API Configuration**: Follow `@frontend-technical-stack` axios client setup and the same API endpoint generation priority as defined in Command section (controller files first, then openapi.yaml)
 
 [ReadModel]Dashboard.tsx - Dashboard UI that can view properties registered in ReadModel
 Router: /[views.namePlural] (React Router-based routing)
 1) Generate only when Metadata views.dataProjection: cqrs (absolutely should not be generated otherwise)
 2) Implement view UI using Material-UI components based on data declared in fieldDescriptors
-3) Generate UI, styles by converting html code from `wireframe.txt` to React
+3) Generate UI, styles by converting html code from BoundedContext Name/Aggregate Name/AggregateWireframe.md to React
 4) **API Configuration**: Follow `@frontend-technical-stack` axios client setup and the same API endpoint generation priority as defined in Command section (controller files first, then openapi.yaml)
 
 React Component Example:
