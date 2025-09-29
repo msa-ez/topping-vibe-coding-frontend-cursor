@@ -1,5 +1,5 @@
 forEach: Aggregate
-path: /{{name}}
+path: {{#boundedContext}}{{name}}{{/boundedContext}}/{{name}}
 fileName: {{name}}Wireframe.md
 ---
 
