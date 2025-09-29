@@ -1,16 +1,23 @@
+forEach: Aggregate
+path: {{#boundedContext}}{{name}}{{/boundedContext}}/
+fileName: {{name}}Wireframe.md
+---
+
 In the process of creating components related to {{name}} Service, UI for buttons, modals, dashboards, and search bars according to Command and ReadModel have been represented in HTML.
 The style and text of the HTML below should be used as-is, but only the code format should be changed to React to create functional components.
 
+{{#attached 'Command' this}}
 {{#attached 'UI' this}}
-{{#attached 'Command'this}}
-Name: {{name}}
+Name: {{../name}}
 ```
-{{#changeData ../runTimeTemplateHtml}}{{/changeData}}
+{{#changeData runTimeTemplateHtml}}{{/changeData}}
 ```
 
 {{/attached}}
+{{/attached}}
 {{#attached 'View'this}}
-Name: {{name}}
+{{#attached 'UI' this}}
+Name: {{../name}}
 ```
 {{#changeData ../runTimeTemplateHtml}}{{/changeData}}
 ```
