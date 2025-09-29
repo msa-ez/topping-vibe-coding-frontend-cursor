@@ -82,7 +82,7 @@ When creating the main page, it must be created in the following layout format:
 ```typescript
 <Drawer variant="permanent" sx=\{{ width: 240, '& .MuiDrawer-paper': { width: 240 } }}>
   <Box sx=\{{ p: 2 }}>
-    <Typography variant="h6" color="primary">KT Library</Typography>
+    <Typography variant="h6" color="primary">{{options.package}}</Typography>
   </Box>
   <List>
     <ListItem button onClick={() => navigate('/dashboard')}>
