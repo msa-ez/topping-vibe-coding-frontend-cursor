@@ -19,7 +19,7 @@ Router: /[aggregates.namePlural] (React Router-based routing)
 File names: [aggregates.name]Page.tsx, [aggregates.name]Form.tsx, [aggregates.name]Table.tsx
 
 Included Elements
-1) Create a query page in Material-UI DataGrid or Table format based on aggregate properties (aggregateRoot.fieldDescriptors), implement structure where queries are automatically triggered when entering the aggregate router
+1) Create form as Material-UI Dialog or separate page connected through Create, Update buttons created in [Aggregate]Page.tsx. APIs according to CRUD must be generated in JPA Repository format with plural naming convention for each Aggregate. For specific examples, reference controller.java or repository.java if backend files exist, otherwise generate through paths written in openapi.yaml under boundedContext.
 2) Identify className to create type-specific Material-UI components (TextField, Select, DatePicker...)
 3) Always create action buttons according to CUD following JPA Repository (Create, Update, Delete - using Material-UI Button)
 4) Create buttons according to Extend API (generated based on command info when commands.isRestRepository is false)
@@ -95,7 +95,7 @@ File names: [commands.namePascalCase]Button.tsx, [commands.namePascalCase]Modal.
 Included Elements
 1) When command metadata isRestRepository is false, generate additional Material-UI buttons in [Aggregate]Page.tsx excluding CUD action buttons
 2) Convert code from `wireframe.txt` to React and use the default Material-UI button and dialog UI content as is
-3) APIs according to commands must use the same value as the path value in openapi.yaml(ex. /orders/{id}cancelorder, /orders/{id}/acceptorder ...) under boundedContext. Values not in the path should not be generated
+3) APIs according to commands must be generated identically to API Endpoints in infra/controller.java if backend files exist under boundedContext. If not, must use the same value as the path value in openapi.yaml under boundedContext (ex. /orders/{id}cancelorder, /orders/{id}/acceptorder ...). Values not in the path should not be generated
 4) Implement command execution logic using React Hook patterns
 5) **API Configuration**: Follow `@frontend-technical-stack` axios client configuration, and all API requests and responses should proceed in Spring Data REST API format
 
