@@ -19,7 +19,7 @@ Name: {{../name}}
 {{#attached 'UI' this}}
 Name: {{../name}}
 ```
-{{#changeData ../runTimeTemplateHtml}}{{/changeData}}
+{{#changeData runTimeTemplateHtml}}{{/changeData}}
 ```
 {{/attached}}
 {{/attached}}
