@@ -116,3 +116,4 @@ When creating the main page, it must be created in the following layout format:
 1. For basic file creation, a React-based project compatible with Node22 should be created at a level that does not cause execution errors.
 2. All work must start with creating the frontend folder, and subsequent work must be conducted under the frontend subdirectory.
 3. When configuring the main page, full-window size must be strictly adhered to.
+4. Generate components and features ONLY based on explicit requirements in this PRD - do not add dashboard statistics, mock data, or decorative elements unless specifically requested.
