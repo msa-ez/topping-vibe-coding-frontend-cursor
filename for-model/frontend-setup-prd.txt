@@ -82,7 +82,18 @@ When creating the main page, it must be created in the following layout format:
 ### Sidebar Components
 ```typescript
 <Drawer variant="permanent" sx=\{{ width: 240, '& .MuiDrawer-paper': { width: 240 } }}>
-  <Box sx=\{{ p: 2 }}>
+  <Box 
+    sx={{ 
+      p: 2, 
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      },
+      borderRadius: 1,
+      mx: 1,
+    }}
+    onClick={() => navigate('/')}
+  >
     <Typography variant="h6" color="primary">{{options.package}}</Typography>
   </Box>
   <List>
