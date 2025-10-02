@@ -1,120 +1,85 @@
 ---
-description: Defines metadata-driven component generation rules for React + TypeScript projects. Focuses on Event Storming sticker-based development process beyond basic project setup.
+description: Defines metadata-based component generation rules for React + TypeScript projects. Focuses on Event Storming sticker-based development processes beyond basic project setup.
 globs: Frontend-PRD.txt
 alwaysApply: false
 ---
-
-
-# Metadata-Driven Frontend Component Generation Rules
+# Metadata-Based Frontend Component Generation Rules
 
 This rule defines the process of generating components based on Event Storming metadata when the basic project structure has already been created.
 
 **Prerequisites**: 
-- Basic frontend project has been generated through `frontend-setup-prd.md`
-- Basic structure defined in `@frontend-package-structure` and `@frontend-technical-stack` has been set up
+- Basic frontend project has been created through `frontend-setup-prd.md`
+- Basic structure has been set up through `frontend-setup-prd.md`
 
-## Metadata-Based Component Generation Sequence
-
+## Metadata-Based Component Generation Order
 ```
-Gateway & API Validation → Metadata Analysis → BoundedContext Folder Creation → Aggregate-based Component Generation → Command Component Generation (Conditional) → ReadModel Component Generation (Conditional) → Routing Setup → Environment Variables & Gateway Configuration → Gateway Integration Testing & API Validation
-```
-
-## Metadata Analysis Requirements
-
-### 1. Metadata Priority
-1. **aggregates**: Required - Foundation for all CRUD components
-2. **commands**: Conditional - Generate only when `isRestRepository: false`
-3. **views**: Conditional - Generate based on `dataProjection` value
-4. **boundedContexts**: Required - Foundation for folder structure and routing
-
-### 2. Generation Condition Validation
-```typescript
-// Metadata validation logic example
-const shouldCreateCommand = (command: CommandMetadata) => {
-  return command.isRestRepository === false
-}
-
-const shouldCreateSearch = (view: ViewMetadata) => {
-  return view.dataProjection === 'query-for-aggregate' && 
-         view.queryParameters && view.queryParameters.length > 0
-}
-
-const shouldCreateDashboard = (view: ViewMetadata) => {
-  return view.dataProjection === 'cqrs' && 
-         view.fieldDescriptors && view.fieldDescriptors.length > 0
-}
+Metadata Analysis → BoundedContext Folder Creation → Aggregate-Based Component Generation → API Endpoint Discovery → Command Component Generation (Conditional) → ReadModel Component Generation (Conditional) → Routing Setup → Environment Variables & Gateway Configuration
 ```
 
 ## Step-by-Step Component Generation Process
 
-### Step 1: Gateway & API Endpoint Validation
-- **Gateway Connection Check**: Test connectivity to `http://localhost:8088/actuator/health`
-- **Controller Endpoint Validation**: Verify metadata aggregates match backend REST API endpoints  
-- **API Client Configuration**: Set Gateway URL in `src/services/api/client.ts` (`VITE_GATEWAY_URL=http://localhost:8088`)
-
-### Step 2: Metadata Analysis and Validation
+### Step 1: Metadata Analysis and Validation
 - **Aggregate Components**: Generate Page, Form, Table, Card + service, types, store, hook
 - **Command Components**: Generate Button, Modal only when `isRestRepository: false`
-- **View Components**: Generate Dashboard when `dataProjection: 'cqrs'`, Search when `query-for-aggregate`
+- **View Components**: Generate Dashboard when `dataProjection: 'cqrs'`, Generate Search when `query-for-aggregate`
 
-### Step 3: BoundedContext Folder Structure Creation
+### Step 2: BoundedContext Folder Structure Creation
 Create folders for each BoundedContext: `src/components/[BC]`, `src/pages/[BC]`, `src/hooks/[BC]`, `src/services/[BC]`, `src/store/[BC]`, `src/types/[BC]`
 
-### Step 4: Aggregate-based Component Generation
-Generate CRUD component set for each Aggregate:
+### Step 3: Aggregate-Based Component Generation
+Generate CRUD component sets for each aggregate:
 - **Components**: `[Aggregate]Page.tsx`, `[Aggregate]Form.tsx`, `[Aggregate]Table.tsx`, `[Aggregate]Card.tsx`
 - **Services**: `[aggregate].service.ts`, `[aggregate].types.ts`, `[aggregate].store.ts`, `use[Aggregate].ts`
 
-### Step 5: Command-based Component Generation (Conditional)
-Generate only Commands with `isRestRepository: false`:
+### Step 4: API Endpoint Discovery
+When discovering command-related components and API Endpoints to be generated in Step 5, consider the following priority:
+- Priority 1: Analyze API Endpoints according to Commands to be generated through analysis of infra/Controller.java files under services created with BoundedContext.name
+- Priority 2: If Controller.java does not exist, analyze API Endpoints based on openapi.yaml under each service
+
+### Step 5: Command-Based Component Generation (Conditional)
+Generate only commands with `isRestRepository: false`:
 - **Components**: `[Command]Button.tsx`, `[Command]Modal.tsx`  
 - **Services**: `[command].service.ts`, `[command].types.ts`, `use[Command].ts`
 
-### Step 6: ReadModel/View-based Component Generation (Conditional)
+### Step 6: ReadModel/View-Based Component Generation (Conditional)
 - **Search**: When `dataProjection: 'query-for-aggregate'` + `queryParameters` exist → `[View]Search.tsx`
 - **Dashboard**: When `dataProjection: 'cqrs'` + `fieldDescriptors` exist → `[View]Dashboard.tsx`, `[View]Page.tsx`
 
-### Step 7: Routing Setup (Metadata-based)
-- **BC Routes**: `/${boundedContext.name}`
-- **Aggregate Routes**: `/${boundedContext}/${aggregate.namePlural}`  
-- **View Routes**: `/${view.namePlural}` (CQRS only)
+### Step 7: Routing Setup (Metadata-Based)
+- **BC Route**: `/${boundedContext.name}`
+- **Aggregate Route**: `/${boundedContext}/${aggregate.namePlural}`  
+- **View Route**: `/${view.namePlural}` (CQRS only)
 
 ### Step 8: Environment Variables & Gateway Configuration
 - **Environment Setup**: Set `VITE_GATEWAY_URL=http://localhost:8088` in `.env`, `.env.development`, `.env.production`
+- Gateway route setup: Specify the generated Frontend endpoint (e.g., localhost:3000) in `application.yaml` route
 - **API Path Validation**: Aggregate → `/${aggregate.namePlural}`, Command → `/${aggregate.namePlural}/{id}/{command.name}`
 
 ## Generation Guidelines
 
 ### Key Requirements
-- All component generation must be based strictly on metadata
-- Generate components only when required metadata fields are present
+- All component generation must be strictly based on metadata
+- Generate components only when required metadata fields exist
 - Follow dependency order: Types → Services → Hooks → Components
 
 ### Error Handling
 - Skip generation for incomplete metadata
-- Confirm overwrite for existing components
+- Confirm overwriting of existing components
 
-## Step 9: Gateway Integration Testing & API Validation
-
-### Integration Testing & Validation
-- **Gateway Connection**: Verify `http://localhost:8088/actuator/health` accessibility
-- **Frontend Routes**: Test `http://localhost:5173/[route]` accessibility
-- **API Endpoints**: Check availability of CRUD and Command endpoints for each Aggregate
-
-### Verification Steps
+### Validation Steps
 ```bash
-# Verify Gateway and Frontend are running
+# Check if Gateway and frontend are running
 curl http://localhost:8088/actuator/health
 npm run dev
 ```
 
-### Verification Checklist
-1. **Gateway Connection**: Ensure `localhost:8088` is accessible
+### Validation Checklist
+1. **Gateway Connection**: Verify access to `localhost:8088`
 2. **Environment Variables**: Confirm `VITE_GATEWAY_URL` is set in `.env`
 3. **Route Access**: Verify all generated pages load properly
-4. **API Integration**: Confirm CRUD and Command operations work
+4. **API Integration**: Confirm CRUD and command operations work
 
 ### Troubleshooting
-- **CORS Errors**: Check Gateway CORS configuration
-- **404 Errors**: Verify Backend Controller paths match Frontend Service paths
-- **Connection Refused**: Ensure Gateway is running on port 8088
+- **CORS Error**: Check Gateway CORS configuration
+- **404 Error**: Verify backend controller paths match frontend service paths
+- **Connection Refused**: Confirm Gateway is running on port 8088
