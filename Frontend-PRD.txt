@@ -1,3 +1,4 @@
+fileName: Frontend-PRD.txt
 except: {{#compareName name}}{{/compareName}}
 ---
 Please implement React Frontend application code for a domain based on an event storming model using the metadata below. The code must strictly follow the provided metadata and must comply with the BoundedContext Name/Aggregate Name/wireframe.md located in the same path and the @frontend-generation-rules located in the root.
