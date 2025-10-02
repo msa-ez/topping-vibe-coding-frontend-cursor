@@ -109,8 +109,9 @@ Files to create and modify: AuthorPage.tsx, ApproveAuthorButton.tsx, ApproveAuth
 1. **API Endpoint Discovery**: First check if `infra/AuthorController.java` exists and find approval-related endpoints (e.g., `@PostMapping("/authors/{id}/approve")`). If no controller exists, check author approval paths in `openapi.yaml`
 2. Convert HTML code listed in BoundedContext Name/Aggregate Name/AggregateWireframe.md to React
 3. Generate button UI in CommandButton.tsx with API calls matching the discovered endpoints
-4. Generate modal-related UI in CommandModal.tsx
-5. Create a button in AggregatePage.tsx with the same style as the registration button to call CommandButton.tsx, then connect to CommandButton
+4. When creating buttons, implement conditional rendering that is activated through table row clicks
+5. Generate modal-related UI in CommandModal.tsx
+6. Create a button in AggregatePage.tsx with the same style as the registration button to call CommandButton.tsx, then connect to CommandButton
 ```
 <Button
   variant="contained"
