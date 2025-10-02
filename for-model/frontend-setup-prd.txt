@@ -77,6 +77,7 @@ When creating the main page, it must be created in the following layout format:
 - **Height**: `height: '100vh'` for full viewport height
 - **Z-Index**: `zIndex: 1200` to stay above content
 - Toggle type: Must be toggleable and the main screen area should be adjusted according to the toggle.
+- Common Component: Must be applied as a common component to always be present regardless of which page routing is connected
 
 ### Sidebar Components
 ```typescript
