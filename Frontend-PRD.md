@@ -99,8 +99,4 @@ function customStringify(obj, cache = new Set(), parentType = null, parentKey = 
 // customStringify 함수 적용
 this.contexts.json = customStringify(this);
 
-// except: 제거 로직 추가 (템플릿 처리 후)
-if (this.contexts && this.contexts.json && this.contexts.json.startsWith('except:')) {
-    this.contexts.json = this.contexts.json.replace(/^except:\s*/, '');
-}
 </function>
