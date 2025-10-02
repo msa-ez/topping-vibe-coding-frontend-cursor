@@ -8,9 +8,7 @@ Please implement React Frontend application code for a domain based on an event 
 <function>
 window.$HandleBars.registerHelper('compareName', function (name, options) {
         if(name == 'ui'){
-            return options.fn(this);
-        }else{
-            return options.inverse(this);
+            return true;
         }
     });
 
