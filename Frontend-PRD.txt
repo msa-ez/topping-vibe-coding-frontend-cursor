@@ -8,10 +8,10 @@ Please implement React Frontend application code for a domain based on an event 
 
 <function>
 window.$HandleBars.registerHelper('compareName', function (name, options) {
-        if(name == 'ui'){
-            return true;
-        }
-    });
+    if(name == 'ui'){
+        return true;
+    }
+});
 
 var cache = []
 const includingKeys = ["", "options", "package", "_type", "fieldDescriptors", "className", "displayName", "events", "aggregateRoot", "aggregates", "policies", "incomingRelations", "source", "commands", "readModels", "queryOption", "queryParameters", "actors", "name", "examples", "given", "when", "then", "value", "type", "controllerInfo", "isRestRepository", "restRepositoryInfo", "apiPath", "method", "fullApiPath", "lifeCycles", "trigger", "annotataion", "entities", "relations", "targetElement", "items", "portGenerated"]
