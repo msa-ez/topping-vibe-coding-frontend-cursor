@@ -73,7 +73,7 @@ const [Aggregate]Page: React.FC = () => {
             data={items}
             onEdit={setSelectedItem}
             onDelete={handleDelete}
-            sx={{ width: '100%' }}
+            sx=\{{ width: '100%' }}
           />
         </CardContent>
       </Card>
